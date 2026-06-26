@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contrato Oficial — Explan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* â”€â”€â”€ RESET & BASE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --oliva:   #41422F;
+      --bege:    #EBE6DD;
+      --texto:   #212121;
+      --borda:   #CCD6DF;
+      --magenta: #CC3366;
+      --cinza:   #666;
+    }
+    body {
+      font-family: 'Archivo', sans-serif;
+      background: #C8C3B8;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      color: var(--texto);
+    }
+    .page {
+      width: 794px;
+      min-height: 1122px;
+      background: #ffffff;
+      padding: 0;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .page + .page { margin-top: 32px; }
+    @media print {
+      body { background: none; padding: 0; }
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        box-shadow: none;
+        page-break-after: always;
+      }
+      .page:last-child { page-break-after: avoid; }
+      .screen-only { display: none; }
+    }
+    @page { size: A4 portrait; margin: 0; }
+    .header { background: var(--oliva); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; }
+    .header-logo { height: 40px; filter: brightness(0) invert(1); }
+    .header-title-block { text-align: right; }
+    .header-doc-type { font-size: 9px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(235,230,221,0.6); margin-bottom: 4px; }
+    .header-doc-name { font-size: 14px; font-weight: 700; color: #fff; letter-spacing: 0.04em; text-transform: uppercase; }
+    .cliente-banner { background: var(--bege); padding: 16px 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--borda); }
+    .cliente-info { display: flex; flex-direction: column; gap: 2px; }
+    .cliente-label { font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--magenta); }
+    .cliente-nome { font-size: 16px; font-weight: 700; color: var(--oliva); }
+    .cliente-meta { font-size: 11px; color: var(--cinza); font-weight: 300; }
+    .contrato-meta { text-align: right; display: flex; flex-direction: column; gap: 2px; }
+    .contrato-num { font-size: 11px; font-weight: 600; color: var(--oliva); }
+    .contrato-data { font-size: 10px; color: var(--cinza); font-weight: 300; }
+    .content { flex: 1; padding: 36px 48px; display: flex; flex-direction: column; gap: 0; }
+    .partes-section { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    .parte-box { border: 1px solid var(--borda); border-radius: 3px; overflow: hidden; }
+    .parte-header { background: var(--bege); padding: 7px 14px; font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--oliva); border-bottom: 1px solid var(--borda); }
+    .parte-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 5px; }
+    .parte-row { display: flex; gap: 6px; font-size: 10.5px; }
+    .parte-field { font-weight: 600; color: var(--oliva); flex-shrink: 0; min-width: 80px; }
+    .parte-value { color: var(--texto); font-weight: 400; }
+    .filled-data { font-weight: 700; color: var(--texto); }
+    .clausula { margin-bottom: 20px; }
+    .clausula-titulo { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--oliva); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1.5px solid var(--oliva); display: flex; align-items: center; gap: 10px; }
+    .clausula-num { background: var(--oliva); color: #fff; font-size: 10px; font-weight: 700; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .clausula-body { font-size: 11px; color: var(--texto); line-height: 1.8; font-weight: 400; }
+    .clausula-body p + p { margin-top: 6px; }
+    .clausula-body strong { font-weight: 700; color: var(--oliva); }
+    .ambientes-list { margin: 10px 0; border: 1px solid var(--borda); border-radius: 3px; overflow: hidden; }
+    .ambientes-list-header { background: var(--bege); padding: 6px 16px; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--oliva); border-bottom: 1px solid var(--borda); display: grid; grid-template-columns: 1fr auto; }
+    .ambiente-item { padding: 8px 16px; display: grid; grid-template-columns: 1fr auto; font-size: 11px; border-bottom: 1px solid var(--borda); }
+    .ambiente-item:last-child { border-bottom: none; }
+    .ambiente-item:nth-child(even) { background: rgba(235,230,221,0.35); }
+    .ambiente-item-nome { font-weight: 400; color: var(--texto); }
+    .ambiente-item-val { font-weight: 600; color: var(--oliva); }
+    .valor-destaque { background: var(--oliva); border-radius: 3px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; margin: 12px 0; }
+    .valor-destaque-label { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(235,230,221,0.65); }
+    .valor-destaque-num { font-size: 24px; font-weight: 800; color: var(--bege); }
+    .valor-extenso { font-size: 10.5px; font-style: italic; color: rgba(235,230,221,0.7); font-weight: 300; }
+    .pagamento-bloco { background: rgba(65,66,47,0.04); border-left: 3px solid var(--oliva); border-radius: 0 3px 3px 0; padding: 12px 16px; margin: 10px 0; font-size: 11px; line-height: 1.7; font-weight: 400; }
+    .assinaturas-section { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--borda); page-break-inside: avoid; }
+    .ass-local-data { font-size: 11px; color: var(--cinza); font-weight: 400; margin-bottom: 36px; text-align: center; }
+    .ass-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 24px;}
+    .ass-col { display: flex; flex-direction: column; gap: 4px; }
+    .ass-linha { border-bottom: 1.5px solid var(--texto); height: 50px; position: relative; }
+    .ass-nome { font-size: 11px; font-weight: 600; color: var(--oliva); margin-top: 6px; }
+    .ass-qualif { font-size: 10px; color: var(--cinza); font-weight: 400; }
+    .ass-cpf { font-size: 10px; color: var(--cinza); font-weight: 400; margin-top: 2px; }
+    .footer { background: var(--bege); border-top: 1px solid var(--borda); padding: 10px 48px; display: flex; align-items: center; justify-content: space-between; }
+    .footer-left { font-size: 9px; color: var(--cinza); font-weight: 400; }
+    .footer-right { font-size: 9px; color: #aaa; font-weight: 400; }
+    .page-num { position: absolute; bottom: 44px; right: 48px; font-size: 9px; color: var(--cinza); font-weight: 400; }
+    .header-cont { background: var(--oliva); padding: 14px 48px; display: flex; align-items: center; justify-content: space-between; }
+    .header-cont-logo { height: 28px; filter: brightness(0) invert(1); }
+    .header-cont-info { font-size: 10px; color: rgba(235,230,221,0.65); font-weight: 300; }
+    .lista-alfabetica { padding-left: 20px; list-style-type: lower-alpha; }
+    .lista-alfabetica li { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+<!-- PÃGINA 1 -->
+<div class="page">
+  <div class="header">
+    <img class="header-logo" src="./imagens-explan/logo-final.png" alt="Explan" onerror="this.outerHTML='<span class=\'header-logo-fallback\'>EXPLAN</span>'" />
+    <div class="header-title-block">
+      <p class="header-doc-type">Documento oficial</p>
+      <p class="header-doc-name">Contrato de Prestação de Serviços</p>
+    </div>
+  </div>
+
+  <div class="cliente-banner">
+    <div class="cliente-info">
+      <p class="cliente-label">Contratante</p>
+      <p class="cliente-nome"><span class="filled-data">{{NOME_CLIENTE}}</span></p>
+      <p class="cliente-meta">CPF/CNPJ: <span class="filled-data">{{CPF_CNPJ}}</span> &nbsp;|&nbsp; <span class="filled-data">{{EMAIL}}</span></p>
+    </div>
+    <div class="contrato-meta">
+      <p class="contrato-num">Contrato nÂº {{REF_ORCAMENTO}}</p>
+      <p class="contrato-data"><span class="filled-data">{{CIDADE_CONTRATO}}</span>, <span class="filled-data">{{DATA_CONTRATO}}</span></p>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="partes-section">
+      <div class="parte-box">
+        <div class="parte-header">Contratante</div>
+        <div class="parte-body">
+          <div class="parte-row"><span class="parte-field">Nome:</span><span class="parte-value filled-data">{{NOME_CLIENTE}}</span></div>
+          <div class="parte-row"><span class="parte-field">CPF/CNPJ:</span><span class="parte-value filled-data">{{CPF_CNPJ}}</span></div>
+          <div class="parte-row"><span class="parte-field">Telefone:</span><span class="parte-value filled-data">{{TELEFONE}}</span></div>
+          <div class="parte-row"><span class="parte-field">E-mail:</span><span class="parte-value filled-data">{{EMAIL}}</span></div>
+          <div class="parte-row"><span class="parte-field">End. Obra:</span><span class="parte-value filled-data">{{ENDERECO_OBRA}}</span></div>
+        </div>
+      </div>
+      <div class="parte-box">
+        <div class="parte-header">Contratada</div>
+        <div class="parte-body">
+          <div class="parte-row"><span class="parte-field">Razão Social:</span><span class="parte-value">Explan Engenharia e Serviços Ltda.</span></div>
+          <div class="parte-row"><span class="parte-field">CNPJ:</span><span class="parte-value">55.708.752/0001-01</span></div>
+          <div class="parte-row"><span class="parte-field">Endereço:</span><span class="parte-value">Rua da Passagem, Qd 06, Lt 17, NÂº 43, Esplanada dos Anicuns, Goiânia/GO</span></div>
+          <div class="parte-row"><span class="parte-field">CEP:</span><span class="parte-value">74.433-130</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 1 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span class="clausula-num">1</span>Cláusula Primeira — Do Objeto</div>
+      <div class="clausula-body">
+        <p>O presente contrato tem como OBJETO a venda de móveis sob medida, fabricados e/ou revendidos pela CONTRATADA, que serão devidamente montados e instalados pela CONTRATADA no endereço indicado pelo CONTRATANTE, de forma e acordo com os projetos apresentados e aprovados pelo CONTRATANTE.</p>
+        <div class="ambientes-list">
+          <div class="ambientes-list-header"><span>Ambiente</span><span>Valor</span></div>
+          <div class="ambiente-item"><span class="ambiente-item-nome"><span class="filled-data">{{LISTA_AMBIENTES}}</span></span><span class="ambiente-item-val"></span></div>
+        </div>
+        <p>As especificações técnicas, materiais (<strong><span class="filled-data">{{MATERIAIS_ESCOLHIDOS}}</span></strong>), acabamentos, medidas e demais características do objeto contratado constam no Caderno Técnico, que integra o presente contrato para todos os fins de direito. A execução dos serviços somente terá início após aprovação formal do Caderno Técnico pelo CONTRATANTE.</p>
+        <p>Após aprovação do Caderno Técnico pelo CONTRATANTE, qualquer solicitação de alteração posterior estará sujeita a análise de viabilidade pela CONTRATADA e poderá implicar revisão dos prazos de execução bem como cobrança de valores adicionais, sendo vedada qualquer alteração sem a prévia e expressa anuência das partes. A CONTRATADA não estará obrigada a realizar alterações solicitadas se técnica ou economicamente inviáveis.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 2 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span class="clausula-num">2</span>Cláusula Segunda — Do Valor e Condições de Pagamento</div>
+      <div class="clausula-body">
+        <p>O valor total ajustado para a execução dos serviços é de:</p>
+        <div class="valor-destaque">
+          <div>
+            <p class="valor-destaque-label">Investimento Total</p>
+            <p class="valor-extenso"><span class="filled-data">{{VALOR_POR_EXTENSO}}</span></p>
+          </div>
+          <p class="valor-destaque-num"><span class="filled-data">{{VALOR_TOTAL}}</span></p>
+        </div>
+        <p>O pagamento do valor total será realizado pelo CONTRATANTE Ã  CONTRATADA conforme a seguinte maneira:</p>
+        <div class="pagamento-bloco"><span class="filled-data">{{FORMA_PAGAMENTO}}</span></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+  <span class="page-num">Pág. 1 / 4</span>
+  <div class="footer">
+    <p class="footer-left">Documento gerado oficialmente pelo Sistema Explan</p>
+    <p class="footer-right">Explan Móveis Planejados Â© 2026</p>
+  </div>
+</div><!-- /page 1 -->
+
+<!-- PÃGINA 2 -->
+<div class="page">
+  <div class="header-cont">
+    <img class="header-cont-logo" src="./imagens-explan/logo-final.png" alt="Explan" onerror="this.outerHTML='<span style=\'color:#fff;font-weight:800;font-size:14px;\'>EXPLAN</span>'" />
+    <span class="header-cont-info">Contrato — <span class="filled-data" style="color:rgba(235,230,221,0.5);">{{NOME_CLIENTE}}</span></span>
+  </div>
+  <div class="content">
+
+    <!-- CLÃUSULA 3 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span class="clausula-num">3</span>Cláusula Terceira — Do Inadimplemento</div>
+      <div class="clausula-body">
+        <p>3.1 Na hipótese de inadimplemento superior a 15 (quinze) dias, ficará a CONTRATADA autorizada, a seu exclusivo critério, a suspender a execução dos serviços até a regularização integral dos valores em aberto, sem que tal suspensão caracterize descumprimento contratual, permanecendo, contudo, exigíveis todas as obrigações pecuniárias assumidas pelo CONTRATANTE.</p>
+        <p>3.2 O inadimplemento de qualquer parcela por prazo superior a 15 (quinze) dias poderá, ainda, ensejar o vencimento antecipado das demais parcelas vincendas, tornando-se imediatamente exigível o saldo remanescente do contrato, sem prejuízo das medidas de cobrança cabíveis, judiciais ou extrajudiciais.</p>
+        <p>3.3 O atraso no pagamento de quaisquer valores acarretará <strong>multa de 2% (dois por cento)</strong> sobre o valor devido, acrescida de <strong>juros de 1% (um por cento) ao mês</strong> e correção monetária pelo INPC, até o efetivo pagamento.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 4 -->
+    <div class="clausula" id="clausula-resp">
+      <div class="clausula-titulo"><span class="clausula-num">4</span>Cláusula Quarta — Do Responsável Financeiro Solidário</div>
+      <div class="clausula-body">
+        <p>4.1 O RESPONSÃVEL FINANCEIRO SOLIDÃRIO (<strong><span class="filled-data">{{RESPONSAVEL_NOME}}</span></strong>, CPF: <strong><span class="filled-data">{{RESPONSAVEL_CPF}}</span></strong>) assume de forma expressa, irrevogável e irretratável a responsabilidade pelo fiel, integral e pontual cumprimento de todas as obrigações financeiras assumidas pelo CONTRATANTE perante a CONTRATADA, não se limitando apenas ao valor principal, ficando responsável também pela quitação de multas, juros, correção monetária e honorários advocatícios.</p>
+        <p>4.2 A CONTRATADA poderá exigir o cumprimento das obrigações tanto do CONTRATANTE quanto do RESPONSÃVEL FINANCEIRO SOLIDÃRIO, conjunta ou isoladamente.</p>
+        <p>4.3 Esta responsabilidade solidária permanecerá válida até a quitação integral de todas as obrigações, inclusive em caso de prorrogação de prazos ou renegociação.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 5 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span id="clausula-5-num" class="clausula-num">5</span><span id="clausula-5-text">Cláusula Quinta — Da Reserva de Domínio</span></div>
+      <div class="clausula-body">
+        <p>5.1 Por força do pacto de Reserva de Domínio, expresso e aceito pelas partes, fica reservada Ã  CONTRATADA o direito de propriedade dos móveis até que seja liquidada a última das prestações pactuadas.</p>
+        <p>Parágrafo Único: Os valores pagos pelo CONTRATANTE, antes de restituídos os bens em razão de inadimplência, deverão compensar o tempo de utilização, o desgaste, as reparações necessárias e a multa, conforme se apurar caso a caso.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 6 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span id="clausula-6-num" class="clausula-num">6</span><span id="clausula-6-text">Cláusula Sexta — Das Condições de Execução</span></div>
+      <div class="clausula-body">
+        <p>6.1 Para a adequada execução dos serviços, a CONTRATANTE deverá disponibilizar:</p>
+        <ul class="lista-alfabetica">
+          <li>energia elétrica e condições seguras para o trabalho no local;</li>
+          <li>livre acesso Ã  área de instalação em horários previamente acordados;</li>
+          <li>ambientes com acabamento de piso e paredes previamente concluídos, secos e devidamente nivelados;</li>
+          <li>disponibilização de água, quando necessária; e autorizações para instalação.</li>
+        </ul>
+        <p>6.2 A CONTRATANTE declara que o local está apto a receber os móveis, isentando a CONTRATADA de responsabilidade por imperfeições decorrentes de paredes, pisos ou tetos irregulares ou fora de esquadro, que possam resultar em frestas ou necessidade de ajustes não previstos.</p>
+        <p>6.3 Caso a CONTRATADA constate na data agendada que as condições acima não foram atendidas, o prazo de execução será suspenso até a conformidade do local, e a CONTRATANTE arcará com o custo de R$ 100,00 por deslocamento improdutivo da equipe.</p>
+        <p>6.4 Será realizado um Checklist de Montagem prévio para verificar as condições gerais do ambiente e identificar eventuais irregularidades já existentes. Vícios ali registrados não serão de responsabilidade da CONTRATADA.</p>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+  <span class="page-num">Pág. 2 / 4</span>
+  <div class="footer"><p class="footer-left">Documento oficial gerado pelo Sistema Explan</p><p class="footer-right">Explan Móveis Planejados Â© 2026</p></div>
+</div>
+
+<!-- PÃGINA 3 -->
+<div class="page">
+  <div class="header-cont">
+    <img class="header-cont-logo" src="./imagens-explan/logo-final.png" alt="Explan" onerror="this.outerHTML='<span style=\'color:#fff;font-weight:800;font-size:14px;\'>EXPLAN</span>'" />
+    <span class="header-cont-info">Contrato — <span class="filled-data" style="color:rgba(235,230,221,0.5);">{{NOME_CLIENTE}}</span></span>
+  </div>
+  <div class="content">
+
+    <!-- CLÃUSULA 7 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span id="clausula-7-num" class="clausula-num">7</span><span id="clausula-7-text">Cláusula Sétima — Da Guarda de Objetos e Itens de Valor</span></div>
+      <div class="clausula-body">
+        <p>7.1 O CONTRATANTE compromete-se a guardar previamente todos os objetos de valor, itens frágeis ou suscetíveis a quebra nos ambientes onde ocorrerão os serviços.</p>
+        <p>7.2 A CONTRATADA não se responsabilizará por danos, perdas ou extravios de bens não removidos pelo CONTRATANTE antes das atividades.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 8 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span id="clausula-8-num" class="clausula-num">8</span><span id="clausula-8-text">Cláusula Oitava — Dos Serviços Adicionais</span></div>
+      <div class="clausula-body">
+        <p>8.1 Caso surjam serviços extras ou complementares não previstos neste contrato, as partes firmarão Termo Aditivo específico, contendo novos valores, prazos e condições de execução. Nenhum serviço adicional será considerado contratado sem a formalização do referido aditivo.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 9 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span id="clausula-9-num" class="clausula-num">9</span><span id="clausula-9-text">Cláusula Nona — Do Prazo de Execução</span></div>
+      <div class="clausula-body">
+        <p>9.1 O prazo para início/conclusão da execução é de <strong><span class="filled-data">{{PRAZO_EXECUCAO}}</span></strong>, contados a partir da assinatura do caderno técnico, podendo ser prorrogado mediante acordo formal entre as partes.</p>
+        <p>9.2 O prazo de execução será suspenso ou prorrogado em hipóteses de: não cumprimento das condições de instalação, solicitação de serviços extras, caso fortuito ou força maior (incluindo falta de insumos no mercado ou chuvas extremas), e não autorização de entrada no local.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 10 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span id="clausula-10-num" class="clausula-num">10</span><span id="clausula-10-text">Cláusula Décima — Da Vistoria e Aceitação</span></div>
+      <div class="clausula-body">
+        <p>10.1 Concluída a instalação, a CONTRATADA convocará a CONTRATANTE para a vistoria conjunta dos serviços, preenchendo o checklist de entrega.</p>
+        <p>10.2 A CONTRATANTE terá o prazo de 48 (quarenta e oito) horas úteis, após a convocação, para apontar eventuais vícios aparentes ou discordâncias.</p>
+        <p>10.3 Havendo vícios ou discordâncias, a CONTRATADA terá o prazo de 10 (dez) dias úteis para saná-los, sem custo adicional. Não havendo manifestação em 48 horas úteis, os serviços serão considerados definitiva e irrevogavelmente aceitos.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 11 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span id="clausula-11-num" class="clausula-num">11</span><span id="clausula-11-text">Cláusula Décima Primeira — Da Garantia</span></div>
+      <div class="clausula-body">
+        <p>11.1 Os móveis e serviços objeto deste contrato possuem garantia total de <strong>60 (sessenta) meses</strong> contra defeitos de fabricação e ferragens, contados a partir da assinatura do checklist de entrega.</p>
+        <p>11.2 Excluem-se da garantia defeitos decorrentes de: mau uso ou negligência, exposição direta ao sol, umidade excessiva ou contato direto com água, danos por produtos químicos, desgaste natural, e modificações realizadas por terceiros.</p>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+  <span class="page-num">Pág. 3 / 4</span>
+  <div class="footer"><p class="footer-left">Documento oficial gerado pelo Sistema Explan</p><p class="footer-right">Explan Móveis Planejados Â© 2026</p></div>
+</div>
+
+<!-- PÃGINA 4 -->
+<div class="page">
+  <div class="header-cont">
+    <img class="header-cont-logo" src="./imagens-explan/logo-final.png" alt="Explan" onerror="this.outerHTML='<span style=\'color:#fff;font-weight:800;font-size:14px;\'>EXPLAN</span>'" />
+    <span class="header-cont-info">Contrato — <span class="filled-data" style="color:rgba(235,230,221,0.5);">{{NOME_CLIENTE}}</span></span>
+  </div>
+  <div class="content">
+
+    <!-- CLÃUSULA 12 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span id="clausula-12-num" class="clausula-num">12</span><span id="clausula-12-text">Cláusula Décima Segunda — Das Penalidades e Rescisão</span></div>
+      <div class="clausula-body">
+        <p>12.1 O presente contrato poderá ser rescindido nas hipóteses legais.</p>
+        <p>12.2 Ocorrendo a rescisão por culpa da CONTRATANTE: a) A CONTRATADA terá direito ao reembolso dos materiais já adquiridos e custos iniciais. b) A CONTRATANTE deverá pagar o valor proporcional aos serviços já executados até a data da rescisão, mediante medição.</p>
+        <p>12.3 Ocorrendo a rescisão por culpa da CONTRATADA, ela deverá restituir os valores eventualmente adiantados, deduzidos os custos proporcionais de serviços e materiais efetivamente entregues e aceitos.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 13 -->
+    <div class="clausula">
+      <div class="clausula-titulo"><span id="clausula-13-num" class="clausula-num">13</span><span id="clausula-13-text">Cláusula Décima Terceira — Do Foro</span></div>
+      <div class="clausula-body">
+        <p>13.1 Fica eleito o foro da comarca de Goiânia/GO, com renúncia a qualquer outro, por mais privilegiado que seja, para dirimir eventuais controvérsias oriundas deste contrato.</p>
+      </div>
+    </div>
+
+    <!-- ASSINATURAS -->
+    <div class="assinaturas-section">
+      <p class="ass-local-data"><span class="filled-data">{{CIDADE_CONTRATO}}</span>, <span class="filled-data">{{DATA_CONTRATO}}</span>.</p>
+
+      <div class="ass-grid">
+        <div class="ass-col">
+          <div class="ass-linha"></div>
+          <p class="ass-nome"><span class="filled-data">{{NOME_CLIENTE}}</span></p>
+          <p class="ass-qualif">CONTRATANTE</p>
+          <p class="ass-cpf">CPF/CNPJ: <span class="filled-data">{{CPF_CNPJ}}</span></p>
+        </div>
+        <div class="ass-col">
+          <div class="ass-linha"></div>
+          <p class="ass-nome">Explan Engenharia e Serviços Ltda.</p>
+          <p class="ass-qualif">CONTRATADA</p>
+          <p class="ass-cpf">CNPJ: 55.708.752/0001-01</p>
+        </div>
+      </div>
+
+      <div class="ass-grid" id="ass-resp">
+        <div class="ass-col">
+          <div class="ass-linha"></div>
+          <p class="ass-nome"><span class="filled-data">{{RESPONSAVEL_NOME}}</span></p>
+          <p class="ass-qualif">RESPONSÃVEL FINANCEIRO SOLIDÃRIO</p>
+          <p class="ass-cpf">CPF: <span class="filled-data">{{RESPONSAVEL_CPF}}</span></p>
+        </div>
+      </div>
+
+      <div class="ass-testemunhas">
+        <p class="ass-testemunhas-label">Testemunhas</p>
+        <div class="ass-tess-grid">
+          <div class="ass-col">
+            <div class="ass-linha"></div>
+            <p class="ass-nome">Testemunha 1</p>
+            <p class="ass-cpf">CPF: ___.___.___-__</p>
+          </div>
+          <div class="ass-col">
+            <div class="ass-linha"></div>
+            <p class="ass-nome">Testemunha 2</p>
+            <p class="ass-cpf">CPF: ___.___.___-__</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+  <span class="page-num">Pág. 4 / 4</span>
+  <div class="footer"><p class="footer-left">Documento oficial gerado pelo Sistema Explan</p><p class="footer-right">Explan Móveis Planejados Â© 2026</p></div>
+</div>
+
+<script>
+(function(){
+  const raw = localStorage.getItem('explan_oc');
+  if(!raw) return;
+  const d = JSON.parse(raw);
+  const c = d.cliente || {};
+
+  function fill(placeholder, value) {
+    document.body.innerHTML = document.body.innerHTML.replaceAll(placeholder, value || '—');
+  }
+
+  function valorExtenso(n) {
+    if(!n) return 'zero reais';
+    const inteiro = Math.floor(n);
+    const centavos = Math.round((n - inteiro)*100);
+    const un = ['','um','dois','três','quatro','cinco','seis','sete','oito','nove','dez',
+      'onze','doze','treze','quatorze','quinze','dezesseis','dezessete','dezoito','dezenove'];
+    const dez = ['','','vinte','trinta','quarenta','cinquenta','sessenta','setenta','oitenta','noventa'];
+    function grupo(n){
+      if(n===0) return '';
+      if(n<20) return un[n];
+      if(n<100) return dez[Math.floor(n/10)]+(n%10?' e '+un[n%10]:'');
+      const c=Math.floor(n/100);
+      const r=n%100;
+      const cent=['','cem','duzentos','trezentos','quatrocentos','quinhentos',
+        'seiscentos','setecentos','oitocentos','novecentos'];
+      if(r===0) return cent[c];
+      return (c===1?'cento':cent[c])+' e '+grupo(r);
+    }
+    const mil=Math.floor(inteiro/1000); const res=inteiro%1000;
+    let txt='';
+    if(mil>0) txt+=(mil===1?'um mil':grupo(mil)+' mil')+(res>0?' e ':'');
+    if(res>0) txt+=grupo(res);
+    txt+=(inteiro===1?' real':' reais');
+    if(centavos>0) txt+=' e '+grupo(centavos)+(centavos===1?' centavo':' centavos');
+    return txt;
+  }
+
+  const ambientes = (d.ambientes||[]).map(a=>{
+    const n=a.nome.replace(/^[\p{Emoji}\s]+/u,'').trim();
+    return `${n} — R$ ${(a.total||0).toLocaleString('pt-BR',{minimumFractionDigits:2})}`;
+  }).join('<br>');
+
+  const mats=[];
+  if(d.config?.chapa==='15') mats.push('Chapa MDF 15mm');
+  else mats.push('Chapa MDF 18mm');
+  if(d.config?.ferragem==='blum') mats.push('Ferragem Blum');
+  else if(d.config?.ferragem==='hafele') mats.push('Ferragem HÃ¤fele');
+  else if(d.config?.ferragem==='fgv') mats.push('Ferragem FGV');
+  if(d.config?.cor==='branco') mats.push('Interior branco');
+
+  const hoje = new Date();
+  const dataStr = hoje.toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
+
+  fill('{{NOME_CLIENTE}}', c.nome);
+  fill('{{CPF_CNPJ}}', c.cpf);
+  fill('{{EMAIL}}', c.email);
+  fill('{{TELEFONE}}', c.whatsapp);
+  fill('{{ENDERECO_OBRA}}', c.endereco || c.observacoes || '—');
+  fill('{{VALOR_TOTAL}}', 'R$ '+(d.total_geral||0).toLocaleString('pt-BR',{minimumFractionDigits:2}));
+  fill('{{VALOR_POR_EXTENSO}}', valorExtenso(d.total_geral||0));
+  fill('{{PRAZO_EXECUCAO}}', c.prazo || '45 dias úteis');
+  fill('{{FORMA_PAGAMENTO}}', c.pagamento || '—');
+  fill('{{LISTA_AMBIENTES}}', ambientes || '—');
+  fill('{{MATERIAIS_ESCOLHIDOS}}', mats.join(', '));
+  fill('{{DATA_CONTRATO}}', dataStr);
+  fill('{{CIDADE_CONTRATO}}', 'Goiânia');
+  fill('{{REF_ORCAMENTO}}', d.ref || '001');
+
+  // Lógica do Responsável Solidário
+  if(!c.responsavelNome || c.responsavelNome.trim() === '') {
+    // Remove a cláusula 4 e o bloco de assinatura
+    const clResp = document.getElementById('clausula-resp');
+    const assResp = document.getElementById('ass-resp');
+    if(clResp) clResp.style.display = 'none';
+    if(assResp) assResp.style.display = 'none';
+
+    // Reordenar as cláusulas subsequentes
+    const titles = { 5:'Quarta', 6:'Quinta', 7:'Sexta', 8:'Sétima', 9:'Oitava', 10:'Nona', 11:'Décima', 12:'Décima Primeira', 13:'Décima Segunda' };
+    for(let i=5; i<=13; i++) {
+      const spNum = document.getElementById('clausula-'+i+'-num');
+      const spText = document.getElementById('clausula-'+i+'-text');
+      if(spNum && spText) {
+        spNum.innerText = (i - 1);
+        spText.innerText = 'Cláusula ' + titles[i] + spText.innerText.substring(spText.innerText.indexOf('—')-1);
+      }
+    }
+  } else {
+    fill('{{RESPONSAVEL_NOME}}', c.responsavelNome);
+    fill('{{RESPONSAVEL_CPF}}', c.responsavelCpf);
+  }
+
+  document.title = 'Contrato Oficial — ' + (c.nome||'Cliente');
+})();
+</script>
+</body>
+</html>

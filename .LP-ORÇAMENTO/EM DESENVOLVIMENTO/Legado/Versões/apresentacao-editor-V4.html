@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor de Apresentação — Explan</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --olive:      #41422F;
+  --cream:      #EBE6DD;
+  --cream-alt:  #F5F2ED;
+  --green:      #6B8E5E;
+  --green-dark: #4d6944;
+  --text:       #212121;
+  --text-muted: #797979;
+  --border:     #CCD6DF;
+  --white:      #FFFFFF;
+  --shadow:     0 2px 16px rgba(65,66,47,.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Archivo', Arial, sans-serif;
+  background: #2D2D2D;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* â”€â”€ TOOLBAR â”€â”€ */
+.toolbar {
+  background: var(--olive);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.toolbar-left { display: flex; align-items: center; gap: 16px; }
+.toolbar-logo { height: 28px; filter: brightness(0) invert(1); }
+.toolbar-title { color: var(--cream); font-size: 15px; font-weight: 500; letter-spacing: .04em; }
+.toolbar-right { display: flex; gap: 10px; align-items: center; }
+
+.btn { display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:50px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s; }
+.btn-light { background:rgba(255,255,255,.15);color:var(--cream);border:1px solid rgba(255,255,255,.2); }
+.btn-light:hover { background:rgba(255,255,255,.25); }
+.btn-green { background:var(--green);color:#fff; }
+.btn-green:hover { background:var(--green-dark); }
+.btn-white { background:var(--white);color:var(--olive); }
+.btn-white:hover { background:var(--cream); }
+
+/* â”€â”€ MAIN AREA â”€â”€ */
+.editor-area {
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  min-height: calc(100vh - 60px);
+}
+
+/* â”€â”€ SLIDE (A4 paisagem: 297mm Ã— 210mm = ~1123px Ã— 794px em 96dpi) â”€â”€ */
+.slide-wrapper {
+  position: relative;
+  width: 1123px;
+}
+.slide-label {
+  color: rgba(255,255,255,.4);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.slide-actions { display:flex; gap:8px; justify-content:flex-end; margin-bottom:8px; }
+.slide-action-btn {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  color: rgba(255,255,255,.6);
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Archivo', sans-serif;
+  transition: all .15s;
+}
+.slide-action-btn:hover { background: rgba(255,255,255,.2); color: rgba(255,255,255,.9); }
+
+.slide {
+  width: 1123px;
+  height: 794px;
+  background: var(--white);
+  border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.4);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* â”€â”€ SLIDE LAYOUT: imagem grande + caption embaixo â”€â”€ */
+.slide-img-zone {
+  flex: 1;
+  position: relative;
+  background: var(--cream);
+  overflow: hidden;
+}
+.slide-img-zone img {
+  position: absolute;
+  cursor: move;
+  user-select: none;
+  touch-action: none;
+}
+/* handles de resize */
+.resize-handle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--green);
+  border: 2px solid #fff;
+  border-radius: 3px;
+  z-index: 10;
+  touch-action: none;
+}
+.resize-handle.nw { top: -7px;  left: -7px;  cursor: nw-resize; }
+.resize-handle.ne { top: -7px;  right: -7px; cursor: ne-resize; }
+.resize-handle.sw { bottom: -7px; left: -7px;  cursor: sw-resize; }
+.resize-handle.se { bottom: -7px; right: -7px; cursor: se-resize; }
+.slide-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(65,66,47,.0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+}
+.slide-img-zone:hover .slide-img-overlay { background: rgba(65,66,47,.35); }
+.slide-img-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-muted);
+  width: 100%;
+  height: 100%;
+}
+.slide-img-placeholder svg { opacity: .4; }
+.slide-img-placeholder p { font-size: 14px; font-weight: 500; }
+.add-photo-hint {
+  position: absolute;
+  color: rgba(235,230,221,.9);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.slide-img-zone:hover .add-photo-hint { opacity: 1; }
+input.photo-file-input { display: none; }
+
+/* â”€â”€ CAPTION â”€â”€ */
+.slide-caption {
+  background: var(--olive);
+  padding: 28px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.slide-caption-nome {
+  color: var(--cream);
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.slide-caption-brand {
+  color: rgba(235,230,221,.5);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* â”€â”€ SLIDE CAPA â”€â”€ */
+.slide-cover {
+  width: 1123px;
+  height: 794px;
+  background: var(--olive);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.4);
+  position: relative;
+  overflow: hidden;
+}
+.slide-cover-bg {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  opacity: .55;
+  width: 100%;
+  height: 100%;
+}
+.slide-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(65,66,47,.58) 0%, rgba(20,21,14,.75) 100%);
+  z-index: 1;
+}
+.slide-cover-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--cream);
+}
+.slide-cover-logo { height: 60px; filter: brightness(0) invert(1); margin-bottom: 24px; }
+.slide-cover-title { font-size: 36px; font-weight: 300; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px; }
+.slide-cover-client { font-size: 20px; font-weight: 600; color: rgba(235,230,221,.8); margin-bottom: 32px; }
+.slide-cover-sep { width: 60px; height: 2px; background: var(--green); margin: 0 auto 24px; }
+.slide-cover-date { font-size: 13px; color: rgba(235,230,221,.5); letter-spacing: .06em; }
+
+/* â”€â”€ MULTI-IMAGEM POR SLIDE â”€â”€ */
+.slide-multi {
+  width: 1123px;
+  height: 794px;
+  background: var(--white);
+  border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.4);
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+.slide-multi .slide-half {
+  position: relative;
+  overflow: hidden;
+  background: var(--cream);
+  cursor: pointer;
+  min-height: 520px;
+}
+.slide-multi .slide-half img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* â”€â”€ EMPTY / LOADING â”€â”€ */
+.empty-editor {
+  color: rgba(255,255,255,.4);
+  text-align: center;
+  padding: 80px 20px;
+  font-size: 16px;
+}
+.empty-editor svg { opacity: .2; margin-bottom: 16px; }
+
+/* â”€â”€ PRINT â”€â”€ */
+@page { size: A4 landscape; margin: 0; }
+
+@media print {
+  body { background: white; }
+  .toolbar, .slide-actions, .slide-label, .add-photo-hint, .slide-img-overlay,
+  .resize-handle, input[id^="file-"] { display: none !important; }
+  .editor-area { padding: 0; gap: 0; background: white; }
+  .slide-wrapper { page-break-after: always; width: 297mm; margin: 0; }
+  .slide, .slide-cover, .slide-multi {
+    width: 297mm; height: 210mm;
+    box-shadow: none; border-radius: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- â”€â”€ TOOLBAR â”€â”€ -->
+<div class="toolbar">
+  <div class="toolbar-left">
+    <img class="toolbar-logo" src="./imagens-explan/logo-transparente.png" alt="Explan" onerror="this.style.display='none'">
+    <span class="toolbar-title">Editor de Apresentação</span>
+  </div>
+  <div class="toolbar-right">
+    <button class="btn btn-light" onclick="adicionarSlideEmBranco()">+ Slide Vazio</button>
+    <button class="btn btn-green" onclick="window.print()">Imprimir / Exportar</button>
+    <button class="btn btn-white" onclick="window.close()">Fechar</button>
+  </div>
+</div>
+
+<!-- â”€â”€ SLIDES â”€â”€ -->
+<div class="editor-area" id="editor-area">
+  <div class="empty-editor" id="empty-msg">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    <p>Carregando ambientes do orçamento...</p>
+  </div>
+</div>
+
+<script>
+const dados = JSON.parse(localStorage.getItem('explan_oc') || 'null');
+
+/* â”€â”€ DRAG + RESIZE â”€â”€ */
+let _drag = null, _resize = null;
+
+function makeDraggableResizable(img, zone) {
+  // Estado inicial: 80% da largura, centrado
+  const zw = zone.offsetWidth  || 1050;
+  const zh = zone.offsetHeight || 680;
+  const iw = zw * 0.80;
+  const ih = iw * 0.75; // proporção estimada; ajusta ao carregar
+  const il = (zw - iw) / 2;
+  const it = (zh - ih) / 2;
+
+  img.style.cssText = `position:absolute;left:${il}px;top:${it}px;width:${iw}px;height:auto;cursor:move;user-select:none;touch-action:none;`;
+
+  // Handles de resize
+  const corners = ['nw','ne','sw','se'];
+  corners.forEach(dir => {
+    const h = document.createElement('div');
+    h.className = 'resize-handle ' + dir;
+    h.dataset.dir = dir;
+    img.after(h);
+    positionHandle(h, img);
+    addResizeListeners(h, img, zone);
+  });
+
+  // Drag da imagem
+  img.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    _drag = { img, zone, ox: e.clientX - img.offsetLeft, oy: e.clientY - img.offsetTop };
+  });
+  img.addEventListener('touchstart', e => {
+    const t = e.touches[0];
+    _drag = { img, zone, ox: t.clientX - img.offsetLeft, oy: t.clientY - img.offsetTop };
+  }, { passive: true });
+}
+
+function positionHandle(h, img) {
+  const dir = h.dataset.dir;
+  const l = img.offsetLeft, t = img.offsetTop, w = img.offsetWidth, hh = img.offsetHeight;
+  if (dir === 'nw') { h.style.left = (l-7)+'px'; h.style.top  = (t-7)+'px'; }
+  if (dir === 'ne') { h.style.left = (l+w-7)+'px'; h.style.top = (t-7)+'px'; }
+  if (dir === 'sw') { h.style.left = (l-7)+'px'; h.style.top  = (t+hh-7)+'px'; }
+  if (dir === 'se') { h.style.left = (l+w-7)+'px'; h.style.top = (t+hh-7)+'px'; }
+}
+
+function addResizeListeners(h, img, zone) {
+  function startResize(cx, cy) {
+    const dir = h.dataset.dir;
+    _resize = { h, img, zone, dir,
+      startX: cx, startY: cy,
+      startL: img.offsetLeft, startT: img.offsetTop,
+      startW: img.offsetWidth, startH: img.offsetHeight };
+  }
+  h.addEventListener('mousedown', e => { e.preventDefault(); e.stopPropagation(); startResize(e.clientX, e.clientY); });
+  h.addEventListener('touchstart', e => { e.stopPropagation(); const t = e.touches[0]; startResize(t.clientX, t.clientY); }, { passive: true });
+}
+
+document.addEventListener('mousemove', e => {
+  if (_drag) moveDrag(e.clientX, e.clientY);
+  if (_resize) doResize(e.clientX, e.clientY);
+});
+document.addEventListener('touchmove', e => {
+  const t = e.touches[0];
+  if (_drag) moveDrag(t.clientX, t.clientY);
+  if (_resize) doResize(t.clientX, t.clientY);
+}, { passive: true });
+document.addEventListener('mouseup',  () => { _drag = null; _resize = null; });
+document.addEventListener('touchend', () => { _drag = null; _resize = null; });
+
+function moveDrag(cx, cy) {
+  const { img, zone, ox, oy } = _drag;
+  const zw = zone.offsetWidth, zh = zone.offsetHeight;
+  let nl = cx - ox, nt = cy - oy;
+  nl = Math.max(-img.offsetWidth  * 0.5, Math.min(nl, zw - img.offsetWidth  * 0.5));
+  nt = Math.max(-img.offsetHeight * 0.5, Math.min(nt, zh - img.offsetHeight * 0.5));
+  img.style.left = nl + 'px';
+  img.style.top  = nt + 'px';
+  zone.querySelectorAll('.resize-handle').forEach(h => positionHandle(h, img));
+}
+
+function doResize(cx, cy) {
+  const { img, zone, dir, startX, startY, startL, startT, startW, startH } = _resize;
+  const dx = cx - startX, dy = cy - startY;
+  let nl = startL, nt = startT, nw = startW, nh = startH;
+  const MIN = 80;
+
+  if (dir === 'se') { nw = Math.max(MIN, startW + dx); nh = Math.max(MIN, startH + dy); }
+  if (dir === 'sw') { nw = Math.max(MIN, startW - dx); nl = startL + startW - nw; nh = Math.max(MIN, startH + dy); }
+  if (dir === 'ne') { nw = Math.max(MIN, startW + dx); nt = startT + startH - Math.max(MIN, startH - dy); nh = Math.max(MIN, startH - dy); }
+  if (dir === 'nw') { nw = Math.max(MIN, startW - dx); nl = startL + startW - nw; nt = startT + startH - Math.max(MIN, startH - dy); nh = Math.max(MIN, startH - dy); }
+
+  img.style.left   = nl + 'px';
+  img.style.top    = nt + 'px';
+  img.style.width  = nw + 'px';
+  img.style.height = nh + 'px';
+  zone.querySelectorAll('.resize-handle').forEach(h => positionHandle(h, img));
+}
+
+function colocarImagemNaZone(zone, src, placeholderId) {
+  const existing = zone.querySelector('img.slide-photo');
+  if (existing) {
+    existing.src = src;
+    zone.querySelectorAll('.resize-handle').forEach(h => positionHandle(h, existing));
+    return;
+  }
+  const img = document.createElement('img');
+  img.className = 'slide-photo';
+  img.src = src;
+  img.alt = '';
+  img.onload = () => {
+    // Ajusta altura inicial mantendo proporção
+    const zw = zone.offsetWidth || 1050;
+    const iw = zw * 0.80;
+    const ih = iw * (img.naturalHeight / img.naturalWidth);
+    const zh = zone.offsetHeight || 680;
+    const il = (zw - iw) / 2;
+    const it = Math.max(0, (zh - ih) / 2);
+    img.style.left   = il + 'px';
+    img.style.top    = it + 'px';
+    img.style.width  = iw + 'px';
+    img.style.height = ih + 'px';
+    zone.querySelectorAll('.resize-handle').forEach(h => positionHandle(h, img));
+  };
+  zone.appendChild(img);
+  makeDraggableResizable(img, zone);
+  if (placeholderId) { const p = document.getElementById(placeholderId); if (p) p.style.display = 'none'; }
+}
+
+/* â”€â”€ RENDER â”€â”€ */
+function renderEditor() {
+  const area = document.getElementById('editor-area');
+  const emptyMsg = document.getElementById('empty-msg');
+
+  if (!dados || !dados.ambientes?.length) {
+    emptyMsg.innerHTML = `
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <p>Nenhum orçamento encontrado.<br>Gere uma apresentação a partir do orçamento.</p>`;
+    return;
+  }
+  emptyMsg.remove();
+
+  // Capa
+  const capaEl = document.createElement('div');
+  capaEl.className = 'slide-wrapper';
+  capaEl.innerHTML = `
+    <div class="slide-label">Capa</div>
+    <div class="slide-cover" id="slide-capa">
+      <input type="file" class="photo-file-input" id="capa-file" accept="image/*" onchange="trocarFotoCapa(this)">
+      <img class="slide-cover-bg" id="capa-bg" src="" alt="" style="display:none">
+      <div class="slide-cover-content">
+        <img class="slide-cover-logo" src="./imagens-explan/logo-transparente.png" alt="Explan" onerror="this.style.display='none'">
+        <div class="slide-cover-title">Apresentação de Projeto</div>
+        <div class="slide-cover-client">${dados.cliente?.nome || 'Cliente'}</div>
+        <div class="slide-cover-sep"></div>
+        <div class="slide-cover-date">${dados.data_orcamento || new Date().toLocaleDateString('pt-BR')}</div>
+      </div>
+    </div>
+    <div class="slide-actions">
+      <button class="slide-action-btn" onclick="document.getElementById('capa-file').click()">Adicionar foto de fundo</button>
+    </div>`;
+  area.appendChild(capaEl);
+
+  // Slides por ambiente
+  dados.ambientes.forEach((amb, idx) => {
+    const nomeAmb = amb.nome?.replace(/^[^\s]*\s/, '') || `Ambiente ${idx + 1}`;
+    const slideId = 'slide-amb-' + idx;
+    const fileId  = 'file-amb-' + idx;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'slide-wrapper';
+    wrapper.innerHTML = `
+      <div class="slide-label">${nomeAmb}</div>
+      <div class="slide-actions">
+        <button class="slide-action-btn" onclick="adicionarSlideExtra(${idx})">+ Slide extra</button>
+        <button class="slide-action-btn" onclick="document.getElementById('${fileId}').click()">Trocar imagem</button>
+      </div>
+      <div class="slide" id="${slideId}">
+        <div class="slide-img-zone" id="zone-${idx}">
+          <input type="file" class="photo-file-input" id="${fileId}" accept="image/*" multiple onchange="carregarFotos(this, ${idx})">
+          <div class="slide-img-placeholder" id="placeholder-${idx}" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#797979;cursor:pointer;" onclick="document.getElementById('${fileId}').click()">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <p style="font-size:14px;font-weight:500">Clique para adicionar foto</p>
+          </div>
+        </div>
+        <div class="slide-caption">
+          <span class="slide-caption-nome">${nomeAmb}</span>
+          <span class="slide-caption-brand">Explan Móveis Planejados</span>
+        </div>
+      </div>`;
+    area.appendChild(wrapper);
+  });
+}
+
+function trocarFotoCapa(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => { const bg = document.getElementById('capa-bg'); bg.src = e.target.result; bg.style.display = 'block'; };
+  reader.readAsDataURL(file);
+}
+
+function carregarFotos(input, ambIdx) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  const nomeAmb = dados.ambientes[ambIdx]?.nome?.replace(/^[^\s]*\s/, '') || `Ambiente ${ambIdx + 1}`;
+  files.forEach((file, fi) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      if (fi === 0) {
+        colocarImagemNaZone(document.getElementById('zone-' + ambIdx), e.target.result, 'placeholder-' + ambIdx);
+      } else {
+        inserirSlideExtra(nomeAmb, e.target.result, 'slide-amb-' + ambIdx);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+}
+
+function adicionarSlideExtra(ambIdx) {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = e => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    const nomeAmb = dados.ambientes[ambIdx]?.nome?.replace(/^[^\s]*\s/, '') || `Ambiente ${ambIdx + 1}`;
+    reader.onload = ev => inserirSlideExtra(nomeAmb, ev.target.result, 'slide-amb-' + ambIdx);
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function inserirSlideExtra(nomeAmb, imgSrc, afterSlideId) {
+  const afterEl = document.getElementById(afterSlideId)?.closest('.slide-wrapper');
+  if (!afterEl) return;
+  const extraId = 'slide-extra-' + Date.now();
+  const zoneId  = 'zone-extra-' + Date.now();
+  const wrapper = document.createElement('div');
+  wrapper.className = 'slide-wrapper';
+  wrapper.innerHTML = `
+    <div class="slide-label">${nomeAmb} (extra)</div>
+    <div class="slide-actions">
+      <button class="slide-action-btn" onclick="trocarImgExtra(this)">Trocar imagem</button>
+      <button class="slide-action-btn" style="color:#ff8080" onclick="removerSlide(this)">Remover slide</button>
+    </div>
+    <div class="slide" id="${extraId}">
+      <div class="slide-img-zone" id="${zoneId}">
+        <input type="file" class="photo-file-input" accept="image/*">
+      </div>
+      <div class="slide-caption">
+        <span class="slide-caption-nome">${nomeAmb}</span>
+        <span class="slide-caption-brand">Explan Móveis Planejados</span>
+      </div>
+    </div>`;
+  afterEl.insertAdjacentElement('afterend', wrapper);
+  const zone = document.getElementById(zoneId);
+  colocarImagemNaZone(zone, imgSrc, null);
+  wrapper.querySelector('.photo-file-input').onchange = e => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => colocarImagemNaZone(zone, ev.target.result, null);
+    reader.readAsDataURL(file);
+  };
+}
+
+function trocarImgExtra(btn) { btn.closest('.slide-wrapper').querySelector('.photo-file-input').click(); }
+function removerSlide(btn)   { btn.closest('.slide-wrapper').remove(); }
+
+function adicionarSlideEmBranco() {
+  const area = document.getElementById('editor-area');
+  const extraId = 'slide-blank-' + Date.now();
+  const zoneId  = 'zone-blank-'  + Date.now();
+  const wrapper = document.createElement('div');
+  wrapper.className = 'slide-wrapper';
+  wrapper.innerHTML = `
+    <div class="slide-label">Slide em branco</div>
+    <div class="slide-actions">
+      <button class="slide-action-btn" style="color:#ff8080" onclick="removerSlide(this)">Remover slide</button>
+    </div>
+    <div class="slide" id="${extraId}">
+      <div class="slide-img-zone" id="${zoneId}">
+        <input type="file" class="photo-file-input" accept="image/*">
+        <div id="ph-${zoneId}" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#797979;cursor:pointer;" onclick="this.closest('.slide-img-zone').querySelector('.photo-file-input').click()">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <p style="font-size:14px;font-weight:500">Clique para adicionar foto</p>
+        </div>
+      </div>
+      <div class="slide-caption">
+        <span class="slide-caption-nome" contenteditable="true" style="outline:none;border-bottom:1px solid rgba(255,255,255,.3);min-width:100px">Clique para editar</span>
+        <span class="slide-caption-brand">Explan Móveis Planejados</span>
+      </div>
+    </div>`;
+  area.appendChild(wrapper);
+  const zone = document.getElementById(zoneId);
+  wrapper.querySelector('.photo-file-input').onchange = e => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => colocarImagemNaZone(zone, ev.target.result, 'ph-' + zoneId);
+    reader.readAsDataURL(file);
+  };
+}
+
+renderEditor();
+</script>
+</body>
+</html>

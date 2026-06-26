@@ -1,0 +1,62 @@
+<style>
+  .flow-box { background:#F5EDE0; border-radius:10px; padding:20px; margin-bottom:16px; }
+  .flow-title { font-size:13px; font-weight:700; color:#3B2207; text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px; }
+  .step { display:flex; align-items:flex-start; gap:10px; margin-bottom:8px; }
+  .step-num { min-width:26px; height:26px; background:#8B5A14; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
+  .step-text { font-size:12px; color:#3A3A37; line-height:1.5; padding-top:4px; }
+  .step-text strong { color:#3B2207; }
+  .tag { display:inline-block; font-size:10px; padding:2px 7px; border-radius:20px; margin-left:6px; font-weight:600; }
+  .tag-speed { background:#E8F0E2; color:#3B5E27; }
+  .tag-smart { background:#FEF3C7; color:#92400E; }
+  .tag-full { background:#EDE9FE; color:#5B21B6; }
+  .rec { background:#8B5A14; color:#fff; font-size:10px; padding:3px 10px; border-radius:20px; display:inline-block; margin-bottom:8px; }
+</style>
+
+<h2>Como o vendedor vai usar a ferramenta?</h2>
+<p class="subtitle">Todos os caminhos geram o mesmo PDF final — a diferença é a experiência de uso durante a reunião</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#FDFAF6; padding:16px;">
+      <div class="flow-title">A — Tudo em uma tela só</div>
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Cabeçalho:</strong> Nome do cliente, chapa e ferragem global</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Ambientes:</strong> Vendedor adiciona ambientes e itens numa única tela com scroll</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Subtotal:</strong> Aparece em tempo real na lateral/rodapé</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Gerar:</strong> Botão "Gerar PDF" e "Gerar Contrato"</div></div>
+    </div>
+    <div class="card-body">
+      <h3>Página Única <span class="tag tag-speed">mais rápido</span></h3>
+      <p>Tudo visível ao mesmo tempo. Vendedor adiciona, edita, remove sem sair do lugar. Ideal para reuniões rápidas onde o projeto já está definido.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#FDFAF6; padding:16px;">
+      <div class="rec">Recomendado</div>
+      <div class="flow-title">B — Wizard em 4 etapas</div>
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Cliente:</strong> Nome, contato, forma de pagamento</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Configuração:</strong> Chapa + ferragem + cor (descontos aplicados)</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Ambientes + itens:</strong> Adiciona ambiente a ambiente</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Resumo:</strong> Total, prazo, condições → Gerar PDF + Contrato</div></div>
+    </div>
+    <div class="card-body">
+      <h3>Wizard Guiado <span class="tag tag-smart">mais organizado</span></h3>
+      <p>Conduz o vendedor passo a passo. Menor risco de esquecer algo. O resumo final funciona como "closing" — vendedor vira o notebook pro cliente e mostra o total.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#FDFAF6; padding:16px;">
+      <div class="flow-title">C — Híbrido</div>
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Painel lateral fixo:</strong> Nome, chapa, ferragem, total em tempo real</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Área principal:</strong> Cards de ambientes — clica e expande para adicionar itens</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Flutuante:</strong> Botão "Fechar negócio" sempre visível</div></div>
+    </div>
+    <div class="card-body">
+      <h3>Painel + Expandir <span class="tag tag-full">mais visual</span></h3>
+      <p>Layout tipo dashboard. Total e configurações sempre à vista. Mais moderno, mas exige tela maior para aproveitar bem o espaço.</p>
+    </div>
+  </div>
+
+</div>

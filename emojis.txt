@@ -1,0 +1,23 @@
+
+--- index.html ---
+L705: <div class="auth-feature-icon">✓</div>
+L709: <div class="auth-feature-icon">✓</div>
+L713: <div class="auth-feature-icon">✓</div>
+L717: <div class="auth-feature-icon">✓</div>
+L811: <div class="tool-card-icon">📋</div>
+L828: <div class="tool-card-icon" style="background: var(--cream-dark);">📅</div>
+
+--- painel.html ---
+L1218: const emojis = { 'Cozinha': 'ðŸ³', 'Quarto Master': 'ðŸ›', 'Quarto 2': 'ðŸ›', 'Quarto 3': 'ðŸ›', 'Closet': 'ðŸ‘”', 'Banheiro': 'ðŸš¿', 'Banheiro Suíte': 'ðŸš¿', 'Escritório / Home Office': 'ðŸ’¼', 'Churrasqueira': '🔑¥', 'Sala de Estar': 'ðŸ›‹', 'Sala de Jantar': 'ðŸ½', 'Área Gourmet': 'ðŸ¥‚', 'Lavanderia': 'ðŸ«§', 'Escada': 'ðŸªœ', 'Hall de Entrada': 'ðŸšª' };
+L1494: const emojis = { 'Cozinha':'ðŸ³','Quarto Master':'ðŸ›','Quarto 2':'ðŸ›','Quarto 3':'ðŸ›','Closet':'ðŸ‘”','Banheiro':'ðŸš¿','Banheiro Suíte':'ðŸš¿','Escritório / Home Office':'ðŸ’¼','Churrasqueira':'🔑¥','Sala de Estar':'ðŸ›‹','Sala de Jantar':'ðŸ½','Área Gourmet':'ðŸ¥‚','Lavanderia':'ðŸ«§','Escada':'ðŸªœ','Hall de Entrada':'ðŸšª' };
+
+--- editor-proposta.html ---
+
+--- ajuda.html ---
+L465: <span class="hero-search-icon">🔑</span>
+L485: <span>🤝”</span>
+L665: <span class="tag">ðŸ† âˆ’10% de desconto</span><span class="tag">⭐ Mais popular</span>
+L687: <li>🔑§ Instalação: 2 a 5 dias (dependendo do volume)</li>
+
+--- suporte.html ---
+L257: <div class="modal-icon">✓</div>

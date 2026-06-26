@@ -1,0 +1,333 @@
+[
+  {
+    "cliente": {
+      "nome": "Karla e Luiz",
+      "whatsapp": "",
+      "email": "",
+      "cpf": "",
+      "pagamento": "Pagamento por etapas — 5% de desconto",
+      "prazo": "45 dias úteis",
+      "endereco": "",
+      "observacoes": ""
+    },
+    "ambientes": [
+      {
+        "nome": "🍳 Cozinha",
+        "itens": [
+          {
+            "nome": "Caixote c/ porta MDF lisa — Bancada manual",
+            "unidade": "m²",
+            "qtd": 4.6,
+            "preco": 3450,
+            "subtotal": 15869.999999999998,
+            "manual": true
+          },
+          {
+            "nome": "Dobradiça",
+            "unidade": "un",
+            "qtd": 10,
+            "preco": 200,
+            "subtotal": 2000,
+            "manual": false
+          },
+          {
+            "nome": "Corrediça Oculta",
+            "unidade": "un",
+            "qtd": 3,
+            "preco": 320,
+            "subtotal": 960,
+            "manual": false
+          },
+          {
+            "nome": "Caixote c/ porta de vidro",
+            "unidade": "m²",
+            "qtd": 4.9,
+            "preco": 3600,
+            "subtotal": 17640,
+            "manual": false
+          },
+          {
+            "nome": "Dobradiça",
+            "unidade": "un",
+            "qtd": 14,
+            "preco": 200,
+            "subtotal": 2800,
+            "manual": false
+          },
+          {
+            "nome": "LED",
+            "unidade": "ml",
+            "qtd": 5,
+            "preco": 250,
+            "subtotal": 1250,
+            "manual": false
+          },
+          {
+            "nome": "Caixote c/ porta MDF lisa — Inferior/Torre manual",
+            "unidade": "m²",
+            "qtd": 7,
+            "preco": 3450,
+            "subtotal": 24150,
+            "manual": true
+          },
+          {
+            "nome": "Dobradiça",
+            "unidade": "un",
+            "qtd": 8,
+            "preco": 200,
+            "subtotal": 1600,
+            "manual": false
+          },
+          {
+            "nome": "Corrediça Oculta",
+            "unidade": "un",
+            "qtd": 6,
+            "preco": 320,
+            "subtotal": 1920,
+            "manual": false
+          },
+          {
+            "nome": "Painel Liso",
+            "unidade": "m²",
+            "qtd": 6,
+            "preco": 2100,
+            "subtotal": 12600,
+            "manual": false
+          }
+        ],
+        "total": 68671.5,
+        "desconto_pct": 15,
+        "materiais": {
+          "chapa": "15",
+          "ferragem": "blum",
+          "cor": "branco"
+        }
+      },
+      {
+        "nome": "🛋 Sala de Estar",
+        "itens": [
+          {
+            "nome": "Painel Liso",
+            "unidade": "m²",
+            "qtd": 26,
+            "preco": 2100,
+            "subtotal": 54600,
+            "manual": false
+          },
+          {
+            "nome": "Porta Pivotante manual",
+            "unidade": "un",
+            "qtd": 2,
+            "preco": 1600,
+            "subtotal": 3200,
+            "manual": true
+          },
+          {
+            "nome": "Caixote c/ porta MDF lisa manual",
+            "unidade": "m²",
+            "qtd": 5,
+            "preco": 3450,
+            "subtotal": 17250,
+            "manual": true
+          },
+          {
+            "nome": "Corrediça Oculta",
+            "unidade": "un",
+            "qtd": 4,
+            "preco": 320,
+            "subtotal": 1280,
+            "manual": false
+          },
+          {
+            "nome": "Caixote c/ porta MDF lisa — Aparador manual",
+            "unidade": "m²",
+            "qtd": 3,
+            "preco": 3450,
+            "subtotal": 10350,
+            "manual": true
+          },
+          {
+            "nome": "Dobradiça",
+            "unidade": "un",
+            "qtd": 8,
+            "preco": 200,
+            "subtotal": 1600,
+            "manual": false
+          }
+        ],
+        "total": 75038,
+        "desconto_pct": 15,
+        "materiais": {
+          "chapa": "15",
+          "ferragem": "blum",
+          "cor": "branco"
+        }
+      },
+      {
+        "nome": "💼 Escritório / Home Office",
+        "itens": [
+          {
+            "nome": "Prateleira até 60cm",
+            "unidade": "ml",
+            "qtd": 10,
+            "preco": 600,
+            "subtotal": 6000,
+            "manual": false
+          },
+          {
+            "nome": "Caixote c/ porta MDF lisa manual",
+            "unidade": "m²",
+            "qtd": 9,
+            "preco": 3450,
+            "subtotal": 31050,
+            "manual": true
+          },
+          {
+            "nome": "Corrediça Oculta",
+            "unidade": "un",
+            "qtd": 3,
+            "preco": 320,
+            "subtotal": 960,
+            "manual": false
+          },
+          {
+            "nome": "Dobradiça",
+            "unidade": "un",
+            "qtd": 12,
+            "preco": 200,
+            "subtotal": 2400,
+            "manual": false
+          }
+        ],
+        "total": 34348.5,
+        "desconto_pct": 15,
+        "materiais": {
+          "chapa": "15",
+          "ferragem": "blum",
+          "cor": "branco"
+        }
+      },
+      {
+        "nome": "👔 Closet",
+        "itens": [
+          {
+            "nome": "Caixaria Closet c/ porta MDF lisa manual",
+            "unidade": "m²",
+            "qtd": 14,
+            "preco": 3450,
+            "subtotal": 48300,
+            "manual": true
+          },
+          {
+            "nome": "Kit Dominus — Porta de Correr manual",
+            "unidade": "un",
+            "qtd": 3,
+            "preco": 1800,
+            "subtotal": 5400,
+            "manual": true
+          },
+          {
+            "nome": "Corrediça Oculta",
+            "unidade": "un",
+            "qtd": 20,
+            "preco": 320,
+            "subtotal": 6400,
+            "manual": false
+          },
+          {
+            "nome": "Caixote c/ porta de vidro",
+            "unidade": "m²",
+            "qtd": 9,
+            "preco": 3600,
+            "subtotal": 32400,
+            "manual": false
+          }
+        ],
+        "total": 78625,
+        "desconto_pct": 15,
+        "materiais": {
+          "chapa": "15",
+          "ferragem": "blum",
+          "cor": "branco"
+        }
+      },
+      {
+        "nome": "🏠 Suíte 1",
+        "itens": [
+          {
+            "nome": "Caixaria c/ porta MDF lisa manual",
+            "unidade": "m²",
+            "qtd": 8,
+            "preco": 3450,
+            "subtotal": 27600,
+            "manual": true
+          },
+          {
+            "nome": "Espelho",
+            "unidade": "m²",
+            "qtd": 3,
+            "preco": 1300,
+            "subtotal": 3900,
+            "manual": false
+          },
+          {
+            "nome": "Kit Dominus manual",
+            "unidade": "un",
+            "qtd": 1,
+            "preco": 1800,
+            "subtotal": 1800,
+            "manual": true
+          },
+          {
+            "nome": "Corrediça Oculta",
+            "unidade": "un",
+            "qtd": 8,
+            "preco": 320,
+            "subtotal": 2560,
+            "manual": false
+          }
+        ],
+        "total": 30481,
+        "desconto_pct": 15,
+        "materiais": {
+          "chapa": "15",
+          "ferragem": "blum",
+          "cor": "branco"
+        }
+      },
+      {
+        "nome": "🚿 Banheiro",
+        "itens": [
+          {
+            "nome": "Caixote c/ porta de vidro",
+            "unidade": "m²",
+            "qtd": 1.8,
+            "preco": 3600,
+            "subtotal": 6480,
+            "manual": false
+          },
+          {
+            "nome": "Dobradiça",
+            "unidade": "un",
+            "qtd": 8,
+            "preco": 200,
+            "subtotal": 1600,
+            "manual": false
+          }
+        ],
+        "total": 6868,
+        "desconto_pct": 15,
+        "materiais": {
+          "chapa": "15",
+          "ferragem": "blum",
+          "cor": "branco"
+        }
+      }
+    ],
+    "total_geral": 294032,
+    "data_orcamento": "12/06/2026",
+    "ref": "EXP-2026-0612",
+    "id": 1781284128495,
+    "salvo_em": "12/06/2026, 14:08:48"
+  }
+]

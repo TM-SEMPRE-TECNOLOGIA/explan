@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explan — Preview PDF Orçamento</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2D2D2D; font-family: 'Archivo', Arial, sans-serif; padding-top: 0; }
+
+  .toolbar {
+    background: #41422F;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    margin-bottom: 40px;
+  }
+  .toolbar-left { display: flex; align-items: center; gap: 16px; }
+  .toolbar-logo { height: 28px; filter: brightness(0) invert(1); }
+  .toolbar-title { color: #EBE6DD; font-size: 15px; font-weight: 500; letter-spacing: .04em; }
+  .toolbar-right { display: flex; gap: 10px; align-items: center; }
+  .btn-toolbar { display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:50px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s; }
+  .btn-toolbar-green { background:#6B8E5E;color:#fff; }
+  .btn-toolbar-green:hover { background:#4d6944; }
+  .btn-toolbar-light { background:rgba(255,255,255,.15);color:#EBE6DD;border:1px solid rgba(255,255,255,.2); }
+  .btn-toolbar-light:hover { background:rgba(255,255,255,.25); }
+
+  /* PÃGINA A4 */
+  .page {
+    width: 794px; min-height: 1123px;
+    background: #fff; margin: 0 auto 10px;
+    position: relative; overflow: hidden;
+    box-shadow: 0 8px 48px rgba(0,0,0,.5);
+    display: flex; flex-direction: column;
+  }
+
+  /* â•â•â• CAPA â•â•â• */
+  .page-cover { background: #41422F; }
+  .cover-bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; opacity: .55;
+    mix-blend-mode: luminosity;
+  }
+  .cover-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, rgba(65,66,47,.62) 0%, rgba(20,21,14,.78) 100%);
+  }
+  .cover-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    height: 100%; padding: 52px 64px 0;
+  }
+
+  /* barra magenta diagonal no topo direito */
+  .cover-accent {
+    position: absolute; z-index: 3;
+    top: 0; right: 64px;
+    width: 4px; height: 80px;
+    background: linear-gradient(to bottom, #6B8E5E, transparent);
+  }
+
+  .cover-logo-wrap { display: flex; align-items: center; gap: 14px; margin-bottom: auto; }
+  .cover-logo-text {
+    font-size: 28px; font-weight: 800; color: #EBE6DD;
+    letter-spacing: .16em; text-transform: uppercase; line-height: 1;
+  }
+  .cover-logo-text span {
+    display: block; font-size: 11px; font-weight: 300;
+    letter-spacing: .28em; opacity: .55; margin-top: 5px;
+  }
+
+  .cover-center { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: 60px; }
+
+  .cover-tag {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-bottom: 28px;
+  }
+  .cover-tag-bar { width: 4px; height: 18px; background: #6B8E5E; border-radius: 2px; }
+  .cover-tag-text {
+    font-size: 11px; font-weight: 700; letter-spacing: .18em;
+    text-transform: uppercase; color: #6B8E5E;
+  }
+
+  .cover-heading {
+    font-family: 'Archivo', sans-serif;
+    font-size: 42px; font-weight: 400; color: #EBE6DD;
+    line-height: 1.15; letter-spacing: .01em;
+    margin-bottom: 8px;
+  }
+  .cover-heading em { font-style: italic; color: rgba(235,230,221,.65); }
+
+  .cover-divider {
+    width: 64px; height: 2px;
+    background: linear-gradient(to right, #6B8E5E, transparent);
+    margin: 28px 0;
+  }
+
+  .cover-client-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .18em;
+    text-transform: uppercase; color: rgba(235,230,221,.45);
+    margin-bottom: 8px;
+  }
+  .cover-client-name {
+    font-size: 26px; font-weight: 700; color: #EBE6DD;
+    letter-spacing: .03em;
+  }
+
+  .cover-bottom {
+    position: relative; z-index: 2;
+    border-top: 1px solid rgba(235,230,221,.12);
+    padding: 20px 64px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(0,0,0,.25);
+    backdrop-filter: blur(4px);
+  }
+  .cover-bottom-info { font-size: 11px; color: rgba(235,230,221,.45); line-height: 1.9; }
+  .cover-validity-label { font-size: 10px; color: rgba(235,230,221,.4); text-align: right; letter-spacing: .06em; text-transform: uppercase; }
+  .cover-validity-date { font-size: 17px; font-weight: 600; color: #EBE6DD; text-align: right; margin-top: 3px; }
+  .pg-footer-cover {
+    position: absolute; z-index: 3; bottom: 0; left: 0; right: 0;
+    padding: 0 64px 12px;
+    display: flex; justify-content: space-between;
+    font-size: 9px; color: rgba(235,230,221,.25);
+  }
+  .pg-footer-cover a { color: rgba(235,230,221,.35); text-decoration: none; font-weight: 600; }
+
+  /* â•â•â• HEADER PADRÃƒO â•â•â• */
+  .pg-header {
+    background: #41422F;
+    padding: 20px 56px;
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative; overflow: hidden;
+    flex-shrink: 0;
+  }
+  /* linha magenta bottom */
+  .pg-header::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, #6B8E5E, transparent 60%);
+  }
+  .pg-header-logo { font-size: 18px; font-weight: 800; color: #EBE6DD; letter-spacing: .12em; }
+  .pg-header-right { display: flex; align-items: center; gap: 16px; }
+  .pg-header-client { font-size: 11px; color: rgba(235,230,221,.5); }
+  .pg-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(235,230,221,.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #EBE6DD;
+  }
+
+  /* â•â•â• BODY PADRÃƒO â•â•â• */
+  .pg-body { flex: 1; padding: 44px 56px; position: relative; overflow: hidden; }
+
+  /* watermark */
+  .pg-body::before {
+    content: 'EXPLAN';
+    position: absolute; bottom: 40px; right: -30px;
+    font-size: 140px; font-weight: 800; color: rgba(65,66,47,.03);
+    letter-spacing: .1em; text-transform: uppercase;
+    transform: rotate(-8deg); pointer-events: none; user-select: none;
+  }
+
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: #6B8E5E; margin-bottom: 5px;
+  }
+  .section-title {
+    font-family: 'Archivo', sans-serif;
+    font-size: 30px; font-weight: 400; color: #41422F; line-height: 1.2;
+    margin-bottom: 24px;
+  }
+  .section-title strong { font-weight: 700; }
+  .section-accent {
+    width: 4px; background: linear-gradient(to bottom, #6B8E5E, transparent);
+    position: absolute; top: 44px; left: 0; height: 64px; border-radius: 0 2px 2px 0;
+  }
+
+  /* â•â•â• PÃGINA QUEM SOMOS â•â•â• */
+  .qs-grid { display: grid; grid-template-columns: 1fr 300px; gap: 36px; }
+  .qs-text p { font-size: 13px; line-height: 1.9; color: #4A4A4A; margin-bottom: 14px; }
+  .qs-photo {
+    width: 100%; height: 100%; min-height: 240px;
+    background: linear-gradient(135deg, #41422F 0%, #6b6c52 100%);
+    border-radius: 0 0 0 40px; overflow: hidden;
+  }
+  .qs-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  .difs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
+  .dif-card {
+    border-radius: 8px; padding: 18px 20px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .dif-card:nth-child(odd) { background: #EBE6DD; }
+  .dif-card:nth-child(even) { background: #41422F; }
+  .dif-card:nth-child(even) h4,
+  .dif-card:nth-child(even) p { color: #EBE6DD !important; }
+  .dif-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .dif-card h4 { font-size: 13px; font-weight: 700; color: #41422F; margin-bottom: 4px; }
+  .dif-card p { font-size: 11px; color: #4A4A4A; line-height: 1.6; }
+
+  /* â•â•â• PÃGINA AMBIENTE — layout split â•â•â• */
+  .amb-page-body {
+    flex: 1; display: grid; grid-template-columns: 53% 47%;
+    position: relative;
+  }
+  /* coluna foto */
+  .amb-photo-col {
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #41422F 0%, #6b6c52 100%);
+  }
+  .amb-photo-col img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: .9;
+  }
+  .amb-photo-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, rgba(65,66,47,.1) 0%, rgba(65,66,47,.6) 100%);
+    pointer-events: none;
+  }
+  .amb-photo-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 24px 28px;
+    background: linear-gradient(to top, rgba(20,21,14,.85) 0%, transparent 100%);
+  }
+  .amb-photo-num {
+    font-size: 10px; font-weight: 700; letter-spacing: .16em;
+    text-transform: uppercase; color: #6B8E5E; margin-bottom: 4px;
+  }
+  .amb-photo-name {
+    font-family: 'Archivo', sans-serif;
+    font-size: 24px; font-weight: 400; color: #EBE6DD; line-height: 1.2;
+  }
+  .amb-photo-name strong { font-weight: 700; }
+
+  /* coluna itens */
+  .amb-items-col {
+    padding: 36px 36px 36px 32px;
+    display: flex; flex-direction: column;
+    border-left: 4px solid #6B8E5E;
+    position: relative; overflow: hidden;
+  }
+  /* watermark número do ambiente */
+  .amb-items-col::before {
+    content: attr(data-num);
+    position: absolute; bottom: -20px; right: -10px;
+    font-size: 140px; font-weight: 900; color: rgba(65,66,47,.04);
+    line-height: 1; pointer-events: none;
+  }
+  .amb-items-heading {
+    font-size: 10px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: #41422F; margin-bottom: 14px;
+    padding-bottom: 8px; border-bottom: 1.5px solid #41422F;
+  }
+  .amb-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .amb-table th {
+    text-align: left; color: #797979; font-weight: 700;
+    font-size: 9px; text-transform: uppercase; letter-spacing: .08em;
+    padding: 7px 0; border-bottom: 1px solid #EBE6DD;
+  }
+  .amb-table td { padding: 8px 0; border-bottom: 1px solid #EBE6DD; color: #212121; }
+  .amb-table tr:last-child td { border-bottom: none; }
+  .amb-table .col-r { text-align: right; font-weight: 700; color: #41422F; }
+  .amb-subtotal {
+    margin-top: auto; padding-top: 14px;
+    border-top: 1.5px solid #41422F;
+    text-align: right;
+    font-size: 13px; font-weight: 700; color: #41422F;
+  }
+  .amb-subtotal span { font-size: 10px; font-weight: 400; color: #797979; margin-right: 6px; }
+
+  /* â•â•â• RESUMO â•â•â• */
+  .resumo-header {
+    background: #41422F; padding: 36px 56px;
+    position: relative; overflow: hidden; flex-shrink: 0;
+  }
+  .resumo-header::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(to right, #6B8E5E, transparent 50%);
+  }
+  .resumo-header-grid { display: flex; justify-content: space-between; align-items: flex-end; }
+  .resumo-header-left .tag { font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(235,230,221,.45); margin-bottom: 6px; }
+  .resumo-header-left .title { font-family: 'Archivo', sans-serif; font-size: 26px; color: #EBE6DD; font-weight: 400; }
+  .resumo-header-total .label { font-size: 10px; color: rgba(235,230,221,.5); text-align: right; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+  .resumo-header-total .valor { font-family: 'Archivo', sans-serif; font-size: 38px; font-weight: 700; color: #EBE6DD; line-height: 1; }
+  .resumo-header-total .desc { font-size: 11px; color: rgba(107,142,94,.9); text-align: right; margin-top: 4px; }
+
+  .resumo-table { width: 100%; border-collapse: collapse; }
+  .resumo-table th { background: #f5f2ed; color: #41422F; padding: 10px 16px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .resumo-table td { padding: 11px 16px; border-bottom: 1px solid #EBE6DD; font-size: 13px; }
+  .resumo-table tr:nth-child(even) td { background: #faf8f5; }
+  .resumo-table .col-r { text-align: right; font-weight: 700; }
+  .resumo-table .disc-row td { color: #6B8E5E; }
+  .badge-pill { display: inline-block; background: #EBE6DD; color: #41422F; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-left: 6px; }
+
+  /* pagamento */
+  .pag-title { font-size: 14px; font-weight: 600; color: #41422F; margin: 28px 0 14px; letter-spacing: .02em; }
+  .pag-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .pag-card {
+    border: 1.5px solid #CCD6DF; border-radius: 8px; padding: 18px;
+    text-align: center; position: relative;
+  }
+  .pag-card.dest {
+    border-color: #41422F;
+    background: linear-gradient(135deg, #f5f2ed 0%, #ebe6dd 100%);
+  }
+  /* borda gradiente no card destaque */
+  .pag-card.dest::before {
+    content: ''; position: absolute; inset: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #41422F, #6B8E5E);
+    padding: 1.5px; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none;
+  }
+  .pag-card .parcelas { font-family: 'Archivo', sans-serif; font-size: 24px; font-weight: 700; color: #41422F; }
+  .pag-card .val { font-size: 13px; color: #212121; margin: 5px 0; }
+  .pag-card .desc-text { font-size: 10px; color: #797979; line-height: 1.6; }
+  .pag-card .hot { display:inline-block; background:#6B8E5E; color:#fff; font-size:9px; font-weight:700; padding:2px 10px; border-radius:20px; margin-top:8px; }
+
+  /* timeline prazo */
+  .prazo-timeline {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 0; margin-top: 20px;
+    background: #41422F; border-radius: 8px; overflow: hidden;
+  }
+  .prazo-item {
+    padding: 18px 20px; text-align: center;
+    position: relative;
+  }
+  .prazo-item:not(:last-child)::after {
+    content: '→';
+    position: absolute; right: -2px; top: 50%; transform: translateY(-50%);
+    color: rgba(235,230,221,.3); font-size: 16px;
+  }
+  .prazo-item .pl { font-size: 9px; color: rgba(235,230,221,.45); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 5px; }
+  .prazo-item .pv { font-size: 18px; font-weight: 700; color: #EBE6DD; }
+
+  /* â•â•â• FOOTER â•â•â• */
+  .pg-footer {
+    padding: 12px 56px; border-top: 1px solid #EBE6DD;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 9px; color: #797979; flex-shrink: 0;
+  }
+  .pg-footer a { color: #41422F; font-weight: 600; text-decoration: none; }
+  .pg-footer-num {
+    width: 22px; height: 22px; background: #41422F; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; color: #EBE6DD;
+  }
+
+  /* â”€â”€ DRAG / RESIZE handles â”€â”€ */
+  .amb-photo-col img {
+    cursor: move;
+    user-select: none;
+    touch-action: none;
+  }
+  .orc-resize-handle {
+    position: absolute;
+    width: 14px; height: 14px;
+    background: #6B8E5E;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    z-index: 20;
+    touch-action: none;
+  }
+  .orc-resize-handle.nw { cursor: nw-resize; }
+  .orc-resize-handle.ne { cursor: ne-resize; }
+  .orc-resize-handle.sw { cursor: sw-resize; }
+  .orc-resize-handle.se { cursor: se-resize; }
+
+  /* â”€â”€ Botão trocar foto â”€â”€ */
+  .page-wrapper { position: relative; width: 794px; margin: 0 auto 32px; }
+  .page-actions { display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 8px; }
+  .page-action-btn {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.15);
+    color: rgba(255,255,255,.6);
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Archivo', sans-serif;
+    transition: all .15s;
+  }
+  .page-action-btn:hover { background: rgba(255,255,255,.2); color: rgba(255,255,255,.9); }
+
+  @page { size: A4 portrait; margin: 0; }
+
+  @media print {
+    body { background: none; padding: 0; }
+    .toolbar { display: none; }
+    .page {
+      box-shadow: none; margin: 0; page-break-after: always;
+      width: 210mm; min-height: 297mm;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page:last-child { page-break-after: avoid; }
+    .orc-resize-handle { display: none !important; }
+    .page-actions { display: none !important; }
+    .page-wrapper { margin: 0; width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <img class="toolbar-logo" src="./imagens-explan/Group.png" alt="Explan" onerror="this.style.display='none'">
+    <span class="toolbar-title">Editor de Orçamento</span>
+  </div>
+  <div class="toolbar-right">
+    <button class="btn-toolbar btn-toolbar-green" onclick="window.print()">Imprimir / Exportar</button>
+    <button class="btn-toolbar btn-toolbar-light" onclick="window.close()">Fechar</button>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• PÃGINA 1 — CAPA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page-wrapper">
+<div class="page-actions">
+  <input type="file" id="capa-bg-file" accept="image/*" style="display:none" onchange="trocarFotoCapa(this)">
+  <button class="page-action-btn" onclick="document.getElementById('capa-bg-file').click()">Adicionar foto de fundo</button>
+</div>
+<div class="page page-cover">
+  <img class="cover-bg"
+    src="../imagens-ambientes/pdf-capa-generica.jpg"
+    alt="" onerror="this.style.display='none'">
+  <div class="cover-overlay"></div>
+  <div class="cover-accent"></div>
+
+  <div class="cover-content">
+    <div class="cover-logo-wrap">
+      <img src="./imagens-explan/logo-final.png" alt="Explan"
+        style="height:54px;filter:brightness(0) invert(1);object-fit:contain;"
+        onerror="this.style.display='none'">
+      <div class="cover-logo-text" style="display:none">
+        EXPLAN
+        <span>Móveis Planejados</span>
+      </div>
+    </div>
+
+    <div class="cover-center">
+      <div class="cover-tag">
+        <div class="cover-tag-bar"></div>
+        <span class="cover-tag-text">Proposta Personalizada</span>
+      </div>
+      <div class="cover-heading">
+        Orçamento<br><em>sob medida</em>
+      </div>
+      <div class="cover-divider"></div>
+      <div class="cover-client-label">Preparado para</div>
+      <div class="cover-client-name" id="pdf-nome">Alessandro Ferreira</div>
+    </div>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-bottom-info">
+      Explan Móveis Planejados<br>
+      Goiânia · GO &nbsp;·&nbsp; (62) 9 9999-9999
+    </div>
+    <div>
+      <div class="cover-validity-label">Válido até</div>
+      <div class="cover-validity-date" id="pdf-validade">30 / 06 / 2026</div>
+    </div>
+  </div>
+
+  <div class="pg-footer-cover">
+    <span id="pdf-ref">Ref. EXP-2026-001 · Documento confidencial</span>
+    <span>Explan Móveis Planejados · Goiânia ”“ GO</span>
+  </div>
+</div>
+</div><!-- /page-wrapper capa -->
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• PÃGINA 2 — QUEM SOMOS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page">
+  <div class="pg-header">
+    <div class="pg-header-logo">EXPLAN</div>
+    <div class="pg-header-right">
+      <span class="pg-header-client">Alessandro Ferreira</span>
+      <div class="pg-num">02</div>
+    </div>
+  </div>
+
+  <div class="pg-body">
+    <div class="section-accent"></div>
+    <div class="section-label">Sobre nós</div>
+    <div class="section-title">Quem <strong>Somos</strong></div>
+
+    <div class="qs-grid">
+      <div class="qs-text">
+        <p>A <strong>Explan Móveis Planejados</strong> é especializada em transformar ambientes com móveis sob medida de alta qualidade. Localizada em Goiânia, atendemos clientes que valorizam design, durabilidade e um processo de compra transparente — do primeiro atendimento até a instalação final.</p>
+        <p>Nossa equipe de designers e marceneiros trabalha com materiais premium, tecnologia de projeto 3D e os melhores fornecedores de ferragens do mercado, garantindo um resultado que supera expectativas.</p>
+        <p>Com showroom físico em Goiânia, você visualiza e toca nos materiais antes de decidir. Sem pressão. Do seu jeito.</p>
+      </div>
+      <div class="qs-photo">
+        <img src="../imagens-ambientes/pdf-sala-estar.jpg"
+          alt="Showroom Explan"
+          onerror="this.style.display='none'">
+      </div>
+    </div>
+
+    <div class="difs-grid">
+      <div class="dif-card">
+        <div class="dif-icon">ðŸ—ï¸</div>
+        <div><h4>Projeto 3D Incluído</h4><p>Visualize seu ambiente antes da produção, com renderização fotorrealista sem custo adicional.</p></div>
+      </div>
+      <div class="dif-card">
+        <div class="dif-icon" style="filter:brightness(0) invert(1)">ðŸ›¡ï¸</div>
+        <div><h4>Garantia Estendida</h4><p>5 anos contra defeitos de fabricação e montagem.</p></div>
+      </div>
+      <div class="dif-card">
+        <div class="dif-icon">ðŸŽ¨</div>
+        <div><h4>Materiais Premium</h4><p>Chapas Duratex, ferragens Blum e HÃ¤fele, acabamentos certificados.</p></div>
+      </div>
+      <div class="dif-card">
+        <div class="dif-icon" style="filter:brightness(0) invert(1)">ðŸ“</div>
+        <div><h4>Medição Gratuita</h4><p>Técnico vai até você para garantir que tudo se encaixe perfeitamente.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <span>Explan Móveis Planejados</span>
+    <span>Explan Móveis Planejados</span>
+    <div class="pg-footer-num">02</div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• PÃGINAS DE AMBIENTE (geradas dinamicamente) â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div id="ambientes-pdf-container">
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• PÃGINA 3 — AMBIENTE COZINHA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page">
+  <div class="pg-header">
+    <div class="pg-header-logo">EXPLAN</div>
+    <div class="pg-header-right">
+      <span class="pg-header-client">Alessandro Ferreira</span>
+      <div class="pg-num">03</div>
+    </div>
+  </div>
+
+  <div class="amb-page-body">
+    <!-- COLUNA FOTO -->
+    <div class="amb-photo-col">
+      <img src="../imagens-ambientes/pdf-cozinha.jpg"
+        alt="Cozinha" onerror="this.style.display='none'">
+      <div class="amb-photo-overlay"></div>
+      <div class="amb-photo-info">
+        <div class="amb-photo-num">Ambiente 01</div>
+        <div class="amb-photo-name"><strong>Cozinha</strong> Planejada</div>
+      </div>
+    </div>
+
+    <!-- COLUNA ITENS -->
+    <div class="amb-items-col" data-num="01">
+      <div class="amb-items-heading">Itens do ambiente</div>
+      <table class="amb-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Esp.</th>
+            <th>Qtd</th>
+            <th style="text-align:right">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Armário Superior</td>
+            <td>18mm</td>
+            <td>3 mÂ²</td>
+            <td class="col-r">R$ 2.700</td>
+          </tr>
+          <tr>
+            <td>Armário Inferior / Balcão</td>
+            <td>18mm</td>
+            <td>2,5 mÂ²</td>
+            <td class="col-r">R$ 2.750</td>
+          </tr>
+          <tr>
+            <td>Torre Forno / Geladeira</td>
+            <td>18mm</td>
+            <td>1 un</td>
+            <td class="col-r">R$ 1.800</td>
+          </tr>
+          <tr>
+            <td>Painel Ripado (backsplash)</td>
+            <td>—</td>
+            <td>2 mÂ²</td>
+            <td class="col-r">R$ 1.200</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="amb-subtotal">
+        <span>Subtotal Cozinha</span>R$ 8.450,00
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <span>Explan · Alessandro Ferreira</span>
+    <span>Explan Móveis Planejados</span>
+    <div class="pg-footer-num">03</div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• PÃGINA 4 — AMBIENTE DORMITÓRIO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page">
+  <div class="pg-header">
+    <div class="pg-header-logo">EXPLAN</div>
+    <div class="pg-header-right">
+      <span class="pg-header-client">Alessandro Ferreira</span>
+      <div class="pg-num">04</div>
+    </div>
+  </div>
+
+  <div class="amb-page-body">
+    <div class="amb-photo-col">
+      <img src="../imagens-ambientes/pdf-dormitorio-master.jpg"
+        alt="Dormitório" onerror="this.style.display='none'">
+      <div class="amb-photo-overlay"></div>
+      <div class="amb-photo-info">
+        <div class="amb-photo-num">Ambiente 02</div>
+        <div class="amb-photo-name"><strong>Dormitório</strong> Master</div>
+      </div>
+    </div>
+
+    <div class="amb-items-col" data-num="02">
+      <div class="amb-items-heading">Itens do ambiente</div>
+      <table class="amb-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Esp.</th>
+            <th>Qtd</th>
+            <th style="text-align:right">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Guarda-roupa / Roupeiro</td>
+            <td>18mm</td>
+            <td>4 mÂ²</td>
+            <td class="col-r">R$ 4.800</td>
+          </tr>
+          <tr>
+            <td>Painel de Cama / TV</td>
+            <td>18mm</td>
+            <td>2 mÂ²</td>
+            <td class="col-r">R$ 1.600</td>
+          </tr>
+          <tr>
+            <td>Criado-Mudo</td>
+            <td>15mm</td>
+            <td>2 un</td>
+            <td class="col-r">R$ 1.400</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="amb-subtotal">
+        <span>Subtotal Master</span>R$ 7.800,00
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <span>Explan · Alessandro Ferreira</span>
+    <span>Explan Móveis Planejados</span>
+    <div class="pg-footer-num">04</div>
+  </div>
+</div>
+
+</div><!-- /ambientes-pdf-container -->
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• PÃGINA RESUMO + PAGAMENTO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page">
+  <div class="resumo-header">
+    <div class="resumo-header-grid">
+      <div class="resumo-header-left">
+        <div class="tag">Proposta Comercial</div>
+        <div class="title">Resumo &amp; Investimento</div>
+      </div>
+      <div class="resumo-header-total">
+        <div class="label">Valor Total</div>
+        <div class="valor" id="pdf-total">R$ 15.437,50</div>
+        <div class="desc" id="pdf-desc-label">HÃ¤fele âˆ’5% aplicado</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-body" style="padding-top:32px">
+    <table class="resumo-table">
+      <thead>
+        <tr>
+          <th>Ambiente</th>
+          <th>Itens</th>
+          <th style="text-align:right">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cozinha Planejada</td>
+          <td>4 itens</td>
+          <td class="col-r">R$ 8.450,00</td>
+        </tr>
+        <tr>
+          <td>Dormitório Master</td>
+          <td>3 itens</td>
+          <td class="col-r">R$ 7.800,00</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            Subtotal
+            <span class="badge-pill">HÃ¤fele âˆ’5%</span>
+          </td>
+          <td class="col-r">R$ 16.250,00</td>
+        </tr>
+        <tr class="disc-row">
+          <td colspan="2">Desconto ferragem (5%)</td>
+          <td class="col-r">âˆ’ R$ 812,50</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pag-title">Condições de Pagamento</div>
+    <div class="pag-grid">
+      <div class="pag-card">
+        <div class="parcelas">À Vista</div>
+        <div class="val">R$ 15.437,50</div>
+        <div class="desc-text">Pagamento único<br>PIX ou transferência</div>
+      </div>
+      <div class="pag-card dest">
+        <div class="parcelas">50/50</div>
+        <div class="val">2Ã— R$ 7.718,75</div>
+        <div class="desc-text">50% assinatura<br>50% entrega</div>
+        <div class="hot">Mais comum</div>
+      </div>
+      <div class="pag-card">
+        <div class="parcelas">6Ã—</div>
+        <div class="val">R$ 2.572/mês</div>
+        <div class="desc-text">Cartão de crédito<br>parcelas fixas</div>
+      </div>
+    </div>
+
+    <div class="prazo-timeline">
+      <div class="prazo-item">
+        <div class="pl">Produção</div>
+        <div class="pv">30 dias</div>
+      </div>
+      <div class="prazo-item">
+        <div class="pl">Instalação</div>
+        <div class="pv">2 a 3 dias</div>
+      </div>
+      <div class="prazo-item">
+        <div class="pl">Validade</div>
+        <div class="pv">30 dias</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <span id="pdf-footer-last">Explan Móveis Planejados · Alessandro Ferreira</span>
+    <span>Explan Móveis Planejados</span>
+    <div class="pg-footer-num" id="pdf-last-num">05</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const raw = localStorage.getItem('explan_oc');
+  if (!raw) return; // sem dados: mantém preview estático
+
+  const d = JSON.parse(raw);
+  const nome  = d.cliente?.nome  || 'Cliente';
+  const prazo = d.cliente?.prazo || '45 dias úteis';
+  const ref   = d.ref            || 'EXP-' + new Date().getFullYear() + '-001';
+  const total = d.total_geral    || 0;
+  const desc  = d.config?.desconto_total || 0;
+  const ambientes = d.ambientes  || [];
+
+  // â”€â”€ CAPA
+  document.getElementById('pdf-nome').textContent = nome;
+  document.getElementById('pdf-ref').textContent  = ref + ' · Documento confidencial';
+  const val30 = new Date(); val30.setDate(val30.getDate()+30);
+  document.getElementById('pdf-validade').textContent =
+    val30.toLocaleDateString('pt-BR').replace(/\//g,' / ');
+
+  // nome do cliente em todos os headers de página
+  document.querySelectorAll('.pg-header-client').forEach(el => el.textContent = nome);
+
+  // â”€â”€ RESUMO totais
+  document.getElementById('pdf-total').textContent =
+    'R$ ' + total.toLocaleString('pt-BR', {minimumFractionDigits:2});
+  const descLabels = [];
+  if(d.config?.chapa==='15') descLabels.push('Chapa 15 âˆ’10%');
+  if(d.config?.ferragem==='hafele') descLabels.push('HÃ¤fele âˆ’5%');
+  if(d.config?.ferragem==='fgv') descLabels.push('FGV âˆ’15%');
+  if(d.config?.cor==='branco') descLabels.push('Branco int. âˆ’5%');
+  document.getElementById('pdf-desc-label').textContent =
+    descLabels.length ? descLabels.join(' · ') : 'Preços cheios aplicados';
+
+  // rodapé última página
+  document.getElementById('pdf-footer-last').textContent =
+    'Explan Móveis Planejados · ' + nome;
+
+  // â”€â”€ PÃGINAS DE AMBIENTE — geradas dinamicamente
+  const container = document.getElementById('ambientes-pdf-container');
+  if (!container) return;
+  container.innerHTML = ''; // remove os ambientes de exemplo
+
+  const FOTOS = {
+    'cozinha':    '../imagens-ambientes/pdf-cozinha.jpg',
+    'sala':       '../imagens-ambientes/pdf-sala-estar.jpg',
+    'quarto':     '../imagens-ambientes/pdf-dormitorio-master.jpg',
+    'dormitório': '../imagens-ambientes/pdf-dormitorio-master.jpg',
+    'closet':     '../imagens-ambientes/pdf-closet.jpg',
+    'escritório': '../imagens-ambientes/pdf-home-office.jpg',
+    'home office':'../imagens-ambientes/pdf-home-office.jpg',
+    'banheiro':   '../imagens-ambientes/pdf-banheiro.jpg',
+    'lavanderia': '../imagens-ambientes/pdf-lavanderia.jpg',
+    'gourmet':    '../imagens-ambientes/pdf-area-gourmet.jpg',
+    'jantar':     '../imagens-ambientes/pdf-sala-jantar.jpg',
+    'casal':      '../imagens-ambientes/pdf-dormitorio-casal.jpg',
+    'filho':      '../imagens-ambientes/pdf-dormitorio-filho.jpg',
+  };
+
+  function fotoParaAmbiente(nome) {
+    const n = nome.toLowerCase();
+    for (const [key, url] of Object.entries(FOTOS)) {
+      if (n.includes(key)) return url;
+    }
+    return FOTOS['sala'];
+  }
+
+  const totalPages = 2 + ambientes.length + 1; // capa + quem somos + ambientes + resumo
+
+  ambientes.forEach((amb, idx) => {
+    const num = idx + 1;
+    const numStr = String(num).padStart(2, '0');
+    const pgNum  = num + 2; // capa=1, quem somos=2, então ambiente começa em 3
+    const fotoUrl = fotoParaAmbiente(amb.nome);
+
+    const rows = (amb.itens || []).map(it => `
+      <tr>
+        <td>${it.nome}</td>
+        <td>${it.unidade}</td>
+        <td>${it.qtd}</td>
+        <td class="col-r">R$ ${it.subtotal.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
+      </tr>`).join('');
+
+    const nomeFormatado = amb.nome.replace(/^[\p{Emoji}\s]+/u, '').trim();
+    const palavras = nomeFormatado.split(' ');
+    const primeiraLinha = palavras[0] || nomeFormatado;
+    const restante = palavras.slice(1).join(' ') || 'Planejado';
+
+    const html = `
+<div class="page-wrapper">
+<div class="page-actions">
+  <input type="file" id="file-orc-${idx}" accept="image/*" style="display:none" onchange="trocarFotoOrc(this,${idx})">
+  <button class="page-action-btn" onclick="document.getElementById('file-orc-${idx}').click()">Trocar imagem</button>
+</div>
+<div class="page">
+  <div class="pg-header">
+    <div class="pg-header-logo">EXPLAN</div>
+    <div class="pg-header-right">
+      <span class="pg-header-client">${nome}</span>
+      <div class="pg-num">${String(pgNum).padStart(2,'0')}</div>
+    </div>
+  </div>
+
+  <div class="amb-page-body">
+    <div class="amb-photo-col">
+      <img src="${fotoUrl}" alt="${nomeFormatado}" onerror="this.style.display='none'">
+      <div class="amb-photo-overlay"></div>
+      <div class="amb-photo-info">
+        <div class="amb-photo-num">Ambiente ${numStr}</div>
+        <div class="amb-photo-name"><strong>${primeiraLinha}</strong> ${restante}</div>
+      </div>
+    </div>
+    <div class="amb-items-col" data-num="${numStr}">
+      <div class="amb-items-heading">Itens do Ambiente</div>
+      <table class="amb-table">
+        <thead>
+          <tr>
+            <th>Item</th><th>Un</th><th>Qtd</th><th style="text-align:right">Valor</th>
+          </tr>
+        </thead>
+        <tbody>${rows || '<tr><td colspan="4" style="color:#aaa;font-style:italic">Nenhum item adicionado</td></tr>'}</tbody>
+      </table>
+      <div class="amb-subtotal">
+        <span>Subtotal ${nomeFormatado}</span>
+        R$ ${(amb.total||0).toLocaleString('pt-BR',{minimumFractionDigits:2})}
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-footer">
+    <span>Explan · ${nome}</span>
+    <span>Explan Móveis Planejados</span>
+    <div class="pg-footer-num">${String(pgNum).padStart(2,'0')}</div>
+  </div>
+</div>
+</div>`;
+    container.insertAdjacentHTML('beforeend', html);
+  });
+
+  // atualizar número da última página (resumo)
+  const lastPgNum = 2 + ambientes.length + 1;
+  const lastNumEl = document.getElementById('pdf-last-num');
+  if (lastNumEl) lastNumEl.textContent = String(lastPgNum).padStart(2,'0');
+
+  // atualizar tabela do resumo
+  const tbody = document.querySelector('.resumo-table tbody');
+  if (tbody && ambientes.length) {
+    const existingRows = tbody.querySelectorAll('tr');
+    // remove linhas dos ambientes (manter as de subtotal/desconto)
+    let linhasRemover = [];
+    existingRows.forEach(tr => {
+      const td = tr.querySelector('td');
+      if(td && !td.getAttribute('colspan')) linhasRemover.push(tr);
+    });
+    linhasRemover.forEach(tr => tr.remove());
+
+    // inserir novas linhas de ambientes antes do subtotal
+    const subtotalRow = tbody.querySelector('tr td[colspan]')?.closest('tr');
+    ambientes.forEach(amb => {
+      const tr = document.createElement('tr');
+      const nomeAmb = amb.nome.replace(/^[\p{Emoji}\s]+/u,'').trim();
+      tr.innerHTML = `<td>${nomeAmb}</td><td>${(amb.itens||[]).length} iten${(amb.itens||[]).length!==1?'s':''}</td><td class="col-r">R$ ${(amb.total||0).toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>`;
+      subtotalRow ? tbody.insertBefore(tr, subtotalRow) : tbody.appendChild(tr);
+    });
+
+    // atualizar subtotal e desconto
+    const subtotalTd = tbody.querySelector('tr td[colspan="2"]');
+    if(subtotalTd) {
+      const irmao = subtotalTd.nextElementSibling;
+      if(irmao) irmao.textContent = 'R$ ' + total.toLocaleString('pt-BR',{minimumFractionDigits:2});
+      const badge = subtotalTd.querySelector('.badge-pill');
+      if(badge) badge.textContent = desc > 0 ? 'âˆ’'+desc+'%' : '';
+    }
+
+    // atualizar linha de desconto
+    const discRow = tbody.querySelector('.disc-row td:last-child');
+    if(discRow && desc > 0) {
+      const descVal = total * desc / (100 - desc);
+      discRow.textContent = 'âˆ’ R$ ' + descVal.toLocaleString('pt-BR',{minimumFractionDigits:2});
+    }
+  }
+
+  // Atualizar cards de pagamento com valores reais
+  const pCards = document.querySelectorAll('.pag-card .val');
+  if(pCards.length >= 3) {
+    pCards[0].textContent = 'R$ ' + total.toLocaleString('pt-BR',{minimumFractionDigits:2});
+    pCards[1].textContent = '2Ã— R$ ' + (total/2).toLocaleString('pt-BR',{minimumFractionDigits:2});
+    pCards[2].textContent = 'R$ ' + Math.ceil(total/6).toLocaleString('pt-BR',{minimumFractionDigits:2}) + '/mês';
+  }
+
+  // atualizar timeline de prazo
+  const pvEls = document.querySelectorAll('.prazo-item .pv');
+  if(pvEls[0]) pvEls[0].textContent = prazo.replace('úteis','').trim() || '45 dias';
+
+  // â”€â”€ Instalar drag+resize em todas as fotos de ambiente
+  setTimeout(instalarDragResize, 100);
+})();
+
+/* â”€â”€ TROCAR FOTO DA CAPA â”€â”€ */
+function trocarFotoCapa(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const bg = document.querySelector('.cover-bg');
+    if (!bg) return;
+    bg.src = e.target.result;
+    bg.style.display = 'block';
+    bg.onerror = null;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* â”€â”€ TROCAR FOTO POR AMBIENTE â”€â”€ */
+function trocarFotoOrc(input, idx) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const cols = document.querySelectorAll('.amb-photo-col');
+    const col = cols[idx];
+    if (!col) return;
+    // Remove handles antigos para evitar duplicação
+    col.querySelectorAll('.orc-resize-handle').forEach(h => h.remove());
+    delete col.dataset.drInit;
+    let img = col.querySelector('img');
+    if (!img) { img = document.createElement('img'); col.prepend(img); }
+    img.src = e.target.result;
+    // Reseta para cobrir o container e habilitar drag a partir do zero
+    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9;cursor:move;user-select:none;touch-action:none;';
+    setTimeout(instalarDragResize, 80);
+  };
+  reader.readAsDataURL(file);
+}
+
+/* â”€â”€ DRAG + RESIZE para orçamento-editor â”€â”€ */
+let _oDrag = null, _oResize = null;
+
+function orcPosHandle(h, img) {
+  const dir = h.dataset.dir;
+  const l = img.offsetLeft, t = img.offsetTop, w = img.offsetWidth, ih = img.offsetHeight;
+  if (dir==='nw') { h.style.left=(l-7)+'px'; h.style.top=(t-7)+'px'; }
+  if (dir==='ne') { h.style.left=(l+w-7)+'px'; h.style.top=(t-7)+'px'; }
+  if (dir==='sw') { h.style.left=(l-7)+'px'; h.style.top=(t+ih-7)+'px'; }
+  if (dir==='se') { h.style.left=(l+w-7)+'px'; h.style.top=(t+ih-7)+'px'; }
+}
+
+function instalarDragResize() {
+  document.querySelectorAll('.amb-photo-col').forEach(col => {
+    if (col.dataset.drInit) return;
+    col.dataset.drInit = '1';
+    const img = col.querySelector('img');
+    if (!img) return;
+
+    ['nw','ne','sw','se'].forEach(dir => {
+      const h = document.createElement('div');
+      h.className = 'orc-resize-handle ' + dir;
+      h.dataset.dir = dir;
+      col.appendChild(h);
+      orcPosHandle(h, img);
+      h.addEventListener('mousedown', e => {
+        e.preventDefault(); e.stopPropagation();
+        _oResize = { h, img, col, dir, sx:e.clientX, sy:e.clientY,
+          sl:img.offsetLeft, st:img.offsetTop, sw:img.offsetWidth, sh:img.offsetHeight };
+      });
+      h.addEventListener('touchstart', e => {
+        e.stopPropagation();
+        const t=e.touches[0];
+        _oResize = { h, img, col, dir, sx:t.clientX, sy:t.clientY,
+          sl:img.offsetLeft, st:img.offsetTop, sw:img.offsetWidth, sh:img.offsetHeight };
+      }, {passive:true});
+    });
+
+    img.addEventListener('mousedown', e => {
+      if(e.button!==0) return; e.preventDefault();
+      // Captura posição real e libera inset para drag funcionar
+      const cRect = col.getBoundingClientRect();
+      const iRect = img.getBoundingClientRect();
+      const cl = iRect.left - cRect.left, ct = iRect.top - cRect.top;
+      img.style.left = cl+'px'; img.style.top = ct+'px';
+      img.style.right = 'auto'; img.style.bottom = 'auto';
+      img.style.width = iRect.width+'px'; img.style.height = iRect.height+'px';
+      _oDrag = { img, col, ox:e.clientX-cl, oy:e.clientY-ct };
+    });
+    img.addEventListener('touchstart', e => {
+      const t=e.touches[0];
+      const cRect = col.getBoundingClientRect();
+      const iRect = img.getBoundingClientRect();
+      const cl = iRect.left - cRect.left, ct = iRect.top - cRect.top;
+      img.style.left = cl+'px'; img.style.top = ct+'px';
+      img.style.right = 'auto'; img.style.bottom = 'auto';
+      img.style.width = iRect.width+'px'; img.style.height = iRect.height+'px';
+      _oDrag = { img, col, ox:t.clientX-cl, oy:t.clientY-ct };
+    }, {passive:true});
+  });
+}
+
+document.addEventListener('mousemove', e => {
+  if (_oDrag) {
+    const {img,col,ox,oy}=_oDrag;
+    const cw=col.offsetWidth, ch=col.offsetHeight;
+    let nl=e.clientX-ox, nt=e.clientY-oy;
+    nl=Math.max(-img.offsetWidth*.5, Math.min(nl, cw-img.offsetWidth*.5));
+    nt=Math.max(-img.offsetHeight*.5, Math.min(nt, ch-img.offsetHeight*.5));
+    img.style.right='auto'; img.style.bottom='auto';
+    img.style.left=nl+'px'; img.style.top=nt+'px';
+    col.querySelectorAll('.orc-resize-handle').forEach(h=>orcPosHandle(h,img));
+  }
+  if (_oResize) {
+    const {img,col,dir,sx,sy,sl,st,sw,sh}=_oResize;
+    const dx=e.clientX-sx, dy=e.clientY-sy; const MIN=60;
+    let nl=sl,nt=st,nw=sw,nh=sh;
+    if(dir==='se'){nw=Math.max(MIN,sw+dx);nh=Math.max(MIN,sh+dy);}
+    if(dir==='sw'){nw=Math.max(MIN,sw-dx);nl=sl+sw-nw;nh=Math.max(MIN,sh+dy);}
+    if(dir==='ne'){nw=Math.max(MIN,sw+dx);nh=Math.max(MIN,sh-dy);nt=st+sh-nh;}
+    if(dir==='nw'){nw=Math.max(MIN,sw-dx);nl=sl+sw-nw;nh=Math.max(MIN,sh-dy);nt=st+sh-nh;}
+    img.style.cssText=`position:absolute;left:${nl}px;top:${nt}px;width:${nw}px;height:${nh}px;cursor:move;user-select:none;touch-action:none;object-fit:cover;opacity:.9;`;
+    col.querySelectorAll('.orc-resize-handle').forEach(h=>orcPosHandle(h,img));
+  }
+});
+document.addEventListener('touchmove', e => {
+  const t=e.touches[0];
+  if (_oDrag) {
+    const {img,col,ox,oy}=_oDrag;
+    let nl=t.clientX-ox, nt=t.clientY-oy;
+    img.style.right='auto'; img.style.bottom='auto';
+    img.style.left=nl+'px'; img.style.top=nt+'px';
+    col.querySelectorAll('.orc-resize-handle').forEach(h=>orcPosHandle(h,img));
+  }
+  if (_oResize) {
+    const {img,col,dir,sx,sy,sl,st,sw,sh}=_oResize;
+    const dx=t.clientX-sx, dy=t.clientY-sy; const MIN=60;
+    let nl=sl,nt=st,nw=sw,nh=sh;
+    if(dir==='se'){nw=Math.max(MIN,sw+dx);nh=Math.max(MIN,sh+dy);}
+    if(dir==='sw'){nw=Math.max(MIN,sw-dx);nl=sl+sw-nw;nh=Math.max(MIN,sh+dy);}
+    if(dir==='ne'){nw=Math.max(MIN,sw+dx);nh=Math.max(MIN,sh-dy);nt=st+sh-nh;}
+    if(dir==='nw'){nw=Math.max(MIN,sw-dx);nl=sl+sw-nw;nh=Math.max(MIN,sh-dy);nt=st+sh-nh;}
+    img.style.cssText=`position:absolute;left:${nl}px;top:${nt}px;width:${nw}px;height:${nh}px;cursor:move;user-select:none;touch-action:none;object-fit:cover;opacity:.9;`;
+    col.querySelectorAll('.orc-resize-handle').forEach(h=>orcPosHandle(h,img));
+  }
+}, {passive:true});
+document.addEventListener('mouseup',  ()=>{ _oDrag=null; _oResize=null; });
+document.addEventListener('touchend', ()=>{ _oDrag=null; _oResize=null; });
+</script>
+</body>
+</html>

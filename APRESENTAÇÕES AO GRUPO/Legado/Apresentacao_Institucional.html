@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação Institucional Explan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2D5016;
+            --bg-main: #FFFFFF;
+            --bg-alt: #F5F4F0;
+            --text-main: #1A1A1A;
+            --text-sec: #555555;
+            --cta: #3D7A1A;
+            --font-title: 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: var(--font-body); 
+            color: var(--text-main); 
+            background: var(--bg-main); 
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3 { font-family: var(--font-title); }
+        
+        .presentation { width: 100vw; height: 100vh; position: relative; }
+        .slide { 
+            width: 100vw; 
+            height: 100vh; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            opacity: 0; 
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+            display: flex; 
+            flex-direction: row;
+            z-index: 1; 
+            pointer-events: none; 
+            overflow: hidden;
+        }
+        .slide.active { opacity: 1; z-index: 2; pointer-events: auto; }
+        
+        /* Logo styling */
+        .logo { 
+            height: 95px; 
+            width: auto; 
+            object-fit: contain; 
+            margin-bottom: 32px;
+            align-self: flex-start;
+            transition: transform 0.3s ease;
+        }
+        .logo-white {
+            /* Converts the black transparent PNG into pure white */
+            filter: brightness(0) invert(1);
+        }
+
+        /* Layout structure */
+        .content-left { 
+            width: 60%; 
+            height: 100%;
+            padding: 80px 100px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            overflow-y: auto;
+            background: var(--bg-main);
+        }
+        .content-full { 
+            width: 100%; 
+            height: 100%;
+            padding: 80px 100px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+            overflow-y: auto;
+        }
+        .image-right { 
+            width: 40%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+        
+        /* Custom ratios */
+        .slide-capa .content-left {
+            width: 50%;
+            padding-right: 60px;
+        }
+        .slide-capa .image-right {
+            width: 50%;
+        }
+
+        /* Typography & Spacing */
+        h1 { 
+            font-size: clamp(2.2rem, 3.8vw, 3.2rem); 
+            line-height: 1.15;
+            font-weight: 700;
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            letter-spacing: -0.5px;
+        }
+        h2 { 
+            font-size: clamp(1.2rem, 1.8vw, 1.45rem); 
+            line-height: 1.5;
+            margin-bottom: 32px; 
+            color: var(--text-sec); 
+            font-weight: 400;
+        }
+        p { 
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem); 
+            line-height: 1.7; 
+            color: var(--text-sec); 
+            margin-bottom: 28px; 
+        }
+        .tag-badge { 
+            font-family: var(--font-title); 
+            font-weight: 600; 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            color: var(--primary); 
+            background-color: rgba(45, 80, 22, 0.06);
+            padding: 6px 12px;
+            border-radius: 4px;
+            width: fit-content;
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+        
+        /* Utils */
+        .bg-alt { background-color: var(--bg-alt); }
+        .divider { width: 60px; height: 4px; background-color: var(--primary); margin: 28px 0; border-radius: 2px; }
+        
+        /* Grids & Cards */
+        .grid-3 { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 28px; 
+            width: 100%; 
+            max-width: 1150px; 
+            margin-top: 36px; 
+        }
+        .grid-2 { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 28px; 
+            width: 100%; 
+            max-width: 950px; 
+            margin-top: 36px; 
+        }
+        .grid-3-2 { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 24px; 
+            width: 100%; 
+            max-width: 1150px; 
+            margin-top: 36px; 
+        }
+        
+        .card { 
+            background: #fff; 
+            border: 1px solid rgba(0,0,0,0.06); 
+            padding: 32px 24px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); 
+            text-align: left; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+        .card.card-alt { 
+            background: var(--bg-alt); 
+            border-left: 4px solid var(--primary); 
+            border-radius: 0 12px 12px 0; 
+            border-top: 1px solid rgba(0,0,0,0.05);
+            border-right: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .card-icon { font-size: 32px; margin-bottom: 16px; color: var(--primary); display: block; }
+        .card h3 { font-size: 16px; margin-bottom: 8px; color: var(--primary); font-weight: 600; }
+        .card p { font-size: 14px; margin-bottom: 0; line-height: 1.5; }
+        
+        /* S2 Specific */
+        .slogan { 
+            font-size: clamp(1.2rem, 1.8vw, 1.55rem); 
+            color: var(--primary); 
+            font-style: italic; 
+            font-weight: 600; 
+            font-family: var(--font-title); 
+            margin-bottom: 32px; 
+            line-height: 1.4;
+            letter-spacing: -0.2px;
+        }
+        .data-block-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .data-block { 
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+            font-size: 16px; 
+            font-weight: 500; 
+            color: var(--text-main);
+        }
+        .data-block span {
+            font-size: 22px;
+        }
+        
+        /* Flow Diagram */
+        .flow-container { 
+            display: flex; 
+            justify-content: space-between; 
+            width: 100%; 
+            max-width: 1150px; 
+            margin-top: 36px; 
+            gap: 24px;
+        }
+        .flow-col { 
+            flex: 1; 
+            background: #fff; 
+            padding: 32px 24px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); 
+            text-align: left;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .flow-title { 
+            color: var(--primary); 
+            font-family: var(--font-title); 
+            font-weight: 700; 
+            margin-bottom: 16px; 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            letter-spacing: 1.5px;
+            border-bottom: 1px solid rgba(0,0,0,0.06); 
+            padding-bottom: 10px; 
+        }
+        .flow-person { font-weight: 700; color: var(--text-main); font-size: 18px; margin-bottom: 16px; }
+        .flow-list { list-style: none; color: var(--text-sec); font-size: 14px; line-height: 1.9; }
+        .flow-list li { margin-bottom: 6px; }
+        
+        /* Premium bullet list */
+        .bullet-list {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+        .bullet-list li {
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .bullet-list li::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--primary);
+            border-radius: 50%;
+        }
+
+        /* Output list */
+        .output-list { margin-top: 28px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 20px; width: 100%; }
+        .output-item { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--primary); margin-bottom: 8px; font-size: 15px; }
+        
+        /* Navigation Buttons */
+        .nav-buttons { 
+            position: fixed; 
+            bottom: 40px; 
+            right: 80px; 
+            z-index: 100; 
+            display: flex; 
+            gap: 12px; 
+        }
+        .nav-btn { 
+            background: var(--primary); 
+            color: #fff; 
+            border: none; 
+            padding: 14px 28px; 
+            font-family: var(--font-title); 
+            font-weight: 700; 
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer; 
+            border-radius: 6px; 
+            box-shadow: 0 4px 16px rgba(45, 80, 22, 0.25);
+            transition: all 0.2s ease;
+        }
+        .nav-btn:hover { 
+            background: var(--cta); 
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(45, 80, 22, 0.35);
+        }
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Background slide 9 */
+        .slide-dark {
+            background-color: var(--primary);
+            position: relative;
+        }
+        .slide-dark-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+            z-index: 1;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .slide {
+                flex-direction: column;
+                overflow-y: auto;
+            }
+            .content-left {
+                width: 100% !important;
+                height: auto;
+                min-height: 100%;
+                padding: 40px 32px 100px 32px;
+            }
+            .content-full {
+                height: auto;
+                min-height: 100%;
+                padding: 40px 32px 100px 32px;
+            }
+            .image-right {
+                width: 100% !important;
+                height: 300px;
+                order: -1; /* Image on top for mobile */
+            }
+            .logo {
+                height: 80px;
+                margin-bottom: 24px;
+            }
+            .grid-3, .grid-2, .grid-3-2 {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-top: 24px;
+            }
+            .flow-container {
+                flex-direction: column;
+                gap: 20px;
+                margin-top: 24px;
+            }
+            .nav-buttons {
+                right: 32px;
+                bottom: 32px;
+            }
+            h1 {
+                font-size: clamp(1.8rem, 5vw, 2.5rem);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation" id="presentation">
+        
+        <!-- Slide 1 -->
+        <div class="slide slide-capa active">
+            <div class="content-left">
+                <img src="../Imagens/explan_logo_preto_transparente.png" class="logo" alt="Explan">
+                <h1>Quem Somos e Como Trabalhamos</h1>
+                <h2>Nossa estrutura, nosso time, nosso propósito</h2>
+                <div class="divider"></div>
+                <div class="tag-badge">Explan Móveis Planejados · Goiânia · 2025</div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1556910103-1c02745a8728?auto=format&fit=crop&w=1920&q=80" class="image-right" alt="Cozinha Planejada">
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <div class="content-left">
+                <img src="../Imagens/explan_logo_preto_transparente.png" class="logo" alt="Explan">
+                <h1>A Explan</h1>
+                <p>"Somos uma empresa de móveis planejados em Goiânia que vai além da execução. Conduzimos decisões com clareza e transformamos processos complexos em jornadas transparentes — do projeto à entrega."</p>
+                <div class="slogan">Móveis planejados pensados para além do agora.</div>
+                
+                <div class="data-block-container">
+                    <div class="data-block"><span>🏠</span> Projetos Residenciais e Comerciais</div>
+                    <div class="data-block"><span>🏭</span> Infraestrutura própria: escritório, showroom e fábrica</div>
+                    <div class="data-block"><span>🛡️</span> Garantia de 1 a 5 anos</div>
+                </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" class="image-right" alt="Showroom">
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide bg-alt">
+            <div class="content-full">
+                <img src="../Imagens/explan_logo_preto_transparente.png" class="logo" alt="Explan">
+                <h1>Como Funciona Nossa Operação</h1>
+                <h2>Cada etapa tem um responsável. Cada responsável tem um papel claro.</h2>
+                
+                <div class="flow-container">
+                    <div class="flow-col">
+                        <div class="flow-title">Vendas</div>
+                        <div class="flow-person">Mayron</div>
+                        <ul class="flow-list">
+                            <li>Agendamento</li>
+                            <li>Orçamento</li>
+                            <li>Contrato</li>
+                            <li>Manual do cliente</li>
+                        </ul>
+                    </div>
+                    <div class="flow-col">
+                        <div class="flow-title">Técnico / Fábrica</div>
+                        <div class="flow-person">Emerson</div>
+                        <ul class="flow-list">
+                            <li>Caderno técnico</li>
+                            <li>Cortes e medição</li>
+                            <li>Compra de materiais</li>
+                            <li>Pré-montagem</li>
+                        </ul>
+                    </div>
+                    <div class="flow-col">
+                        <div class="flow-title">Montagem / Obra</div>
+                        <div class="flow-person">João</div>
+                        <ul class="flow-list">
+                            <li>Planejamento da fábrica</li>
+                            <li>Controle de qualidade</li>
+                            <li>Visita técnica</li>
+                            <li>Checklist Inicial e Final</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 32px; background: #fff; padding: 24px; border-radius: 12px; width: 100%; max-width: 1150px; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.04);">
+                    <div class="flow-title" style="border:none; margin-bottom: 6px;">Suporte</div>
+                    <p style="margin:0; font-size: 15px; color: var(--text-main);"><strong>Transporte:</strong> Aucides &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Limpeza da Fábrica:</strong> Celina</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide">
+            <div class="content-left">
+                <img src="../Imagens/explan_logo_preto_transparente.png" class="logo" alt="Explan">
+                <div class="tag-badge">O Primeiro Contato com o Cliente</div>
+                <h1>Mayron</h1>
+                <h2 style="margin-bottom: 24px;">Responsável Comercial</h2>
+                
+                <ul class="bullet-list">
+                    <li>Agendamento de visitas</li>
+                    <li>Elaboração de orçamentos</li>
+                    <li>Formalização de contratos</li>
+                    <li>Entrega do Manual do Cliente</li>
+                    <li>Entrega de brinde</li>
+                    <li>Apresentação institucional ao cliente</li>
+                </ul>
+                
+                <div style="font-size: 13.5px; color: var(--text-sec); border-left: 3px solid var(--primary); padding-left: 14px; margin-bottom: 24px; line-height: 1.6;">
+                    <strong>OBSERVAÇÕES INTERNAS:</strong><br>
+                    → Responsável pelo Showroom<br>
+                    → Ponto de contato com Emerson quando precisar de materiais ou protótipos<br>
+                    → Não realiza visitas em obra
+                </div>
+                
+                <div class="output-list">
+                    <div class="output-item">📄 Contrato assinado</div>
+                    <div class="output-item">📘 Manual de uso e convivência</div>
+                </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80" class="image-right" alt="Vendas">
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide bg-alt">
+            <div class="content-left">
+                <img src="../Imagens/explan_logo_preto_transparente.png" class="logo" alt="Explan">
+                <div class="tag-badge">Do Projeto ao Material Pronto</div>
+                <h1>Emerson</h1>
+                <h2 style="margin-bottom: 24px;">Responsável Técnico e de Produção</h2>
+                
+                <ul class="bullet-list">
+                    <li>Elaboração do caderno técnico</li>
+                    <li>Cortes e medições</li>
+                    <li>Compra de materiais (Duratex, Arauco, Guararapes)</li>
+                    <li>Coordenação da equipe de produção</li>
+                </ul>
+                
+                <div style="display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap;">
+                    <div class="card" style="padding: 16px 20px; flex: 1; min-width: 180px;">
+                        <strong style="font-size: 14px; color: var(--primary);">Matheus:</strong>
+                        <p style="font-size: 13px; color: var(--text-sec); margin-top: 4px;">Cortes e operação de maquinário</p>
+                    </div>
+                    <div class="card" style="padding: 16px 20px; flex: 1; min-width: 180px;">
+                        <strong style="font-size: 14px; color: var(--primary);">Novato:</strong>
+                        <p style="font-size: 13px; color: var(--text-sec); margin-top: 4px;">Pré-montagem, fitagem e limpeza</p>
+                    </div>
+                </div>
+                
+                <div style="font-size: 13.5px; color: var(--text-sec); border-left: 3px solid var(--primary); padding-left: 14px; margin-bottom: 24px; line-height: 1.6;">
+                    <strong>PONTO DE ATENÇÃO:</strong><br>
+                    → Aucides realiza o transporte para compra de materiais<br>
+                    → Ponto de contato com Mayron quando precisar de protótipos
+                </div>
+                
+                <div class="output-list">
+                    <div class="output-item">📐 Caderno técnico completo</div>
+                </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&w=1200&q=80" class="image-right" alt="Produção">
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="slide">
+            <div class="content-left">
+                <img src="../Imagens/explan_logo_preto_transparente.png" class="logo" alt="Explan">
+                <div class="tag-badge">Da Fábrica ao Ambiente do Cliente</div>
+                <h1>João</h1>
+                <h2 style="margin-bottom: 24px;">Responsável pela Montagem e Qualidade</h2>
+                
+                <ul class="bullet-list">
+                    <li>Planejamento e controle do fluxo da fábrica</li>
+                    <li>Conferência do material antes da execução</li>
+                    <li>Controle de qualidade e Visita técnica</li>
+                    <li>Checklist Inicial e Checklist Final</li>
+                    <li>Preparação do ambiente para montagem</li>
+                </ul>
+                
+                <div style="font-size: 13.5px; color: var(--text-sec); border-left: 3px solid var(--primary); padding-left: 14px; margin-bottom: 24px; line-height: 1.6;">
+                    <strong>EQUIPE DE MONTAGEM:</strong><br>
+                    Marceneiro (execução) | Túlio e Léo (montagem) | Douglas e Pablo (ajudantes) | Chapa (diarista)
+                </div>
+                
+                <div class="output-list">
+                    <div class="output-item">✅ Checklist Inicial</div>
+                    <div class="output-item">✅ Checklist Final</div>
+                </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&w=1200&q=80" class="image-right" alt="Montagem">
+        </div>
+
+        <!-- Slide 7 -->
+        <div class="slide bg-alt">
+            <div class="content-full">
+                <img src="../Imagens/explan_logo_preto_transparente.png" class="logo" alt="Explan">
+                <h1>Suporte que Faz a Operação Acontecer</h1>
+                <div class="grid-2">
+                    <div class="card" style="text-align: center; padding: 40px 32px;">
+                        <span class="card-icon" style="font-size: 44px; margin-bottom: 20px;">🚚</span>
+                        <h2>Aucides — Transporte</h2>
+                        <ul class="bullet-list" style="text-align: left; margin-top: 16px;">
+                            <li>Compra de materiais (com Emerson)</li>
+                            <li>Transporte de móveis para obra (com João)</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="text-align: center; padding: 40px 32px;">
+                        <span class="card-icon" style="font-size: 44px; margin-bottom: 20px;">🧹</span>
+                        <h2>Celina — Limpeza da Fábrica</h2>
+                        <ul class="bullet-list" style="text-align: left; margin-top: 16px;">
+                            <li>Manutenção e organização do espaço produtivo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8 -->
+        <div class="slide">
+            <div class="content-full">
+                <img src="../Imagens/explan_logo_preto_transparente.png" class="logo" alt="Explan">
+                <h1>Por Que Escolher a Explan</h1>
+                <div class="grid-3-2">
+                    <div class="card card-alt">
+                        <h3>✦ Materiais Premium</h3>
+                        <p>Duratex, Arauco, Guararapes</p>
+                    </div>
+                    <div class="card card-alt">
+                        <h3>✦ Equipe Especializada</h3>
+                        <p>Arquitetos, engenheiros e designers</p>
+                    </div>
+                    <div class="card card-alt">
+                        <h3>✦ Garantia Estendida</h3>
+                        <p>De 1 a 5 anos de garantia</p>
+                    </div>
+                    <div class="card card-alt">
+                        <h3>✦ Infraestrutura Própria</h3>
+                        <p>Escritório, showroom e fábrica</p>
+                    </div>
+                    <div class="card card-alt">
+                        <h3>✦ Projeto 3D Incluído</h3>
+                        <p>Visualize antes de produzir</p>
+                    </div>
+                    <div class="card card-alt">
+                        <h3>✦ Tecnologia de Precisão</h3>
+                        <p>Corte de alta precisão</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9 -->
+        <div class="slide slide-dark">
+            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1920&q=80" class="slide-dark-bg" alt="Fundo">
+            <div class="content-full" style="color: #fff; z-index: 5;">
+                <img src="../Imagens/explan_logo_preto_transparente.png" class="logo logo-white" alt="Explan logo branca" style="height: 140px; margin-bottom: 40px; align-self: center;">
+                <h1 style="color: #fff; font-size: clamp(2.25rem, 5vw, 4rem); margin-bottom: 24px; font-weight: 700; letter-spacing: -0.5px;">Juntos, do projeto à entrega.</h1>
+                <h2 style="color: rgba(255,255,255,0.85); font-weight: normal; margin-bottom: 40px; font-size: clamp(1.2rem, 2vw, 1.6rem);">Cada peça no lugar certo começa com cada pessoa no papel certo.</h2>
+                <div style="width: 120px; height: 3px; background: rgba(255,255,255,0.4); margin-bottom: 40px; border-radius: 2px;"></div>
+                <div style="font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: bold; font-family: var(--font-title); letter-spacing: 0.5px;">explanmoveisplanejados.com.br</div>
+                <div style="font-size: 16px; margin-top: 10px; color: rgba(255,255,255,0.7);">Goiânia — GO</div>
+                <div style="position: absolute; bottom: 40px; font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 1px;">Explan Móveis Planejados · Apresentação Interna · 2025</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn">Anterior</button>
+        <button class="nav-btn" id="nextBtn">Próximo</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                document.getElementById('nextBtn').click();
+            } else if (e.key === 'ArrowLeft') {
+                document.getElementById('prevBtn').click();
+            }
+        });
+    </script>
+</body>
+</html>

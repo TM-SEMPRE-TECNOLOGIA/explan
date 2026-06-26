@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papéis na Equipe - Explan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2D5016;
+            --bg-main: #FFFFFF;
+            --bg-alt: #F5F4F0;
+            --text-main: #1A1A1A;
+            --text-sec: #555555;
+            --cta: #3D7A1A;
+            --font-title: 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: var(--font-body); 
+            color: var(--text-main); 
+            background: var(--bg-main); 
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3 { font-family: var(--font-title); }
+        
+        /* Fixed main logo for presentations */
+        .logo { 
+            position: fixed; 
+            top: 40px; 
+            left: 80px; 
+            height: 95px; 
+            width: auto; 
+            z-index: 100; 
+            cursor: pointer; 
+            object-fit: contain;
+            display: none; /* Controlled by JS */
+        }
+        .logo-white {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Menu style */
+        .menu-container { 
+            width: 100vw; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            background: var(--bg-alt); 
+            position: relative; 
+            z-index: 90; 
+            padding: 40px 24px;
+        }
+        .menu-logo {
+            height: 90px;
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 36px;
+        }
+        .menu-title { 
+            font-size: clamp(1.75rem, 4vw, 2.3rem); 
+            color: var(--primary); 
+            margin-bottom: 40px; 
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .menu-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 24px; 
+            max-width: 800px; 
+            width: 100%; 
+        }
+        .menu-btn { 
+            background: #fff; 
+            border: 2px solid var(--primary); 
+            color: var(--primary); 
+            padding: 32px 24px; 
+            border-radius: 12px; 
+            font-size: clamp(1.15rem, 2vw, 1.45rem); 
+            font-weight: bold; 
+            font-family: var(--font-title); 
+            cursor: pointer; 
+            transition: all 0.25s ease; 
+            text-align: center; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+        .menu-btn:hover { 
+            background: var(--primary); 
+            color: #fff; 
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(45, 80, 22, 0.18);
+        }
+        .menu-btn-vg {
+            background: var(--primary);
+            color: #fff;
+        }
+        
+        /* Slides layout system */
+        .presentation { width: 100vw; height: 100vh; position: relative; display: none; }
+        .slide { 
+            width: 100vw; 
+            height: 100vh; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            opacity: 0; 
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+            display: flex; 
+            flex-direction: row;
+            z-index: 1; 
+            pointer-events: none; 
+            overflow: hidden;
+        }
+        .slide.active { opacity: 1; z-index: 2; pointer-events: auto; }
+        
+        .content-full { 
+            width: 100%; 
+            height: 100%;
+            padding: 170px 80px 80px 80px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            overflow-y: auto;
+        }
+        .content-left { 
+            width: 60%; 
+            height: 100%;
+            padding: 170px 80px 80px 80px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            overflow-y: auto;
+            background: var(--bg-main);
+        }
+        .bg-right { 
+            width: 40%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+        
+        /* Cover styling for internal presentations */
+        .slide-dark {
+            background-color: var(--primary);
+            position: relative;
+        }
+        .bg-cover { 
+            position: absolute; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            z-index: 1; 
+            opacity: 0.15; 
+        }
+        .bg-overlay { 
+            position: absolute; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: var(--primary); 
+            z-index: 0; 
+        }
+
+        h1 { 
+            font-size: clamp(2.2rem, 3.8vw, 3.2rem); 
+            line-height: 1.15;
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        h2 { 
+            font-size: clamp(1.2rem, 1.8vw, 1.45rem); 
+            line-height: 1.5;
+            margin-bottom: 32px; 
+            color: var(--text-sec); 
+            font-weight: 400; 
+        }
+        p { 
+            font-size: clamp(0.95rem, 1.1vw, 1.1rem); 
+            line-height: 1.7; 
+            color: var(--text-sec); 
+            margin-bottom: 28px; 
+        }
+        
+        .bg-alt { background-color: var(--bg-alt); }
+        .text-white { color: #fff; }
+        
+        /* Fixed Nav controls */
+        .nav-buttons { 
+            position: fixed; 
+            bottom: 24px; 
+            right: 80px; 
+            z-index: 100; 
+            display: flex; 
+            gap: 12px; 
+        }
+        .nav-btn { 
+            background: var(--primary); 
+            color: #fff; 
+            border: none; 
+            padding: 14px 28px; 
+            font-family: var(--font-title); 
+            font-weight: 700; 
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer; 
+            border-radius: 6px; 
+            box-shadow: 0 4px 16px rgba(45, 80, 22, 0.25);
+            transition: all 0.2s ease;
+        }
+        .nav-btn:hover { 
+            background: var(--cta); 
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(45, 80, 22, 0.35);
+        }
+        .back-menu { 
+            position: fixed; 
+            bottom: 24px; 
+            left: 80px; 
+            z-index: 100; 
+            background: none; 
+            color: var(--text-sec); 
+            border: 1px solid rgba(0,0,0,0.15); 
+            padding: 14px 28px; 
+            font-family: var(--font-title); 
+            font-weight: 700; 
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer; 
+            border-radius: 6px; 
+            background-color: rgba(255,255,255,0.9);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+            transition: all 0.2s ease;
+        }
+        .back-menu:hover {
+            background-color: var(--text-sec);
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+
+        /* Specific typography & UI elements for user profiles */
+        .cover-name { 
+            font-size: clamp(3rem, 6vw, 5rem); 
+            color: #fff; 
+            margin-top: 16px; 
+            margin-bottom: 12px; 
+            font-family: var(--font-title);
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        .cover-tag { 
+            color: rgba(255,255,255,0.75); 
+            font-size: 12px; 
+            letter-spacing: 2.5px; 
+            text-transform: uppercase; 
+            font-family: var(--font-title); 
+            font-weight: 700; 
+        }
+        .cover-role { 
+            color: #fff; 
+            font-size: clamp(1.25rem, 2vw, 1.75rem); 
+            font-weight: 500; 
+            margin-bottom: 32px; 
+        }
+        .cover-line { 
+            width: 80px; 
+            height: 3px; 
+            background: #81C784; 
+            margin-bottom: 32px; 
+            border-radius: 1px;
+        }
+        
+        .big-phrase { 
+            font-size: clamp(1.5rem, 2.5vw, 2.25rem); 
+            font-weight: bold; 
+            color: var(--primary); 
+            font-family: var(--font-title); 
+            max-width: 900px; 
+            text-align: center; 
+            margin-bottom: 28px; 
+            line-height: 1.4; 
+            letter-spacing: -0.2px;
+        }
+        
+        .check-list { 
+            list-style: none; 
+            text-align: left; 
+            max-width: 700px; 
+            width: 100%; 
+            margin: 0 auto; 
+        }
+        .check-list li { 
+            font-size: clamp(0.95rem, 1.2vw, 1.1rem); 
+            margin-bottom: 14px; 
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+        .check-list li::before { 
+            content: "✓"; 
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background-color: rgba(45, 80, 22, 0.08);
+            color: var(--primary);
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+        
+        .highlight-box { 
+            background: #fff; 
+            border-left: 4px solid var(--primary); 
+            padding: 24px; 
+            max-width: 700px; 
+            margin: 28px auto 0; 
+            text-align: left; 
+            font-weight: 600; 
+            color: var(--text-main); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); 
+            font-size: 15px;
+            border-top: 1px solid rgba(0,0,0,0.03);
+            border-right: 1px solid rgba(0,0,0,0.03);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+            border-radius: 0 8px 8px 0;
+        }
+        .warning-box { 
+            background: #FFF8E1; 
+            border-left: 4px solid #F57F17; 
+            padding: 24px; 
+            max-width: 700px; 
+            margin: 28px auto 0; 
+            text-align: left; 
+            color: #E65100; 
+            font-weight: 600; 
+            font-size: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .card-row { 
+            display: flex; 
+            gap: 28px; 
+            justify-content: center; 
+            max-width: 950px; 
+            width: 100%; 
+            margin-top: 36px; 
+        }
+        .card { 
+            background: #fff; 
+            padding: 32px 24px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); 
+            flex: 1; 
+            text-align: left; 
+            border-top: 4px solid var(--primary); 
+            border-left: 1px solid rgba(0,0,0,0.03);
+            border-right: 1px solid rgba(0,0,0,0.03);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+        }
+        .card-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+        .card h3 { font-size: 18px; color: var(--primary); margin-bottom: 10px; font-weight: 600; }
+        .card p { font-size: 14px; margin-bottom: 0; line-height: 1.6; }
+        
+        /* Flow VG */
+        .flow-vg { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            width: 100%; 
+            max-width: 1150px; 
+            margin-top: 36px; 
+            gap: 16px;
+        }
+        .flow-vg-box { 
+            flex: 1; 
+            background: #fff; 
+            padding: 24px 16px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); 
+            text-align: center; 
+            min-height: 170px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .flow-vg-box.green-1 { background: #f1f8e9; }
+        .flow-vg-box.green-2 { background: #e8f5e9; }
+        .flow-vg-box.green-3 { background: #c8e6c9; }
+        .flow-vg-box.green-4 { background: #a5d6a7; }
+        .flow-vg-title { 
+            font-weight: 700; 
+            font-family: var(--font-title); 
+            color: var(--primary); 
+            margin-bottom: 10px; 
+            font-size: 12px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+        }
+        
+        .grid-vg { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 24px; 
+            max-width: 1150px; 
+            width: 100%; 
+            margin-top: 36px; 
+        }
+        .card-vg { 
+            background: #fff; 
+            border-top: 4px solid var(--primary); 
+            padding: 24px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); 
+            text-align: left; 
+            border-left: 1px solid rgba(0,0,0,0.03);
+            border-right: 1px solid rgba(0,0,0,0.03);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+        .card-vg h3 { font-size: 12px; color: var(--text-sec); text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .slide {
+                flex-direction: column;
+                overflow-y: auto;
+            }
+            .content-left {
+                width: 100% !important;
+                height: auto;
+                min-height: 100%;
+                padding: 120px 32px 100px 32px;
+            }
+            .content-full {
+                height: auto;
+                min-height: 100%;
+                padding: 120px 32px 100px 32px;
+            }
+            .bg-right {
+                width: 100% !important;
+                height: 300px;
+                order: -1;
+            }
+            .logo {
+                top: 20px;
+                left: 32px;
+                height: 70px;
+            }
+            .back-menu {
+                left: 32px;
+                bottom: 32px;
+            }
+            .nav-buttons {
+                right: 32px;
+                bottom: 32px;
+            }
+            .card-row, .flow-vg, .grid-vg {
+                flex-direction: column;
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-top: 24px;
+            }
+            .flow-vg-box {
+                min-height: auto;
+                padding: 18px;
+            }
+            .flow-vg div {
+                display: none; /* Hide arrows on mobile */
+            }
+            .flow-vg div:first-child, .flow-vg .flow-vg-box {
+                display: flex; /* Show boxes */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Logo controlada pelo Javascript -->
+    <img id="main-logo" src="../Imagens/explan_logo_preto_transparente.png" class="logo" onclick="showMenu()" alt="Explan Logo">
+
+    <!-- MENU INICIAL -->
+    <div id="menu" class="menu-container">
+        <img src="../Imagens/explan_logo_preto_transparente.png" class="menu-logo" alt="Explan Logo">
+        <h1 class="menu-title">Apresentação de Papéis da Equipe</h1>
+        <div class="menu-grid">
+            <button class="menu-btn" onclick="startPresentation('mayron')">Mayron<br><span style="font-size:14px;font-weight:normal;color:var(--text-sec);margin-top:4px;display:block;">Comercial</span></button>
+            <button class="menu-btn" onclick="startPresentation('emerson')">Emerson<br><span style="font-size:14px;font-weight:normal;color:var(--text-sec);margin-top:4px;display:block;">Técnico & Produção</span></button>
+            <button class="menu-btn" onclick="startPresentation('joao')">João<br><span style="font-size:14px;font-weight:normal;color:var(--text-sec);margin-top:4px;display:block;">Montagem & Qualidade</span></button>
+            <button class="menu-btn menu-btn-vg" onclick="startPresentation('vg')">Visão Geral<br><span style="font-size:14px;font-weight:normal;opacity:0.8;margin-top:4px;display:block;">Reunião de Equipe</span></button>
+        </div>
+    </div>
+
+    <!-- RECIPIENTE DA APRESENTAÇÃO -->
+    <div id="presentation" class="presentation">
+        <div id="slides-container"></div>
+        <button class="back-menu" onclick="showMenu()">← Voltar ao Menu</button>
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn" onclick="prevSlide()">Anterior</button>
+            <button class="nav-btn" id="nextBtn" onclick="nextSlide()">Próximo</button>
+        </div>
+    </div>
+
+    <script>
+        // Dados das apresentações
+        const presData = {
+            'mayron': [
+                `
+                <div class="slide slide-dark">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1920&q=80" class="bg-cover" alt="Showroom">
+                    <div class="content-full" style="z-index:5;">
+                        <div class="cover-tag">Seu papel na Explan</div>
+                        <h1 class="cover-name">Mayron</h1>
+                        <div class="cover-role">Responsável Comercial</div>
+                        <div class="cover-line"></div>
+                        <div style="color:rgba(255,255,255,0.5);font-size:14px;">Explan Móveis Planejados · 2025</div>
+                    </div>
+                </div>`,
+                `
+                <div class="slide">
+                    <div class="content-full">
+                        <div class="big-phrase">"Você é o primeiro contato do cliente com a Explan.<br>A experiência começa em você."</div>
+                        <h2>Da primeira ligação até a assinatura do contrato — você conduz essa jornada.</h2>
+                    </div>
+                </div>`,
+                `
+                <div class="slide bg-alt" data-show-logo="true">
+                    <div class="content-left">
+                        <h1>O Que é Seu</h1>
+                        <ul class="check-list">
+                            <li>Agendamento de visitas com o cliente</li>
+                            <li>Elaboração e apresentação de orçamentos</li>
+                            <li>Formalização e assinatura de contratos</li>
+                            <li>Entrega do Manual do Cliente</li>
+                            <li>Entrega de brinde</li>
+                            <li>Apresentação institucional da Explan ao cliente</li>
+                        </ul>
+                        <div class="highlight-box">
+                            Você também é o responsável pelo Showroom.<br>
+                            O ambiente físico que o cliente vê é sua vitrine.
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" class="bg-right" alt="Showroom">
+                </div>`,
+                `
+                <div class="slide">
+                    <div class="content-full">
+                        <h1>Com Quem Você Se Conecta</h1>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; margin: 32px 0;">
+                            <div style="background: #fff; border: 1px solid rgba(0,0,0,0.06); padding: 18px 36px; border-radius: 8px; font-weight: bold; color: var(--primary); font-family: var(--font-title); box-shadow: 0 4px 16px rgba(0,0,0,0.02);">MAYRON (Comercial)</div>
+                            <div style="color: var(--primary); font-size: 24px; font-weight: bold; line-height: 1;">↓</div>
+                            <div style="font-size: 13.5px; color: var(--text-sec); text-align: center; max-width: 320px; line-height: 1.5; font-weight: 500;">quando precisar de protótipos ou materiais de apresentação</div>
+                            <div style="color: var(--primary); font-size: 24px; font-weight: bold; line-height: 1;">↓</div>
+                            <div style="background: var(--bg-alt); border: 1px solid rgba(0,0,0,0.06); padding: 18px 36px; border-radius: 8px; font-weight: bold; color: var(--text-main); font-family: var(--font-title);">EMERSON (Técnico / Fábrica)</div>
+                        </div>
+                        <div class="warning-box">
+                            ⚠ Mayron NÃO vai em obra.<br>Qualquer demanda de execução passa por Emerson ou João.
+                        </div>
+                    </div>
+                </div>`,
+                `
+                <div class="slide bg-alt">
+                    <div class="content-full">
+                        <h1>O Que Você Entrega ao Cliente</h1>
+                        <div class="card-row">
+                            <div class="card">
+                                <span class="card-icon">📄</span>
+                                <h3>CONTRATO</h3>
+                                <p>O acordo formal que protege o cliente e a Explan.</p>
+                            </div>
+                            <div class="card">
+                                <span class="card-icon">📘</span>
+                                <h3>MANUAL DO CLIENTE</h3>
+                                <p>As orientações de uso, cuidados e garantias do produto.</p>
+                            </div>
+                        </div>
+                        <p style="margin-top:36px; font-style:italic; color:var(--primary); font-weight:bold; font-size: 16px;">"Esses dois documentos representam o compromisso que a Explan assume."</p>
+                    </div>
+                </div>`
+            ],
+            'emerson': [
+                `
+                <div class="slide slide-dark">
+                    <img src="https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?auto=format&fit=crop&w=1920&q=80" class="bg-cover" alt="Fábrica">
+                    <div class="content-full" style="z-index:5;">
+                        <div class="cover-tag">Seu papel na Explan</div>
+                        <h1 class="cover-name">Emerson</h1>
+                        <div class="cover-role">Responsável Técnico e de Produção</div>
+                        <div class="cover-line"></div>
+                        <div style="color:rgba(255,255,255,0.5);font-size:14px;">Explan Móveis Planejados · 2025</div>
+                    </div>
+                </div>`,
+                `
+                <div class="slide">
+                    <div class="content-full">
+                        <div class="big-phrase">"Você transforma o projeto em realidade.<br>Do papel ao material pronto para montar."</div>
+                        <h2>Entre o orçamento aprovado e o caminhão que sai para a obra, tudo passa por você.</h2>
+                    </div>
+                </div>`,
+                `
+                <div class="slide bg-alt">
+                    <div class="content-left">
+                        <h1>O Que é Seu</h1>
+                        <ul class="check-list">
+                            <li>Elaboração do caderno técnico</li>
+                            <li>Cortes e medições com precisão</li>
+                            <li>Compra de materiais (Duratex, Arauco, Guararapes)</li>
+                            <li>Coordenação da equipe de produção</li>
+                            <li>Pré-montagem, fitagem e embalagem dos módulos</li>
+                        </ul>
+                        <div class="highlight-box">
+                            Quando Mayron precisar de protótipos ou materiais para apresentação ao cliente, você é o ponto de contato.
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80" class="bg-right" alt="Corte">
+                </div>`,
+                `
+                <div class="slide">
+                    <div class="content-full">
+                        <h1>Quem Está Com Você</h1>
+                        <div class="card-row" style="max-width: 800px;">
+                            <div class="card">
+                                <h3 style="color:#1A1A1A;">👤 Matheus</h3>
+                                <div style="color:var(--primary);font-weight:bold;margin-bottom:8px;font-size:14px;">Cortes</div>
+                                <p style="font-size:14px;">Responsável pela operation do maquinário e precisão dos cortes.</p>
+                            </div>
+                            <div class="card">
+                                <h3 style="color:#1A1A1A;">👤 Novato</h3>
+                                <div style="color:var(--primary);font-weight:bold;margin-bottom:8px;font-size:14px;">Produção geral</div>
+                                <p style="font-size:14px;">Pré-montagem, fitagem, limpeza e embalagem.</p>
+                            </div>
+                        </div>
+                        <div style="background:var(--bg-alt); padding:20px; border-radius:8px; margin-top:28px; max-width:800px; width:100%; text-align:left; font-size:14px; border: 1px solid rgba(0,0,0,0.04);">
+                            <strong>NOTA:</strong> → Aucides faz o transporte nas compras de materiais com você.
+                        </div>
+                    </div>
+                </div>`,
+                `
+                <div class="slide bg-alt">
+                    <div class="content-full">
+                        <h1>O Que Você Entrega ao Cliente</h1>
+                        <div class="card" style="max-width:550px; margin-top:20px;">
+                            <span class="card-icon">📐</span>
+                            <h3>CADERNO TÉCNICO</h3>
+                            <p>O documento que detalha cada medida, cada corte e cada especificação do projeto.<br><br>A base que garante que a montagem aconteça sem surpresas.</p>
+                        </div>
+                        <p style="margin-top:36px; font-style:italic; color:var(--primary); font-weight:bold; font-size: 16px;">"Sem caderno técnico perfeito, não existe montagem perfeita."</p>
+                    </div>
+                </div>`
+            ],
+            'joao': [
+                `
+                <div class="slide slide-dark">
+                    <img src="https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&w=1920&q=80" class="bg-cover" alt="Montagem">
+                    <div class="content-full" style="z-index:5;">
+                        <div class="cover-tag">Seu papel na Explan</div>
+                        <h1 class="cover-name">João</h1>
+                        <div class="cover-role">Responsável pela Montagem e Qualidade em Obra</div>
+                        <div class="cover-line"></div>
+                        <div style="color:rgba(255,255,255,0.5);font-size:14px;">Explan Móveis Planejados · 2025</div>
+                    </div>
+                </div>`,
+                `
+                <div class="slide">
+                    <div class="content-full">
+                        <div class="big-phrase">"Você é o último elo — e o mais visível.<br>O cliente vê o seu trabalho todos os dias."</div>
+                        <h2>A qualidade que a Explan promete começa na fábrica, mas é confirmada na sua entrega em obra.</h2>
+                    </div>
+                </div>`,
+                `
+                <div class="slide bg-alt">
+                    <div class="content-left">
+                        <h1>O Que é Seu</h1>
+                        <ul class="check-list">
+                            <li>Planejamento e controle do fluxo da fábrica</li>
+                            <li>Conferência do material antes de sair para obra</li>
+                            <li>Controle de qualidade em todas as etapas</li>
+                            <li>Visita técnica ao ambiente do cliente</li>
+                            <li>Preenchimento do Checklist Inicial e Final</li>
+                            <li>Preparação do ambiente para montagem</li>
+                        </ul>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80" class="bg-right" alt="Obra">
+                </div>`,
+                `
+                <div class="slide">
+                    <div class="content-full" style="padding-top: 170px; padding-bottom: 80px;">
+                        <h1 style="margin-bottom:12px;">Quem Está Com Você</h1>
+                        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; max-width:900px; width:100%; margin-top:20px;">
+                            <div class="card" style="padding:20px;"><h3 style="color:#1A1A1A; font-size:16px; margin-bottom:6px;">Marceneiro</h3><p style="font-size:13px; color:var(--text-sec);">Execução da montagem</p></div>
+                            <div class="card" style="padding:20px;"><h3 style="color:#1A1A1A; font-size:16px; margin-bottom:6px;">Túlio</h3><p style="font-size:13px; color:var(--text-sec);">Montagem</p></div>
+                            <div class="card" style="padding:20px;"><h3 style="color:#1A1A1A; font-size:16px; margin-bottom:6px;">Léo</h3><p style="font-size:13px; color:var(--text-sec);">Montagem</p></div>
+                            <div class="card" style="padding:20px;"><h3 style="color:#1A1A1A; font-size:16px; margin-bottom:6px;">Douglas</h3><p style="font-size:13px; color:var(--text-sec);">Ajudante</p></div>
+                            <div class="card" style="padding:20px;"><h3 style="color:#1A1A1A; font-size:16px; margin-bottom:6px;">Pablo</h3><p style="font-size:13px; color:var(--text-sec);">Ajudante</p></div>
+                            <div class="card" style="padding:20px;"><h3 style="color:#1A1A1A; font-size:16px; margin-bottom:6px;">Chapa</h3><p style="font-size:13px; color:var(--text-sec);">Diarista sob demanda</p></div>
+                        </div>
+                        <div style="background:var(--bg-alt); padding:20px; border-radius:8px; margin-top:28px; max-width:900px; width:100%; text-align:left; font-size:14px; border: 1px solid rgba(0,0,0,0.04);">
+                            <strong>NOTA:</strong> → Aucides é quem faz o transporte dos móveis da fábrica até a obra.
+                        </div>
+                    </div>
+                </div>`,
+                `
+                <div class="slide bg-alt">
+                    <div class="content-full">
+                        <h1>O Que Você Entrega ao Cliente</h1>
+                        <div class="card-row">
+                            <div class="card">
+                                <span class="card-icon">📋</span>
+                                <h3>CHECKLIST INICIAL</h3>
+                                <p>Registro do estado do ambiente antes da montagem começar. Protege o cliente e a Explan.</p>
+                            </div>
+                            <div class="card">
+                                <span class="card-icon">✅</span>
+                                <h3>CHECKLIST FINAL</h3>
+                                <p>Confirmação de que tudo foi entregue conforme o projeto. A assinatura que encerra o ciclo.</p>
+                            </div>
+                        </div>
+                        <p style="margin-top:36px; font-style:italic; color:var(--primary); font-weight:bold; font-size: 16px;">"Dois documentos. A prova de que a Explan cumpriu o que prometeu."</p>
+                    </div>
+                </div>`
+            ],
+            'vg': [
+                `
+                <div class="slide">
+                    <div class="content-full">
+                        <div class="big-phrase" style="font-size: clamp(2.5rem, 5vw, 4rem);">"Cada Um no Seu Papel.<br>Todos no Mesmo Propósito."</div>
+                        <h2>Como nossa equipe funciona e por que funciona.</h2>
+                    </div>
+                </div>`,
+                `
+                <div class="slide bg-alt">
+                    <div class="content-full">
+                        <h1>Nossa Operação de Ponta a Ponta</h1>
+                        <div class="flow-vg">
+                            <div class="flow-vg-box">
+                                <div class="flow-vg-title">1. Cliente</div>
+                                <p style="font-size:13.5px;margin:0;color:var(--text-sec);line-height:1.4;">Interesse</p>
+                            </div>
+                            <div style="color:var(--primary);font-weight:bold;font-size:24px;">→</div>
+                            <div class="flow-vg-box green-1">
+                                <div class="flow-vg-title">2. Vendas</div>
+                                <p style="font-size:13.5px;margin:0;color:var(--text-sec);line-height:1.4;"><strong>Mayron</strong><br>Orçamento & Contrato</p>
+                            </div>
+                            <div style="color:var(--primary);font-weight:bold;font-size:24px;">→</div>
+                            <div class="flow-vg-box green-2">
+                                <div class="flow-vg-title">3. Técnico</div>
+                                <p style="font-size:13.5px;margin:0;color:var(--text-sec);line-height:1.4;"><strong>Emerson</strong><br>Caderno & Produção</p>
+                            </div>
+                            <div style="color:var(--primary);font-weight:bold;font-size:24px;">→</div>
+                            <div class="flow-vg-box green-3">
+                                <div class="flow-vg-title">4. Montagem</div>
+                                <p style="font-size:13.5px;margin:0;color:var(--text-sec);line-height:1.4;"><strong>João</strong><br>Checklists & Obra</p>
+                            </div>
+                            <div style="color:var(--primary);font-weight:bold;font-size:24px;">→</div>
+                            <div class="flow-vg-box green-4">
+                                <div class="flow-vg-title">5. Entrega</div>
+                                <p style="font-size:13.5px;margin:0;color:var(--text-sec);line-height:1.4;">Cliente Satisfeito</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>`,
+                `
+                <div class="slide">
+                    <div class="content-full">
+                        <h1>Nossos Papéis</h1>
+                        <div class="grid-vg">
+                            <div class="card-vg">
+                                <h3>VENDAS</h3>
+                                <div style="font-weight:bold; font-size:20px; color:var(--primary); margin:10px 0;">Mayron</div>
+                                <ul style="padding-left:14px; font-size:13px; color:var(--text-sec); line-height:1.6;">
+                                    <li>Showroom e vendas</li>
+                                    <li>Orçamento e contrato</li>
+                                    <li style="color:#D84315; font-weight:bold; list-style:none; margin-left:-14px; margin-top:8px;">Não realiza visitas em obra.</li>
+                                </ul>
+                            </div>
+                            <div class="card-vg">
+                                <h3>PRODUÇÃO</h3>
+                                <div style="font-weight:bold; font-size:20px; color:var(--primary); margin:10px 0;">Emerson <span style="font-size:13px;font-weight:normal;color:var(--text-main);">+ Equipe</span></div>
+                                <ul style="padding-left:14px; font-size:13px; color:var(--text-sec); line-height:1.6;">
+                                    <li>Caderno técnico</li>
+                                    <li>Cortes e medição</li>
+                                    <li>Pré-montagem</li>
+                                </ul>
+                            </div>
+                            <div class="card-vg">
+                                <h3>MONTAGEM</h3>
+                                <div style="font-weight:bold; font-size:20px; color:var(--primary); margin:10px 0;">João <span style="font-size:13px;font-weight:normal;color:var(--text-main);">+ Equipe</span></div>
+                                <ul style="padding-left:14px; font-size:13px; color:var(--text-sec); line-height:1.6;">
+                                    <li>Controle de qualidade</li>
+                                    <li>Checklist Inicial & Final</li>
+                                    <li>Preparação de obra</li>
+                                </ul>
+                            </div>
+                            <div class="card-vg">
+                                <h3>SUPORTE</h3>
+                                <div style="font-weight:bold; font-size:20px; color:var(--primary); margin:10px 0;">Aucides & Celina</div>
+                                <ul style="padding-left:14px; font-size:13px; color:var(--text-sec); line-height:1.6;">
+                                    <li>Transporte de carga/material</li>
+                                    <li>Limpeza e organização</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>`,
+                `
+                <div class="slide slide-dark" data-show-logo="true">
+                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1920&q=80" class="bg-cover" alt="Finished">
+                    <div class="content-full" style="color: #fff; z-index:5;">
+                        <h1 style="color: #fff; font-size: clamp(2rem, 4.5vw, 3.5rem); font-style:italic; margin-bottom: 24px;">"Quando cada um faz bem a sua parte,<br>o cliente sente a diferença."</h1>
+                        <div style="width: 100px; height: 2px; background: rgba(255,255,255,0.3); margin-bottom: 32px;"></div>
+                        <div style="font-size: 20px; font-weight: bold; font-family: var(--font-title);">explanmoveisplanejados.com.br · Goiânia</div>
+                        <div style="position: absolute; bottom: 40px; font-size: 11px; color: rgba(255,255,255,0.4); letter-spacing: 1px;">Explan Móveis Planejados · Apresentação Interna · 2025</div>
+                    </div>
+                </div>`
+            ]
+        };
+
+        let currentSlides = [];
+        let currentIndex = 0;
+
+        // Inicia na tela de menu
+        showMenu();
+
+        function showMenu() {
+            document.getElementById('presentation').style.display = 'none';
+            document.getElementById('menu').style.display = 'flex';
+            document.getElementById('main-logo').style.display = 'none';
+        }
+
+        function startPresentation(type) {
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('presentation').style.display = 'block';
+            document.getElementById('main-logo').style.display = 'block';
+            
+            const container = document.getElementById('slides-container');
+            container.innerHTML = presData[type].join('');
+            
+            currentSlides = document.querySelectorAll('#slides-container .slide');
+            currentIndex = 0;
+            updateSlides();
+        }
+
+        function updateSlides() {
+            currentSlides.forEach((slide, i) => {
+                if (i === currentIndex) slide.classList.add('active');
+                else slide.classList.remove('active');
+            });
+            updateLogoTheme();
+        }
+
+        function updateLogoTheme() {
+            const logo = document.getElementById('main-logo');
+            if (!currentSlides[currentIndex]) return;
+            
+            const slide = currentSlides[currentIndex];
+            
+            if (slide.getAttribute('data-show-logo') !== 'true') {
+                logo.style.display = 'none';
+                return;
+            }
+            
+            logo.style.display = 'block';
+            
+            const hasOverlay = slide.querySelector('.bg-cover') !== null || slide.querySelector('.bg-overlay') !== null;
+            const hasDarkBg = slide.classList.contains('slide-dark') || slide.style.backgroundColor === 'var(--primary)';
+            
+            if (hasOverlay || hasDarkBg) {
+                logo.className = "logo logo-white";
+                // Aumenta tamanho da logo no encerramento (slide final)
+                const isFinalSlide = currentIndex === currentSlides.length - 1 && slide.classList.contains('slide-dark');
+                logo.style.height = isFinalSlide ? "140px" : "75px";
+                if (isFinalSlide) {
+                    logo.style.position = "static";
+                    logo.style.marginBottom = "40px";
+                } else {
+                    logo.style.position = "fixed";
+                    logo.style.marginBottom = "0px";
+                }
+            } else {
+                logo.className = "logo";
+                logo.style.height = "75px";
+                logo.style.position = "fixed";
+                logo.style.marginBottom = "0px";
+            }
+        }
+
+        function nextSlide() {
+            if (currentIndex < currentSlides.length - 1) {
+                currentIndex++;
+                updateSlides();
+            }
+        }
+
+        function prevSlide() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlides();
+            }
+        }
+
+        // Navegação por teclado
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('presentation').style.display === 'block') {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                } else if (e.key === 'Escape') {
+                    showMenu();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

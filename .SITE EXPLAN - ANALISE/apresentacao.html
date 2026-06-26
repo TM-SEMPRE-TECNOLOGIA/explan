@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estratégia Digital — Explan Móveis Planejados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:      #3B5E27;
+      --green-lt:   #E8F0E2;
+      --green-dk:   #2D4A1E;
+      --surface:    #F7F5F2;
+      --dark:       #1C1C1A;
+      --text:       #3A3A37;
+      --muted:      #7A7A74;
+      --border:     #E5E2DC;
+      --white:      #FFFFFF;
+      --red:        #C0392B;
+      --amber:      #D97706;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(28,28,26,0.96);
+      backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 64px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.25rem; font-weight: 600;
+      color: var(--white); letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: #8FC970; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.65); text-decoration: none;
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; transition: color 200ms;
+    }
+    .nav-links a:hover { color: #8FC970; }
+
+    /* ── SECTIONS ── */
+    section { padding: 96px 48px; max-width: 1200px; margin: 0 auto; }
+    section:first-of-type { padding-top: 64px; }
+
+    .section-tag {
+      display: inline-block;
+      background: var(--green-lt); color: var(--green-dk);
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 12px;
+      border-radius: 2px; margin-bottom: 16px;
+    }
+
+    h2.section-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600; color: var(--dark);
+      line-height: 1.15; margin-bottom: 12px;
+    }
+    .section-sub {
+      color: var(--muted); font-size: 1.05rem;
+      max-width: 560px; margin-bottom: 48px;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; padding-top: 64px;
+      display: flex; align-items: center;
+      background: var(--dark);
+      max-width: 100%; padding-left: 0; padding-right: 0;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(59,94,39,0.25) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(59,94,39,0.12) 0%, transparent 50%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; opacity: 0.04;
+      background-image: linear-gradient(var(--white) 1px, transparent 1px),
+                        linear-gradient(90deg, var(--white) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 1200px; margin: 0 auto; padding: 0 48px;
+      width: 100%;
+    }
+    .hero-kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(59,94,39,0.3); border: 1px solid rgba(143,201,112,0.3);
+      color: #8FC970; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 2px; margin-bottom: 28px;
+    }
+    .hero-kicker::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: #8FC970; animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.5; transform: scale(1.4); }
+    }
+    h1.hero-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 600; color: var(--white);
+      line-height: 1.08; margin-bottom: 20px;
+      max-width: 780px;
+    }
+    h1.hero-title em { color: #8FC970; font-style: italic; }
+    .hero-desc {
+      font-size: 1.1rem; color: rgba(255,255,255,0.55);
+      max-width: 520px; margin-bottom: 48px; line-height: 1.7;
+    }
+    .hero-chips {
+      display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 56px;
+    }
+    .chip {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 500;
+      padding: 8px 16px; border-radius: 2px; display: flex; align-items: center; gap: 6px;
+    }
+    .chip-icon { font-size: 0.9rem; }
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: rgba(255,255,255,0.08);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 40px; margin-top: 0;
+    }
+    .stat {
+      padding: 24px 0; background: transparent;
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-weight: 600; color: #8FC970;
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%; height: 1px;
+      background: var(--border); margin: 0 auto;
+      max-width: 1200px; padding: 0 48px;
+    }
+    .divider-line { height: 1px; background: var(--border); width: 100%; }
+
+    /* ── SCORE CARD ── */
+    .score-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px; margin-bottom: 48px;
+    }
+    .score-card {
+      background: var(--white); border-radius: 8px;
+      padding: 20px 24px; border: 1px solid var(--border);
+      transition: box-shadow 200ms, transform 200ms;
+    }
+    .score-card:hover {
+      box-shadow: 0 8px 24px rgba(28,28,26,0.09);
+      transform: translateY(-2px);
+    }
+    .score-label { font-size: 0.78rem; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
+    .score-bar-wrap {
+      height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 8px; overflow: hidden;
+    }
+    .score-bar { height: 100%; border-radius: 3px; }
+    .score-val { font-size: 1.4rem; font-weight: 700; color: var(--dark); }
+    .score-note { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+    /* ── PROBLEMS ── */
+    .problems-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .problem-card {
+      background: var(--white); border-radius: 8px; padding: 20px 24px;
+      border-left: 4px solid var(--border); border: 1px solid var(--border);
+      border-left: 4px solid currentColor;
+    }
+    .problem-card.critical { color: var(--red); border-left-color: var(--red); }
+    .problem-card.important { color: var(--amber); border-left-color: var(--amber); }
+    .problem-card.good { color: var(--green); border-left-color: var(--green); }
+    .problem-title { font-weight: 600; font-size: 0.9rem; color: var(--dark); margin-bottom: 6px; }
+    .problem-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+    .problem-badge {
+      display: inline-block; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 2px; margin-bottom: 8px;
+    }
+    .critical .problem-badge { background: #FEE2E2; color: var(--red); }
+    .important .problem-badge { background: #FEF3C7; color: #92400E; }
+    .good .problem-badge { background: var(--green-lt); color: var(--green-dk); }
+
+    /* ── ROADMAP ── */
+    .roadmap { display: flex; flex-direction: column; gap: 0; }
+    .phase {
+      display: grid; grid-template-columns: 200px 1fr;
+      border-top: 1px solid var(--border); padding: 32px 0; gap: 40px;
+    }
+    .phase-label {
+      padding-top: 4px;
+    }
+    .phase-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 600; color: var(--border);
+      line-height: 1;
+    }
+    .phase-title { font-weight: 600; font-size: 0.85rem; color: var(--dark); margin-top: 4px; }
+    .phase-period { font-size: 0.75rem; color: var(--muted); }
+    .phase-items { display: flex; flex-direction: column; gap: 10px; padding-top: 8px; }
+    .phase-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 0.875rem; color: var(--text);
+    }
+    .phase-item::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); margin-top: 6px; flex-shrink: 0;
+    }
+    .effort-tag {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 2px 6px; border-radius: 2px;
+      white-space: nowrap; align-self: flex-start; margin-top: 2px;
+    }
+    .low  { background: var(--green-lt); color: var(--green-dk); }
+    .mid  { background: #FEF3C7; color: #92400E; }
+    .high { background: #FEE2E2; color: var(--red); }
+
+    /* ── SEO ── */
+    .kw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .kw-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .kw-text { font-size: 0.875rem; font-weight: 500; color: var(--dark); }
+    .kw-vol {
+      font-size: 0.75rem; font-weight: 600; color: var(--green);
+      background: var(--green-lt); padding: 3px 8px; border-radius: 2px;
+    }
+    .kw-priority { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .kw-red { background: var(--red); }
+    .kw-amber { background: var(--amber); }
+
+    /* ── FUNIL ── */
+    .funnel {
+      display: flex; flex-direction: column; gap: 0;
+      max-width: 640px; margin: 0 auto;
+    }
+    .funnel-step {
+      padding: 28px 40px; text-align: center;
+      clip-path: polygon(0 0, 100% 0, 92% 100%, 8% 100%);
+      transition: opacity 200ms;
+    }
+    .funnel-step:hover { opacity: 0.9; }
+    .f1 { background: var(--green); }
+    .f2 { background: #4A7432; margin: -2px auto; width: 90%; }
+    .f3 { background: #5B8B40; margin: -2px auto; width: 80%; }
+    .f4 { background: #6CA050; margin: -2px auto; width: 70%; }
+    .funnel-step-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+    .funnel-step-title { font-size: 1rem; font-weight: 600; color: white; margin: 4px 0 2px; }
+    .funnel-step-desc { font-size: 0.78rem; color: rgba(255,255,255,0.75); }
+
+    /* ── BUDGET ── */
+    .budget-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .budget-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 12px; padding: 28px; text-align: center;
+    }
+    .budget-card.featured {
+      background: var(--dark); border-color: var(--green);
+      transform: scale(1.04);
+    }
+    .budget-icon { font-size: 1.5rem; margin-bottom: 12px; }
+    .budget-channel { font-size: 0.75rem; color: var(--muted); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .featured .budget-channel { color: rgba(255,255,255,0.5); }
+    .budget-min { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--dark); }
+    .featured .budget-min { color: var(--white); }
+    .budget-rec { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+    .featured .budget-rec { color: rgba(255,255,255,0.5); }
+    .budget-leads { font-size: 0.8rem; color: var(--green); font-weight: 600; margin-top: 12px; }
+    .featured .budget-leads { color: #8FC970; }
+
+    /* ── INSTAGRAM ── */
+    .pillars-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 48px; }
+    .pillar {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 8px; padding: 20px 16px; text-align: center;
+    }
+    .pillar-pct {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 600; color: var(--green);
+    }
+    .pillar-name { font-size: 0.75rem; font-weight: 600; color: var(--dark); margin: 6px 0 4px; }
+    .pillar-desc { font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
+
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+    .cal-header {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 8px 4px; text-align: center;
+    }
+    .cal-day {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 6px; padding: 10px 8px; min-height: 80px;
+    }
+    .cal-day-num { font-size: 0.65rem; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+    .cal-format {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 2px 5px; border-radius: 2px; margin-bottom: 4px;
+      display: inline-block;
+    }
+    .reels { background: #FDE68A; color: #92400E; }
+    .carrossel { background: var(--green-lt); color: var(--green-dk); }
+    .post-est { background: #E0E7FF; color: #3730A3; }
+    .stories-tag { background: #FCE7F3; color: #9D174D; }
+    .cal-content { font-size: 0.62rem; color: var(--text); line-height: 1.35; }
+
+    /* ── ADS ── */
+    .ads-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .ads-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+    }
+    .ads-card-header {
+      padding: 20px 24px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .ads-logo {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 700;
+    }
+    .google-logo { background: #EA4335; color: white; font-size: 0.75rem; }
+    .meta-logo   { background: #1877F2; color: white; font-size: 0.75rem; }
+    .ads-card-title { font-weight: 600; font-size: 0.95rem; color: var(--dark); }
+    .ads-card-sub   { font-size: 0.75rem; color: var(--muted); }
+    .ads-card-body  { padding: 20px 24px; }
+    .campaign-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.82rem;
+    }
+    .campaign-row:last-child { border-bottom: none; }
+    .campaign-name { color: var(--text); font-weight: 500; }
+    .campaign-budget { color: var(--green); font-weight: 600; }
+    .campaign-leads { color: var(--muted); font-size: 0.75rem; }
+
+    /* ── DESIGN SYSTEM ── */
+    .palette-row { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .swatch {
+      width: 64px; height: 64px; border-radius: 8px; cursor: default;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); flex-shrink: 0;
+    }
+    .swatch-label { font-size: 0.62rem; color: var(--muted); text-align: center; margin-top: 4px; }
+
+    .type-scale { display: flex; flex-direction: column; gap: 12px; }
+    .type-row {
+      display: flex; align-items: baseline; gap: 16px;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+    }
+    .type-meta { min-width: 120px; font-size: 0.72rem; color: var(--muted); }
+    .type-sample { color: var(--dark); }
+
+    .checklist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+    .checklist-group { background: var(--white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .checklist-header {
+      padding: 16px 20px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .priority-badge {
+      width: 24px; height: 24px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 700; color: white; flex-shrink: 0;
+    }
+    .p-critical { background: var(--red); }
+    .p-high     { background: var(--amber); }
+    .p-medium   { background: var(--green); }
+    .checklist-header-title { font-weight: 600; font-size: 0.85rem; color: var(--dark); }
+    .checklist-items { padding: 12px 20px; display: flex; flex-direction: column; gap: 8px; }
+    .check-item { display: flex; align-items: flex-start; gap: 8px; font-size: 0.8rem; color: var(--text); }
+    .check-box {
+      width: 14px; height: 14px; border: 1.5px solid var(--border);
+      border-radius: 2px; flex-shrink: 0; margin-top: 2px;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 15px; top: 0; bottom: 0;
+      width: 2px; background: var(--border);
+    }
+    .tl-item { display: flex; gap: 28px; padding: 20px 0; }
+    .tl-dot {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--white);
+      border: 2px solid var(--green); display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0; font-size: 0.7rem; font-weight: 700;
+      color: var(--green); z-index: 1;
+    }
+    .tl-content { padding-top: 4px; }
+    .tl-period { font-size: 0.7rem; color: var(--muted); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+    .tl-title { font-weight: 600; font-size: 0.95rem; color: var(--dark); margin-bottom: 8px; }
+    .tl-tasks { display: flex; flex-direction: column; gap: 4px; }
+    .tl-task { font-size: 0.8rem; color: var(--text); display: flex; align-items: center; gap: 6px; }
+    .tl-task::before { content: '→'; color: var(--green); font-size: 0.7rem; }
+
+    /* ── ROI ── */
+    .roi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .roi-card {
+      background: var(--dark); border-radius: 12px; padding: 32px;
+      text-align: center; border: 1px solid rgba(255,255,255,0.06);
+    }
+    .roi-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 600; color: #8FC970; line-height: 1;
+    }
+    .roi-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 8px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark); padding: 64px 48px;
+      text-align: center; margin-top: 0;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600; color: var(--white); margin-bottom: 8px;
+    }
+    .footer-logo span { color: #8FC970; }
+    .footer-url { font-size: 0.8rem; color: rgba(255,255,255,0.3); margin-bottom: 32px; }
+    .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 600px; margin: 0 auto 40px; }
+    .footer-item { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+    .footer-item strong { color: rgba(255,255,255,0.8); display: block; margin-bottom: 2px; }
+    .footer-copy { font-size: 0.72rem; color: rgba(255,255,255,0.2); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      section { padding: 64px 20px; }
+      .hero-inner { padding: 0 20px; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .problems-grid, .budget-grid, .ads-grid, .roi-grid { grid-template-columns: 1fr; }
+      .budget-card.featured { transform: none; }
+      .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+      .calendar-grid { grid-template-columns: repeat(3, 1fr); }
+      .phase { grid-template-columns: 1fr; }
+      .phase-num { font-size: 2rem; }
+      footer { padding: 48px 20px; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Explan <span>·</span> Estratégia Digital</div>
+  <ul class="nav-links">
+    <li><a href="#uiux">UI/UX</a></li>
+    <li><a href="#seo">SEO</a></li>
+    <li><a href="#marketing">Marketing</a></li>
+    <li><a href="#instagram">Instagram</a></li>
+    <li><a href="#ads">Anúncios</a></li>
+    <li><a href="#design">Design System</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-kicker">Diagnóstico Completo · Jun 2025</div>
+    <h1 class="hero-title">
+      Estratégia digital para<br>
+      <em>crescer em Goiânia</em>
+    </h1>
+    <p class="hero-desc">
+      Análise completa do site, sistema de design, SEO, conteúdo para Instagram,
+      campanhas Meta Ads e Google Ads — tudo pronto para executar.
+    </p>
+    <div class="hero-chips">
+      <div class="chip"><span class="chip-icon">🌐</span> UI/UX + Design System</div>
+      <div class="chip"><span class="chip-icon">🔍</span> Estratégia SEO</div>
+      <div class="chip"><span class="chip-icon">📸</span> Instagram 30 dias</div>
+      <div class="chip"><span class="chip-icon">📣</span> Meta Ads</div>
+      <div class="chip"><span class="chip-icon">🎯</span> Google Ads</div>
+      <div class="chip"><span class="chip-icon">📈</span> Plano de Marketing</div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">7</div>
+        <div class="stat-label">Documentos criados</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">R$3.9k</div>
+        <div class="stat-label">Investimento/mês recomendado</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">40×</div>
+        <div class="stat-label">ROI estimado</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">6 mo</div>
+        <div class="stat-label">Para rankear no Top 5</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- UI/UX -->
+<section id="uiux">
+  <div class="section-tag">01 — Análise UI/UX</div>
+  <h2 class="section-title">Diagnóstico do site atual</h2>
+  <p class="section-sub">Score atual estimado em <strong>6.2 / 10</strong>. Oito dimensões avaliadas com priorização clara de melhorias.</p>
+
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="score-label">Visual e Identidade</div>
+      <div class="score-bar-wrap"><div class="score-bar" style="width:75%;background:#3B5E27;"></div></div>
+      <div class="score-val">7.5</div>
+      <div class="score-note">Design limpo, coerente com o segmento</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Navegação e Arquitetura</div>
+      <div class="score-bar-wrap"><div class="score-bar" style="width:55%;background:#D97706;"></div></div>
+      <div class="score-val">5.5</div>
+      <div class="score-note">Scroll infinito sem âncoras claras</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Conversão (CTA)</div>
+      <div class="score-bar-wrap"><div class="score-bar" style="width:60%;background:#D97706;"></div></div>
+      <div class="score-val">6.0</div>
+      <div class="score-note">WhatsApp repetido 9× — sem funil</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Mobile Experience</div>
+      <div class="score-bar-wrap"><div class="score-bar" style="width:65%;background:#D97706;"></div></div>
+      <div class="score-val">6.5</div>
+      <div class="score-note">Responsivo, hierarquia quebra em mobile</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Velocidade e Performance</div>
+      <div class="score-bar-wrap"><div class="score-bar" style="width:70%;background:#3B5E27;"></div></div>
+      <div class="score-val">7.0</div>
+      <div class="score-note">WebP e SVG usados, Elementor pesa</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Conteúdo e Hierarquia</div>
+      <div class="score-bar-wrap"><div class="score-bar" style="width:55%;background:#D97706;"></div></div>
+      <div class="score-val">5.5</div>
+      <div class="score-note">Textos genéricos, pouca prova social</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Acessibilidade</div>
+      <div class="score-bar-wrap"><div class="score-bar" style="width:45%;background:#C0392B;"></div></div>
+      <div class="score-val">4.5</div>
+      <div class="score-note">Sem alt text, contraste não verificado</div>
+    </div>
+    <div class="score-card">
+      <div class="score-label">Confiança e Credibilidade</div>
+      <div class="score-bar-wrap"><div class="score-bar" style="width:65%;background:#D97706;"></div></div>
+      <div class="score-val">6.5</div>
+      <div class="score-note">CNPJ visível, depoimentos básicos</div>
+    </div>
+  </div>
+
+  <div class="problems-grid">
+    <div class="problem-card critical">
+      <span class="problem-badge">Crítico</span>
+      <div class="problem-title">Galeria duplicada no layout</div>
+      <div class="problem-desc">A mesma galeria aparece duas vezes no scroll — erro no Elementor que transmite descuido ao visitante.</div>
+    </div>
+    <div class="problem-card critical">
+      <span class="problem-badge">Crítico</span>
+      <div class="problem-title">CTA único e repetitivo</div>
+      <div class="problem-desc">"Solicite Orçamento" aparece 9× sem alternativa. Leads frios não têm caminho — são descartados.</div>
+    </div>
+    <div class="problem-card critical">
+      <span class="problem-badge">Crítico</span>
+      <div class="problem-title">Ausência de âncoras no menu</div>
+      <div class="problem-desc">Usuário que quer ver portfólio ou FAQ precisa rolar a página inteira. Taxa de rejeição elevada em mobile.</div>
+    </div>
+    <div class="problem-card important">
+      <span class="problem-badge">Importante</span>
+      <div class="problem-title">Depoimentos fracos</div>
+      <div class="problem-desc">3 textos curtos, sem foto, sem data, sem projeto associado. Não constroem confiança suficiente para alto ticket.</div>
+    </div>
+    <div class="problem-card important">
+      <span class="problem-badge">Importante</span>
+      <div class="problem-title">FAQ sem schema JSON-LD</div>
+      <div class="problem-desc">8 perguntas excelentes, mas sem markup. Oportunidade de rich snippet no Google completamente perdida.</div>
+    </div>
+    <div class="problem-card good">
+      <span class="problem-badge">Positivo</span>
+      <div class="problem-title">O que está bom — manter</div>
+      <div class="problem-desc">Logo SVG leve · Processo em 5 etapas · Imagens WebP · WhatsApp via Joinchat · CNPJ e endereço visíveis.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ROADMAP UI/UX -->
+<section>
+  <div class="section-tag">01 — Roadmap de Melhorias</div>
+  <h2 class="section-title">Três fases de evolução</h2>
+  <p class="section-sub">Do quick win sem redesign até a otimização avançada com blog e A/B test.</p>
+
+  <div class="roadmap">
+    <div class="phase">
+      <div class="phase-label">
+        <div class="phase-num">01</div>
+        <div class="phase-title">Quick Wins</div>
+        <div class="phase-period">Semanas 1–2</div>
+      </div>
+      <div class="phase-items">
+        <div class="phase-item"><span>Corrigir galeria duplicada no Elementor</span><span class="effort-tag low">Baixo esforço</span></div>
+        <div class="phase-item"><span>Adicionar schema JSON-LD no FAQ</span><span class="effort-tag low">Baixo</span></div>
+        <div class="phase-item"><span>Criar CTA secundário "Ver Projetos" no hero</span><span class="effort-tag low">Baixo</span></div>
+        <div class="phase-item"><span>Alt text descritivo em todas as imagens</span><span class="effort-tag low">Baixo</span></div>
+        <div class="phase-item"><span>Inserir âncoras funcionais no menu</span><span class="effort-tag low">Baixo</span></div>
+        <div class="phase-item"><span>Adicionar data e foto nos depoimentos</span><span class="effort-tag low">Baixo</span></div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-label">
+        <div class="phase-num">02</div>
+        <div class="phase-title">Estrutural</div>
+        <div class="phase-period">Semanas 2–6</div>
+      </div>
+      <div class="phase-items">
+        <div class="phase-item"><span>Galeria com filtro por categoria (Cozinha / Closet / Corporativo)</span><span class="effort-tag mid">Médio</span></div>
+        <div class="phase-item"><span>Seção "Quem Somos" expandida com foto do time</span><span class="effort-tag mid">Médio</span></div>
+        <div class="phase-item"><span>Logos dos fornecedores (Duratex, Arauco, Guararapes)</span><span class="effort-tag low">Baixo</span></div>
+        <div class="phase-item"><span>Landing page separada para Projetos Corporativos</span><span class="effort-tag high">Alto</span></div>
+        <div class="phase-item"><span>Formulário de leads com isca digital (Guia gratuito)</span><span class="effort-tag mid">Médio</span></div>
+        <div class="phase-item"><span>Contador de projetos entregues e anos de mercado</span><span class="effort-tag low">Baixo</span></div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-label">
+        <div class="phase-num">03</div>
+        <div class="phase-title">Avançado</div>
+        <div class="phase-period">Meses 2–3</div>
+      </div>
+      <div class="phase-items">
+        <div class="phase-item"><span>Chat com qualificação por perguntas (estilo Typeform)</span><span class="effort-tag high">Alto</span></div>
+        <div class="phase-item"><span>Blog com 12 artigos SEO (ver seção SEO)</span><span class="effort-tag high">Alto</span></div>
+        <div class="phase-item"><span>A/B test hero — cozinha vs. closet</span><span class="effort-tag mid">Médio</span></div>
+        <div class="phase-item"><span>Vídeo tour do showroom na seção "Quem Somos"</span><span class="effort-tag mid">Médio</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- SEO -->
+<section id="seo">
+  <div class="section-tag">02 — SEO</div>
+  <h2 class="section-title">Estratégia para rankear no Google</h2>
+  <p class="section-sub">Meta: aparecer no Top 5 para "móveis planejados goiânia" em 6 meses e Top 3 em 12 meses.</p>
+
+  <div class="kw-grid" style="margin-bottom:48px;">
+    <div class="kw-card"><div class="kw-priority kw-red"></div><div class="kw-text">móveis planejados goiânia</div><div class="kw-vol">1.300/mês</div></div>
+    <div class="kw-card"><div class="kw-priority kw-red"></div><div class="kw-text">cozinha planejada goiânia</div><div class="kw-vol">720/mês</div></div>
+    <div class="kw-card"><div class="kw-priority kw-red"></div><div class="kw-text">closet planejado goiânia</div><div class="kw-vol">480/mês</div></div>
+    <div class="kw-card"><div class="kw-priority kw-red"></div><div class="kw-text">móveis sob medida goiânia</div><div class="kw-vol">390/mês</div></div>
+    <div class="kw-card"><div class="kw-priority kw-red"></div><div class="kw-text">dormitório planejado goiânia</div><div class="kw-vol">320/mês</div></div>
+    <div class="kw-card"><div class="kw-priority kw-amber"></div><div class="kw-text">quanto custa móveis planejados goiânia</div><div class="kw-vol">260/mês</div></div>
+    <div class="kw-card"><div class="kw-priority kw-amber"></div><div class="kw-text">melhor marcenaria goiânia</div><div class="kw-vol">170/mês</div></div>
+    <div class="kw-card"><div class="kw-priority kw-amber"></div><div class="kw-text">marcenaria planejada goiânia</div><div class="kw-vol">210/mês</div></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:28px;">
+      <div style="font-weight:600;font-size:0.9rem;color:var(--dark);margin-bottom:16px;">✅ O que já existe</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:0.82rem;color:var(--text);">
+        <div>→ Title tag com "Móveis planejados em Goiânia"</div>
+        <div>→ Palavra-chave na URL raiz</div>
+        <div>→ Menções a Goiânia (geo-sinal)</div>
+        <div>→ FAQ com 8 perguntas relevantes</div>
+        <div>→ Imagens WebP (velocidade)</div>
+        <div>→ CNPJ e endereço visíveis (E-E-A-T)</div>
+      </div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:28px;">
+      <div style="font-weight:600;font-size:0.9rem;color:var(--red);margin-bottom:16px;">❌ O que está faltando</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:0.82rem;color:var(--text);">
+        <div>→ Schema JSON-LD (LocalBusiness + FAQPage)</div>
+        <div>→ Google Business Profile otimizado</div>
+        <div>→ Meta description personalizada</div>
+        <div>→ Headings H1→H2→H3 estruturados</div>
+        <div>→ Blog / conteúdo indexável</div>
+        <div>→ Alt text descritivo nas imagens</div>
+        <div>→ Backlinks de qualidade</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- MARKETING -->
+<section id="marketing">
+  <div class="section-tag">03 — Estratégia de Marketing</div>
+  <h2 class="section-title">Funil completo de aquisição</h2>
+  <p class="section-sub">Da descoberta à fidelização — cada etapa com canal, objetivo e métrica definidos.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
+    <div class="funnel">
+      <div class="funnel-step f1">
+        <div class="funnel-step-label">Topo</div>
+        <div class="funnel-step-title">Descoberta</div>
+        <div class="funnel-step-desc">Instagram orgânico · Blog SEO · Google orgânico</div>
+      </div>
+      <div class="funnel-step f2">
+        <div class="funnel-step-label">Meio</div>
+        <div class="funnel-step-title">Consideração</div>
+        <div class="funnel-step-desc">Retargeting Meta · Google Display · Stories</div>
+      </div>
+      <div class="funnel-step f3">
+        <div class="funnel-step-label">Fundo</div>
+        <div class="funnel-step-title">Conversão</div>
+        <div class="funnel-step-desc">Google Search Ads · WhatsApp · Formulário</div>
+      </div>
+      <div class="funnel-step f4">
+        <div class="funnel-step-label">Pós-venda</div>
+        <div class="funnel-step-title">Fidelização</div>
+        <div class="funnel-step-desc">Follow-up WhatsApp · Indicação · Depoimento</div>
+      </div>
+    </div>
+    <div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:20px;">
+          <div style="font-size:0.7rem;color:var(--muted);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Público Principal</div>
+          <div style="font-size:0.875rem;color:var(--text);">Homens e mulheres, 30–55 anos, Goiânia. Renda familiar R$ 8.000–25.000. Comprando imóvel novo ou reformando.</div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:20px;">
+          <div style="font-size:0.7rem;color:var(--muted);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Público Secundário</div>
+          <div style="font-size:0.875rem;color:var(--text);">Empresas e empreendedores em Goiânia. Escritórios, consultórios, lojas em expansão. Decisão B2B.</div>
+        </div>
+        <div style="background:var(--dark);border-radius:8px;padding:20px;">
+          <div style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">Proposta de valor</div>
+          <div style="font-size:0.875rem;color:rgba(255,255,255,0.8);font-style:italic;line-height:1.6;">"A Explan não vende móvel. Vende a experiência de ter o ambiente perfeito — com transparência, do projeto à entrega."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- INSTAGRAM -->
+<section id="instagram">
+  <div class="section-tag">04 — Instagram</div>
+  <h2 class="section-title">Conteúdo que gera leads</h2>
+  <p class="section-sub">5 pilares, calendário de 30 dias e estrutura de Reels que converte seguidores em orçamentos.</p>
+
+  <div class="pillars-grid">
+    <div class="pillar"><div class="pillar-pct">35%</div><div class="pillar-name">Portfólio</div><div class="pillar-desc">Fotos e vídeos dos projetos finalizados</div></div>
+    <div class="pillar"><div class="pillar-pct">25%</div><div class="pillar-name">Processo</div><div class="pillar-desc">Bastidores, fábrica, montagem</div></div>
+    <div class="pillar"><div class="pillar-pct">20%</div><div class="pillar-name">Educação</div><div class="pillar-desc">Dicas, cuidados, tendências</div></div>
+    <div class="pillar"><div class="pillar-pct">10%</div><div class="pillar-name">Equipe</div><div class="pillar-desc">Humanização da empresa</div></div>
+    <div class="pillar"><div class="pillar-pct">10%</div><div class="pillar-name">Depoimentos</div><div class="pillar-desc">Clientes satisfeitos + projeto</div></div>
+  </div>
+
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:28px;">
+    <div style="font-weight:600;font-size:0.9rem;color:var(--dark);margin-bottom:20px;">Semana 1 — Calendário de conteúdo</div>
+    <div class="calendar-grid">
+      <div class="cal-header">Seg</div><div class="cal-header">Ter</div><div class="cal-header">Qua</div>
+      <div class="cal-header">Qui</div><div class="cal-header">Sex</div><div class="cal-header">Sáb</div><div class="cal-header">Dom</div>
+      <div class="cal-day"><div class="cal-day-num">Dia 1</div><span class="cal-format reels">Reels</span><div class="cal-content">Tour completo do showroom</div></div>
+      <div class="cal-day"><div class="cal-day-num">Dia 2</div><span class="cal-format stories-tag">Stories</span><div class="cal-content">Enquete: Cozinha ou Closet?</div></div>
+      <div class="cal-day"><div class="cal-day-num">Dia 3</div><span class="cal-format carrossel">Carrossel</span><div class="cal-content">Antes/depois cozinha</div></div>
+      <div class="cal-day"><div class="cal-day-num">Dia 4</div><span class="cal-format stories-tag">Stories</span><div class="cal-content">Bastidores: processo de corte</div></div>
+      <div class="cal-day"><div class="cal-day-num">Dia 5</div><span class="cal-format post-est">Post</span><div class="cal-content">Frase institucional + foto</div></div>
+      <div class="cal-day"><div class="cal-day-num">Dia 6</div><span class="cal-format reels">Reels</span><div class="cal-content">Time-lapse montagem</div></div>
+      <div class="cal-day" style="background:var(--surface);"><div class="cal-day-num" style="color:#ccc;">Dom</div><div class="cal-content" style="color:#ccc;font-size:0.6rem;">descanso</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ADS -->
+<section id="ads">
+  <div class="section-tag">05 & 06 — Anúncios Pagos</div>
+  <h2 class="section-title">Meta Ads + Google Ads</h2>
+  <p class="section-sub">Estrutura completa de campanhas com públicos, criativos e projeções de leads por canal.</p>
+
+  <div class="ads-grid">
+    <div class="ads-card">
+      <div class="ads-card-header">
+        <div class="ads-logo google-logo">G</div>
+        <div><div class="ads-card-title">Google Ads</div><div class="ads-card-sub">Search · Display · Local</div></div>
+      </div>
+      <div class="ads-card-body">
+        <div class="campaign-row"><div><div class="campaign-name">Search — Palavras-chave principais</div><div class="campaign-leads">~8–15 leads/mês</div></div><div class="campaign-budget">R$ 700</div></div>
+        <div class="campaign-row"><div><div class="campaign-name">Search — Corporativo</div><div class="campaign-leads">~2–4 leads/mês</div></div><div class="campaign-budget">R$ 250</div></div>
+        <div class="campaign-row"><div><div class="campaign-name">Display — Remarketing</div><div class="campaign-leads">~3–6 leads/mês</div></div><div class="campaign-budget">R$ 180</div></div>
+        <div class="campaign-row"><div><div class="campaign-name">Local Ads — Google Maps</div><div class="campaign-leads">~3–5 leads/mês</div></div><div class="campaign-budget">R$ 200</div></div>
+        <div class="campaign-row" style="background:var(--green-lt);margin:0 -24px;padding:12px 24px;"><div><div class="campaign-name" style="color:var(--green-dk);font-weight:700;">Total Google Ads</div></div><div class="campaign-budget" style="font-size:1.1rem;">R$ 1.330</div></div>
+      </div>
+    </div>
+    <div class="ads-card">
+      <div class="ads-card-header">
+        <div class="ads-logo meta-logo">f</div>
+        <div><div class="ads-card-title">Meta Ads</div><div class="ads-card-sub">Instagram + Facebook</div></div>
+      </div>
+      <div class="ads-card-body">
+        <div class="campaign-row"><div><div class="campaign-name">Tráfego — Reconhecimento</div><div class="campaign-leads">Visitas ao site</div></div><div class="campaign-budget">R$ 400</div></div>
+        <div class="campaign-row"><div><div class="campaign-name">Lead Ads — Projeto 3D Grátis</div><div class="campaign-leads">~7–12 leads/mês</div></div><div class="campaign-budget">R$ 300</div></div>
+        <div class="campaign-row"><div><div class="campaign-name">Click to WhatsApp — Fundo de funil</div><div class="campaign-leads">~7–13 contatos/mês</div></div><div class="campaign-budget">R$ 400</div></div>
+        <div style="height:48px;"></div>
+        <div class="campaign-row" style="background:#EFF6FF;margin:0 -24px;padding:12px 24px;"><div><div class="campaign-name" style="color:#1E40AF;font-weight:700;">Total Meta Ads</div></div><div style="color:#1877F2;font-weight:700;font-size:1.1rem;">R$ 1.100</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- DESIGN SYSTEM -->
+<section id="design">
+  <div class="section-tag">07 — Design System</div>
+  <h2 class="section-title">Tokens visuais e componentes</h2>
+  <p class="section-sub">Sistema de design completo baseado em <em>Warm Minimalism</em> — sofisticado, humano e premium.</p>
+
+  <div style="margin-bottom:40px;">
+    <div style="font-weight:600;font-size:0.875rem;color:var(--dark);margin-bottom:16px;">Paleta de Cores</div>
+    <div class="palette-row">
+      <div><div class="swatch" style="background:#3B5E27;"></div><div class="swatch-label">brand-primary</div></div>
+      <div><div class="swatch" style="background:#E8F0E2;border:1px solid #d4e6c8;"></div><div class="swatch-label">brand-lt</div></div>
+      <div><div class="swatch" style="background:#F7F5F2;border:1px solid var(--border);"></div><div class="swatch-label">surface-alt</div></div>
+      <div><div class="swatch" style="background:#1C1C1A;"></div><div class="swatch-label">surface-dark</div></div>
+      <div><div class="swatch" style="background:#111210;"></div><div class="swatch-label">text-heading</div></div>
+      <div><div class="swatch" style="background:#3A3A37;"></div><div class="swatch-label">text-body</div></div>
+      <div><div class="swatch" style="background:#7A7A74;"></div><div class="swatch-label">text-muted</div></div>
+      <div><div class="swatch" style="background:#8B6914;"></div><div class="swatch-label">brand-accent</div></div>
+    </div>
+  </div>
+
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:32px;">
+    <div style="font-weight:600;font-size:0.875rem;color:var(--dark);margin-bottom:20px;">Escala Tipográfica</div>
+    <div class="type-scale">
+      <div class="type-row"><div class="type-meta">Cormorant · 60px · 600</div><div class="type-sample" style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:600;line-height:1.1;color:#111210;">Móveis para além do agora</div></div>
+      <div class="type-row"><div class="type-meta">Cormorant · 44px · 600</div><div class="type-sample" style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,3vw,2.2rem);font-weight:600;color:#111210;">Por Que Escolher a Explan</div></div>
+      <div class="type-row"><div class="type-meta">Montserrat · 24px · 600</div><div class="type-sample" style="font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:600;color:#111210;">Cozinhas Planejadas em Goiânia</div></div>
+      <div class="type-row"><div class="type-meta">Inter · 18px · 400</div><div class="type-sample" style="font-size:1rem;color:#3A3A37;line-height:1.6;">A Explan conduz decisões com clareza e transforma processos complexos em jornadas transparentes.</div></div>
+      <div class="type-row" style="border:none;"><div class="type-meta">Inter · 14px · 500 · uppercase</div><div class="type-sample" style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#3B5E27;background:#E8F0E2;padding:3px 10px;border-radius:2px;">Setor Bueno · Goiânia</div></div>
+    </div>
+  </div>
+
+  <div class="checklist-grid">
+    <div class="checklist-group">
+      <div class="checklist-header"><div class="priority-badge p-critical">1</div><div class="checklist-header-title">Acessibilidade — CRÍTICO</div></div>
+      <div class="checklist-items">
+        <div class="check-item"><div class="check-box"></div>Contraste ≥ 4.5:1 em todo texto</div>
+        <div class="check-item"><div class="check-box"></div>Alt text descritivo em todas as imagens</div>
+        <div class="check-item"><div class="check-box"></div>Aria-labels em botões ícone</div>
+        <div class="check-item"><div class="check-box"></div>H1 único, hierarquia H1→H2→H3</div>
+        <div class="check-item"><div class="check-box"></div>Focus ring visível em todos os elementos</div>
+      </div>
+    </div>
+    <div class="checklist-group">
+      <div class="checklist-header"><div class="priority-badge p-high">2</div><div class="checklist-header-title">Performance — ALTO</div></div>
+      <div class="checklist-items">
+        <div class="check-item"><div class="check-box"></div>width/height declarados em todas &lt;img&gt;</div>
+        <div class="check-item"><div class="check-box"></div>Hero com loading="eager"</div>
+        <div class="check-item"><div class="check-box"></div>Demais imagens com loading="lazy"</div>
+        <div class="check-item"><div class="check-box"></div>CLS &lt; 0.1 (PageSpeed Insights)</div>
+        <div class="check-item"><div class="check-box"></div>LCP &lt; 2.5s</div>
+      </div>
+    </div>
+    <div class="checklist-group">
+      <div class="checklist-header"><div class="priority-badge p-medium">3</div><div class="checklist-header-title">Formulários — MÉDIO</div></div>
+      <div class="checklist-items">
+        <div class="check-item"><div class="check-box"></div>Label visível em cada campo</div>
+        <div class="check-item"><div class="check-box"></div>type="tel" no campo de WhatsApp</div>
+        <div class="check-item"><div class="check-box"></div>Erro exibido abaixo do campo</div>
+        <div class="check-item"><div class="check-box"></div>Loader + sucesso/erro no envio</div>
+        <div class="check-item"><div class="check-box"></div>autocomplete nos campos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ROADMAP GERAL -->
+<section id="roadmap">
+  <div class="section-tag">Execução</div>
+  <h2 class="section-title">Ordem de execução</h2>
+  <p class="section-sub">Da base técnica ao escalonamento — o que fazer primeiro para ter resultado rápido e sólido.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot">S1</div>
+      <div class="tl-content">
+        <div class="tl-period">Semana 1–2 — Base técnica</div>
+        <div class="tl-title">Corrigir o site e instalar rastreamento</div>
+        <div class="tl-tasks">
+          <div class="tl-task">Corrigir galeria duplicada no Elementor</div>
+          <div class="tl-task">Instalar Google Tag Manager</div>
+          <div class="tl-task">Instalar Pixel Meta via GTM</div>
+          <div class="tl-task">Adicionar schema JSON-LD (FAQ + LocalBusiness)</div>
+          <div class="tl-task">Verificar e otimizar Google Business Profile</div>
+          <div class="tl-task">Adicionar alt text em todas as imagens</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">S3</div>
+      <div class="tl-content">
+        <div class="tl-period">Semana 3–4 — Ativar tráfego pago</div>
+        <div class="tl-title">Subir as primeiras campanhas</div>
+        <div class="tl-tasks">
+          <div class="tl-task">Criar conta Google Ads e configurar conversões</div>
+          <div class="tl-task">Subir Campanha 1 Google Search (grupo principal)</div>
+          <div class="tl-task">Criar Meta Ads Business e subir Campanha WhatsApp</div>
+          <div class="tl-task">Otimizar bio do Instagram e iniciar postagens</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">M2</div>
+      <div class="tl-content">
+        <div class="tl-period">Mês 2 — Escalar</div>
+        <div class="tl-title">Ativar todos os canais e conteúdo orgânico</div>
+        <div class="tl-tasks">
+          <div class="tl-task">Ativar todas as campanhas Google Ads</div>
+          <div class="tl-task">Ativar Lead Ads Meta (Projeto 3D grátis)</div>
+          <div class="tl-task">Publicar primeiro artigo do blog</div>
+          <div class="tl-task">Solicitar avaliações Google de clientes atuais</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">M3</div>
+      <div class="tl-content">
+        <div class="tl-period">Mês 3+ — Consolidação</div>
+        <div class="tl-title">Otimizar o que funciona, expandir o que escala</div>
+        <div class="tl-tasks">
+          <div class="tl-task">Melhorias estruturais do site (galeria filtrada, Quem Somos, fornecedores)</div>
+          <div class="tl-task">Escalar orçamento nos canais com melhor CPA</div>
+          <div class="tl-task">Produzir vídeo tour do showroom</div>
+          <div class="tl-task">Implementar remarketing Display</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ROI -->
+<section>
+  <div class="section-tag">Resultado Esperado</div>
+  <h2 class="section-title">O que esse plano gera</h2>
+  <p class="section-sub">Com investimento de R$ 3.930/mês em mídia e produção de conteúdo.</p>
+
+  <div class="roi-grid">
+    <div class="roi-card">
+      <div class="roi-num">80+</div>
+      <div class="roi-label">Leads/mês no mês 6</div>
+    </div>
+    <div class="roi-card">
+      <div class="roi-num">10–15</div>
+      <div class="roi-label">Projetos novos/mês via digital</div>
+    </div>
+    <div class="roi-card">
+      <div class="roi-num">40×</div>
+      <div class="roi-label">ROI estimado sobre investimento em mídia</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:20px;text-align:center;">
+      <div style="font-size:0.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Investimento mínimo</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--dark);">R$ 2.600</div>
+      <div style="font-size:0.75rem;color:var(--muted);">por mês</div>
+    </div>
+    <div style="background:var(--green);border-radius:8px;padding:20px;text-align:center;">
+      <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Investimento recomendado</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:white;">R$ 3.930</div>
+      <div style="font-size:0.75rem;color:rgba(255,255,255,0.6);">por mês</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:20px;text-align:center;">
+      <div style="font-size:0.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Ticket médio por projeto</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--dark);">R$ 15–50k</div>
+      <div style="font-size:0.75rem;color:var(--muted);">1 projeto já paga o mês</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Explan <span>Móveis Planejados</span></div>
+  <div class="footer-url">explanmoveisplanejados.com.br</div>
+  <div class="footer-grid">
+    <div class="footer-item"><strong>WhatsApp</strong>(62) 99439-3938</div>
+    <div class="footer-item"><strong>Showroom</strong>R. C-235, 553 · Setor Bueno · Goiânia</div>
+    <div class="footer-item"><strong>Horário</strong>Seg–Sex 8–18h · Sáb 8–12h</div>
+  </div>
+  <div class="footer-copy">Estratégia digital elaborada em Jun/2025 · 7 documentos · pasta SITE EXPLAN</div>
+</footer>
+
+</body>
+</html>

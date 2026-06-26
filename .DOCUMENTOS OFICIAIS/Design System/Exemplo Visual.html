@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explan Design System v2.0</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       EXPLAN DESIGN SYSTEM v2.0
+       Archivo Only • Green Musgo #6B8E5E
+       ═══════════════════════════════════════════════════════════════ */
+
+    :root {
+      /* ── PALETA OFICIAL EXPLAN v2.0 ── */
+      --olive:        #41422F;
+      --cream:        #EBE6DD;
+      --cream-alt:    #F5F2ED;
+      --cream-dark:   #D8D4CC;
+      --text:         #212121;
+      --text-body:    #4A4A4A;
+      --text-muted:   #797979;
+      --white:        #FFFFFF;
+      --black:        #000000;
+      --green:        #6B8E5E;
+      --red:          #C0392B;
+      --border:       #CCD6DF;
+
+      /* ── SOMBRAS ── */
+      --shadow:       0 2px 16px rgba(65,66,47,.10);
+      --shadow-hover: 0 6px 24px rgba(65,66,47,.18);
+
+      /* ── ESPAÇAMENTO ── */
+      --gap-xs:       4px;
+      --gap-sm:       8px;
+      --gap-md:       12px;
+      --gap-lg:       16px;
+      --gap-xl:       20px;
+      --gap-2xl:      24px;
+
+      /* ── BORDER RADIUS ── */
+      --radius:       10px;
+      --radius-lg:    10px;
+      --radius-md:    8px;
+      --radius-sm:    7px;
+      --radius-pill:  50px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Archivo', Arial, sans-serif;
+      background: var(--cream);
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--olive) 0%, #2d2e20 100%);
+      color: var(--cream);
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(107, 142, 94, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--cream);
+    }
+
+    .header-subtitle {
+      font-size: 16px;
+      color: rgba(235, 230, 221, 0.85);
+      margin-bottom: 8px;
+    }
+
+    .header-meta {
+      font-size: 12px;
+      color: rgba(235, 230, 221, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── CONTAINER ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    /* ── SEÇÕES ── */
+    .section {
+      margin-bottom: 80px;
+    }
+
+    .section-title {
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--green);
+      display: inline-block;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+
+    /* ── TIPOGRAFIA ── */
+    .typography-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .typography-item {
+      padding: 20px;
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .typography-sample {
+      margin-bottom: 16px;
+    }
+
+    .typography-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 8px;
+    }
+
+    .h1-sample { font-size: 28px; font-weight: 600; }
+    .h2-sample { font-size: 20px; font-weight: 600; }
+    .h3-sample { font-size: 16px; font-weight: 600; }
+    .h4-sample { font-size: 14px; font-weight: 600; }
+    .body-sample { font-size: 13px; font-weight: 400; }
+    .small-sample { font-size: 12px; font-weight: 400; }
+
+    /* ── CORES ── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .color-swatch {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .color-sample {
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 12px;
+    }
+
+    .color-info {
+      background: var(--white);
+      padding: 16px;
+    }
+
+    .color-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .color-code {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+
+    /* ── COMPONENTES ── */
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    .component-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .component-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 16px;
+    }
+
+    /* ── BOTÕES ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 18px;
+      border-radius: var(--radius-pill);
+      font-family: 'Archivo', Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease-in-out;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: #fff;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .btn-primary:hover {
+      background: var(--green);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--text);
+      border: 2px solid var(--border);
+      width: 100%;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--green);
+      background: var(--cream-alt);
+    }
+
+    .btn-success {
+      background: var(--green);
+      color: #fff;
+      width: 100%;
+    }
+
+    .btn-success:hover {
+      background: #5a7a4f;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .btn-danger {
+      background: var(--red);
+      color: #fff;
+      width: 100%;
+    }
+
+    .btn-danger:hover {
+      background: #a0311f;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .btn-small {
+      padding: 8px 14px;
+      font-size: 11px;
+      width: auto;
+    }
+
+    /* ── INPUTS ── */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      font-family: 'Archivo', Arial, sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(107, 142, 94, 0.15);
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* ── BADGES ── */
+    .badges-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-success {
+      background: #E2F0DC;
+      color: var(--green);
+    }
+
+    .badge-error {
+      background: #FCE5E0;
+      color: var(--red);
+    }
+
+    .badge-neutral {
+      background: var(--cream-alt);
+      color: var(--text);
+    }
+
+    /* ── ALERTS ── */
+    .alert {
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+      font-size: 13px;
+      border-left: 4px solid;
+    }
+
+    .alert-success {
+      background: #E2F0DC;
+      color: var(--green);
+      border-left-color: var(--green);
+    }
+
+    .alert-error {
+      background: #FCE5E0;
+      color: var(--red);
+      border-left-color: var(--red);
+    }
+
+    .alert-info {
+      background: var(--cream-alt);
+      color: var(--text-body);
+      border-left-color: var(--olive);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--olive);
+      color: var(--cream);
+      padding: 40px;
+      text-align: center;
+      font-size: 12px;
+      margin-top: 80px;
+    }
+
+    .footer-meta {
+      opacity: 0.7;
+    }
+
+    /* ── RESPONSIVIDADE ── */
+    @media (max-width: 768px) {
+      .container {
+        padding: 40px 24px;
+      }
+
+      header {
+        padding: 40px 24px;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .typography-grid,
+      .color-grid,
+      .components-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <!-- HEADER -->
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <header>
+    <div class="header-content">
+      <h1>Design System v2.0</h1>
+      <p class="header-subtitle">Explan Móveis Planejados</p>
+      <p class="header-meta">Arquivo • Verde Musgo • Paleta Simplificada</p>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <!-- MAIN CONTENT -->
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <div class="container">
+
+    <!-- TIPOGRAFIA -->
+    <section class="section">
+      <h2 class="section-title">Tipografia</h2>
+      <p class="section-subtitle">Arquivo — Fonte única, 5 pesos disponíveis (300–700)</p>
+
+      <div class="typography-grid">
+        <div class="typography-item">
+          <div class="typography-label">H1 — 28px Semi-Bold</div>
+          <div class="typography-sample h1-sample">Título Principal</div>
+        </div>
+
+        <div class="typography-item">
+          <div class="typography-label">H2 — 20px Semi-Bold</div>
+          <div class="typography-sample h2-sample">Subtítulo</div>
+        </div>
+
+        <div class="typography-item">
+          <div class="typography-label">H3 — 16px Semi-Bold</div>
+          <div class="typography-sample h3-sample">Seção</div>
+        </div>
+
+        <div class="typography-item">
+          <div class="typography-label">H4 — 14px Semi-Bold</div>
+          <div class="typography-sample h4-sample">Label</div>
+        </div>
+
+        <div class="typography-item">
+          <div class="typography-label">Body — 13px Regular</div>
+          <div class="typography-sample body-sample">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+        </div>
+
+        <div class="typography-item">
+          <div class="typography-label">Small — 12px Regular</div>
+          <div class="typography-sample small-sample">Informação secundária ou descrição</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PALETA DE CORES -->
+    <section class="section">
+      <h2 class="section-title">Paleta de Cores</h2>
+      <p class="section-subtitle">Cores neutras + Verde musgo + Vermelho (semântica)</p>
+
+      <div class="color-grid">
+        <!-- Olive -->
+        <div class="color-swatch">
+          <div class="color-sample" style="background: #41422F;">Olive</div>
+          <div class="color-info">
+            <div class="color-name">Olive</div>
+            <div class="color-code">#41422F</div>
+          </div>
+        </div>
+
+        <!-- Cream -->
+        <div class="color-swatch">
+          <div class="color-sample" style="background: #EBE6DD; color: var(--text);">Cream</div>
+          <div class="color-info">
+            <div class="color-name">Cream</div>
+            <div class="color-code">#EBE6DD</div>
+          </div>
+        </div>
+
+        <!-- Green (Musgo) -->
+        <div class="color-swatch">
+          <div class="color-sample" style="background: #6B8E5E;">Green Musgo</div>
+          <div class="color-info">
+            <div class="color-name">Green</div>
+            <div class="color-code">#6B8E5E</div>
+          </div>
+        </div>
+
+        <!-- Red -->
+        <div class="color-swatch">
+          <div class="color-sample" style="background: #C0392B;">Red</div>
+          <div class="color-info">
+            <div class="color-name">Red</div>
+            <div class="color-code">#C0392B</div>
+          </div>
+        </div>
+
+        <!-- White -->
+        <div class="color-swatch">
+          <div class="color-sample" style="background: #FFFFFF; color: var(--text); border: 1px solid var(--border);">White</div>
+          <div class="color-info">
+            <div class="color-name">White</div>
+            <div class="color-code">#FFFFFF</div>
+          </div>
+        </div>
+
+        <!-- Black -->
+        <div class="color-swatch">
+          <div class="color-sample" style="background: #000000;">Black</div>
+          <div class="color-info">
+            <div class="color-name">Black</div>
+            <div class="color-code">#000000</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOTÕES -->
+    <section class="section">
+      <h2 class="section-title">Botões</h2>
+      <p class="section-subtitle">Estados: padrão, hover, ativo. Variações primária, secundária, sucesso e perigo.</p>
+
+      <div class="components-grid">
+        <div class="component-card">
+          <div class="component-title">Botão Primário</div>
+          <button class="btn btn-primary">Ação Primária</button>
+          <p style="font-size: 11px; color: var(--text-muted); margin-top: 12px;">Preto → Verde (hover)</p>
+        </div>
+
+        <div class="component-card">
+          <div class="component-title">Botão Secundário</div>
+          <button class="btn btn-secondary">Ação Secundária</button>
+          <p style="font-size: 11px; color: var(--text-muted); margin-top: 12px;">Border → Hover com fundo</p>
+        </div>
+
+        <div class="component-card">
+          <div class="component-title">Botão Sucesso</div>
+          <button class="btn btn-success">Confirmar</button>
+          <p style="font-size: 11px; color: var(--text-muted); margin-top: 12px;">Verde musgo para ações positivas</p>
+        </div>
+
+        <div class="component-card">
+          <div class="component-title">Botão Perigo</div>
+          <button class="btn btn-danger">Deletar</button>
+          <p style="font-size: 11px; color: var(--text-muted); margin-top: 12px;">Vermelho para ações destrutivas</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULÁRIOS -->
+    <section class="section">
+      <h2 class="section-title">Formulários</h2>
+      <p class="section-subtitle">Inputs, selects, textareas — focus com verde musgo</p>
+
+      <div class="components-grid">
+        <div class="component-card">
+          <div class="component-title">Campos de Texto</div>
+          <div class="form-group">
+            <label for="text">Nome Completo</label>
+            <input type="text" id="text" placeholder="Digite aqui...">
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="seu@email.com">
+          </div>
+        </div>
+
+        <div class="component-card">
+          <div class="component-title">Textarea</div>
+          <div class="form-group">
+            <label for="textarea">Descrição</label>
+            <textarea id="textarea" placeholder="Digite sua mensagem..." rows="4"></textarea>
+          </div>
+        </div>
+
+        <div class="component-card">
+          <div class="component-title">Select</div>
+          <div class="form-group">
+            <label for="select">Categoria</label>
+            <select id="select">
+              <option>Selecione uma opção</option>
+              <option>Opção 1</option>
+              <option>Opção 2</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BADGES & ALERTS -->
+    <section class="section">
+      <h2 class="section-title">Badges & Alerts</h2>
+      <p class="section-subtitle">Indicadores de status, avisos e mensagens</p>
+
+      <div class="components-grid">
+        <div class="component-card">
+          <div class="component-title">Badges</div>
+          <div class="badges-group">
+            <span class="badge badge-success">✓ Sucesso</span>
+            <span class="badge badge-error">✕ Erro</span>
+            <span class="badge badge-neutral">Neutro</span>
+          </div>
+        </div>
+
+        <div class="component-card">
+          <div class="component-title">Alerts</div>
+          <div class="alert alert-success">✓ Operação realizada com sucesso!</div>
+          <div class="alert alert-error">✕ Algo deu errado. Tente novamente.</div>
+          <div class="alert alert-info">ⓘ Informação importante.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID & ESPAÇAMENTO -->
+    <section class="section">
+      <h2 class="section-title">Grid & Espaçamento</h2>
+      <p class="section-subtitle">Sistema de 4px: XS (4px) → SM (8px) → MD (12px) → LG (16px) → XL (20px) → 2XL (24px)</p>
+
+      <div class="components-grid">
+        <div class="component-card">
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="background: var(--green); color: white; padding: 16px; border-radius: var(--radius); text-align: center; font-weight: 600;">
+              Gap LG (16px)
+            </div>
+            <div style="background: var(--olive); color: white; padding: 16px; border-radius: var(--radius); text-align: center; font-weight: 600;">
+              Espaço entre elementos
+            </div>
+          </div>
+        </div>
+
+        <div class="component-card">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div style="background: var(--cream-alt); padding: 12px; border-radius: var(--radius-sm); text-align: center; font-size: 11px; font-weight: 600;">
+              MD
+            </div>
+            <div style="background: var(--cream-alt); padding: 12px; border-radius: var(--radius-sm); text-align: center; font-size: 11px; font-weight: 600;">
+              MD
+            </div>
+            <div style="background: var(--cream-alt); padding: 12px; border-radius: var(--radius-sm); text-align: center; font-size: 11px; font-weight: 600;">
+              12px Gap
+            </div>
+            <div style="background: var(--cream-alt); padding: 12px; border-radius: var(--radius-sm); text-align: center; font-size: 11px; font-weight: 600;">
+              (MD)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <!-- FOOTER -->
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <footer>
+    <p><strong>Explan Design System v2.0</strong></p>
+    <p class="footer-meta">Baseado em: Projeto de Marca - Explan.pdf (Morath Studio)</p>
+    <p class="footer-meta">Sprint 08 — 11 de Junho de 2026</p>
+    <p class="footer-meta">Desenvolvido com ❤️ por TM · Sempre Tecnologia</p>
+  </footer>
+
+</body>
+</html>

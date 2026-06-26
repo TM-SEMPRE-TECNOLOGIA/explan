@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explan Orçamento Express — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* â”€â”€ PALETA OFICIAL EXPLAN v2.0 â”€â”€ */
+  --olive:        #41422F;
+  --cream:        #EBE6DD;
+  --cream-alt:    #F5F2ED;
+  --cream-dark:   #D8D4CC;
+  --text:         #212121;
+  --text-body:    #4A4A4A;
+  --text-muted:   #797979;
+  --white:        #FFFFFF;
+  --black:        #000000;
+  --green:        #6B8E5E;
+  --red:          #C0392B;
+  --border:       #CCD6DF;
+  --shadow:       0 2px 16px rgba(65,66,47,.10);
+  --shadow-hover: 0 6px 24px rgba(65,66,47,.18);
+  --radius:       10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { overflow-x: hidden; }
+
+body {
+  font-family: 'Archivo', Arial, sans-serif;
+  background: var(--cream);
+  color: var(--text-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* â”€â”€ LAYOUT â”€â”€ */
+.auth-container {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.auth-left {
+  background: linear-gradient(135deg, var(--olive) 0%, #2d2e20 100%);
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #EBE6DD;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-left::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(107, 142, 94, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.auth-left::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -30%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(107, 142, 94, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.auth-left-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 400px;
+}
+
+.auth-logo {
+  height: 80px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-logo img {
+  max-height: 80px;
+  max-width: 100%;
+  filter: brightness(0) invert(1);
+}
+
+.auth-title {
+  font-family: 'Archivo', Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #EBE6DD;
+  line-height: 1.2;
+}
+
+.auth-subtitle {
+  font-size: 14px;
+  color: rgba(235, 230, 221, 0.8);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.auth-features {
+  text-align: left;
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(235, 230, 221, 0.2);
+}
+
+.auth-feature {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.auth-feature-icon {
+  font-size: 20px;
+  min-width: 20px;
+}
+
+.auth-feature-text {
+  color: rgba(235, 230, 221, 0.9);
+}
+
+.auth-right {
+  background: var(--cream);
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-form-container {
+  width: 100%;
+  max-width: 380px;
+}
+
+.auth-form-title {
+  font-family: 'Archivo', Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.auth-form-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 8px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Archivo', Arial, sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--white);
+  outline: none;
+  transition: all 0.2s;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(107, 142, 94, 0.15);
+  background: var(--white);
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+.btn {
+  width: 100%;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Archivo', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: var(--olive);
+  color: #EBE6DD;
+}
+
+.btn-primary:hover {
+  background: var(--green);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--text);
+  border: 2px solid var(--border);
+  margin-top: 12px;
+}
+
+.btn-secondary:hover {
+  border-color: var(--olive);
+  background: var(--cream-alt);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+.auth-links a {
+  color: var(--green);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.auth-links a:hover {
+  color: var(--olive);
+}
+
+.auth-register-link {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.auth-register-link a {
+  color: var(--olive);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.auth-register-link a:hover {
+  color: var(--green);
+}
+
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  display: none;
+}
+
+.alert.show {
+  display: block;
+}
+
+.alert-success {
+  background: #E2F0DC;
+  color: var(--green);
+  border: 1px solid rgba(107, 142, 94, 0.2);
+}
+
+.alert-error {
+  background: #FCE5E0;
+  color: var(--red);
+  border: 1px solid rgba(192, 57, 43, 0.2);
+}
+
+.loading {
+  display: none;
+}
+
+.loading.show {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* â”€â”€ DASHBOARD (após login) â”€â”€ */
+.dashboard {
+  display: none;
+}
+
+.dashboard.active {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background: var(--cream);
+}
+
+/* Topbar */
+.dashboard-header {
+  background: var(--olive);
+  color: #EBE6DD;
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 12px rgba(65,66,47,.18);
+}
+
+.dashboard-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dashboard-logo {
+  height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-logo img {
+  max-height: 38px;
+  filter: brightness(0) invert(1);
+}
+
+.dashboard-logo-fallback {
+  font-family: 'Archivo', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #EBE6DD;
+}
+
+.dashboard-badge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(235,230,221,.55);
+  border-left: 1px solid rgba(235,230,221,.25);
+  padding-left: 14px;
+}
+
+.dashboard-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+
+.dashboard-user-info {
+  text-align: right;
+}
+
+.dashboard-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.dashboard-logout {
+  background: none;
+  border: none;
+  color: rgba(235,230,221,.65);
+  cursor: pointer;
+  font-size: 11px;
+  font-family: 'Archivo', Arial, sans-serif;
+  text-decoration: underline;
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.dashboard-logout:hover { color: #EBE6DD; }
+
+/* Hero de boas-vindas */
+.dashboard-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 24px 64px;
+  overflow-y: auto;
+}
+
+.dashboard-welcome {
+  text-align: center;
+  margin-bottom: 52px;
+  max-width: 480px;
+}
+
+.dashboard-welcome-logo {
+  height: 64px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-welcome-logo img {
+  max-height: 64px;
+  max-width: 200px;
+  opacity: .85;
+}
+
+.dashboard-welcome-logo-text {
+  font-family: 'Archivo', Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--olive);
+  letter-spacing: -0.02em;
+}
+
+.dashboard-greeting {
+  font-family: 'Archivo', Arial, sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.dashboard-greeting span {
+  color: var(--olive);
+}
+
+.dashboard-greeting-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Seção de ferramentas */
+.tools-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 680px;
+}
+
+/* Card de ferramenta */
+.tool-card {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 32px 28px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(65,66,47,.07);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.tool-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.tool-card-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--olive) 0%, #2d2e20 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.tool-card-name {
+  font-family: 'Archivo', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.tool-card-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.tool-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4px;
+}
+
+.tool-card-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.tool-card-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  display: inline-block;
+}
+
+.btn-tool {
+  width: auto;
+  padding: 10px 22px;
+  font-size: 12px;
+}
+
+/* Responsividade dashboard */
+@media (max-width: 1024px) {
+  .dashboard-header {
+    padding: 14px 24px;
+  }
+
+  .dashboard-content {
+    padding: 40px 20px 56px;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-header {
+    padding: 12px 16px;
+  }
+
+  .dashboard-badge { display: none; }
+
+  .dashboard-greeting {
+    font-size: 24px;
+  }
+
+  .dashboard-welcome {
+    margin-bottom: 36px;
+  }
+
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tool-card {
+    padding: 24px 20px;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .auth-container {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-left {
+    display: none;
+  }
+
+  .auth-right {
+    padding: 40px 24px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .dashboard-header-left {
+    flex-direction: column;
+  }
+
+  .dashboard-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-right {
+    padding: 30px 20px;
+  }
+
+  .auth-form-container {
+    max-width: 100%;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 12px 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- â”€â”€ LOGIN (PADRÃƒO) â”€â”€ -->
+<div class="auth-container" id="authContainer">
+  <!-- LEFT: Brand Story -->
+  <div class="auth-left">
+    <div class="auth-left-content">
+      <div class="auth-logo">
+        <img src="../../Imagens/explan_logo_preto_transparente.png" alt="Explan" onerror="this.style.display='none'">
+      </div>
+
+      <h1 class="auth-title">Orçamento Express</h1>
+
+      <p class="auth-subtitle">
+        Crie orçamentos profissionais em tempo real durante suas reuniões com clientes.
+      </p>
+
+      <div class="auth-features">
+        <div class="auth-feature">
+          <div class="auth-feature-icon">✓</div>
+          <div class="auth-feature-text">Cálculos automáticos e descontos instantâneos</div>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">✓</div>
+          <div class="auth-feature-text">PDF profissional e contrato automático</div>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">✓</div>
+          <div class="auth-feature-text">Histórico de orçamentos na nuvem</div>
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">✓</div>
+          <div class="auth-feature-text">Sincronização com Explan Goiânia</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Login Form -->
+  <div class="auth-right">
+    <div class="auth-form-container">
+      <h2 class="auth-form-title">Bem-vindo</h2>
+      <p class="auth-form-subtitle">Faça login na sua conta Explan</p>
+
+      <div id="alertBox" class="alert"></div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <span id="btnText">Entrar</span>
+          <span class="loading" id="btnLoading"></span>
+        </button>
+
+        <div class="auth-divider">OU</div>
+
+        <button type="button" class="btn btn-secondary" onclick="showRegisterForm()">
+          Criar nova conta
+        </button>
+      </form>
+
+      <div class="auth-links">
+        <a href="#" onclick="showRecoverForm(event)">Esqueceu a senha?</a>
+        <a href="https://thiagonascimentobarbosapro.com" target="_blank" style="font-size: 11px;">TM · Sempre Tecnologia</a>
+      </div>
+
+      <div class="auth-register-link">
+        Desenvolvido por <a href="https://thiagonascimentobarbosapro.com" target="_blank">TM · Sempre Tecnologia</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- â”€â”€ DASHBOARD (APÓS LOGIN) â”€â”€ -->
+<div class="dashboard" id="dashboard">
+
+  <!-- Topbar -->
+  <div class="dashboard-header">
+    <div class="dashboard-header-left">
+      <div class="dashboard-logo">
+        <img src="../../Imagens/explan_logo_preto_transparente.png" alt="Explan"
+             onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block'">
+      </div>
+      <span class="dashboard-logo-fallback" id="logoFallback" style="display:none;">Explan</span>
+      <span class="dashboard-badge">Ecossistema</span>
+    </div>
+    <div class="dashboard-user">
+      <div class="dashboard-user-info">
+        <div style="font-weight: 600; font-size: 12px;" id="userEmail">usuário@email.com</div>
+        <button class="dashboard-logout" onclick="handleLogout()">Sair</button>
+      </div>
+      <div class="dashboard-avatar" id="avatarInitial">T</div>
+    </div>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="dashboard-content">
+
+    <!-- Boas-vindas -->
+    <div class="dashboard-welcome">
+      <div class="dashboard-welcome-logo">
+        <img src="../../Imagens/explan_logo_preto_transparente.png" alt="Explan"
+             onerror="this.style.display='none'; document.getElementById('welcomeLogoText').style.display='block'">
+        <span class="dashboard-welcome-logo-text" id="welcomeLogoText" style="display:none;">Explan</span>
+      </div>
+      <h1 class="dashboard-greeting">Bem-vindo, <span id="userFirstName">usuário</span>.</h1>
+      <p class="dashboard-greeting-sub">
+        Você está no ecossistema Explan. Selecione uma ferramenta abaixo para começar.
+      </p>
+    </div>
+
+    <!-- Ferramentas -->
+    <p class="tools-section-label">Acesse suas ferramentas</p>
+
+    <div class="tools-grid">
+      <!-- Card: Orçamento Express -->
+      <div class="tool-card">
+        <div class="tool-card-icon">📋</div>
+        <div>
+          <div class="tool-card-name">Orçamento Express</div>
+          <p class="tool-card-desc">
+            Crie propostas profissionais em tempo real. Cálculos automáticos, PDF e contrato na hora.
+          </p>
+        </div>
+        <div class="tool-card-footer">
+          <span class="tool-card-status">Disponível</span>
+          <button class="btn btn-primary btn-tool" onclick="redirectToApp()">
+            Abrir →
+          </button>
+        </div>
+      </div>
+
+      <!-- Card: Em breve (placeholder visual) -->
+      <div class="tool-card" style="opacity: .55; pointer-events: none;">
+        <div class="tool-card-icon" style="background: var(--cream-dark);">📅</div>
+        <div>
+          <div class="tool-card-name" style="color: var(--text-muted);">Agenda Explan</div>
+          <p class="tool-card-desc">
+            Gestão de visitas, follow-ups e calendário de clientes integrado.
+          </p>
+        </div>
+        <div class="tool-card-footer">
+          <span style="font-size: 11px; font-weight: 600; color: var(--text-muted);">Em breve</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// â”€â”€ CONFIGURAÃ‡ÃƒO SUPABASE (Exemplo — adaptar com suas credenciais) â”€â”€
+const SUPABASE_URL = 'https://seu-projeto.supabase.co';
+const SUPABASE_KEY = 'sua-anon-key-aqui';
+
+// â”€â”€ VERIFICAR SESSÃƒO NA CARGA â”€â”€
+window.addEventListener('DOMContentLoaded', () => {
+  checkSession();
+});
+
+// â”€â”€ VERIFICAR SESSÃƒO ARMAZENADA â”€â”€
+function checkSession() {
+  const userSession = JSON.parse(localStorage.getItem('explan_user_session') || 'null');
+
+  if (userSession && userSession.email) {
+    showDashboard(userSession);
+  }
+}
+
+// â”€â”€ LOGIN â”€â”€
+function handleLogin(event) {
+  event.preventDefault();
+
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  if (!email || !password) {
+    showAlert('Por favor, preencha todos os campos.', 'error');
+    return;
+  }
+
+  // Simulando login (você integrará com Supabase.auth.signInWithPassword aqui)
+  showLoadingState(true);
+
+  // Simulação: 2 segundos de "carregamento"
+  setTimeout(() => {
+    // Para DEMO: aceitar qualquer email/senha (REMOVER em produção!)
+    if (email && password.length >= 6) {
+      const userSession = {
+        email: email,
+        id: `user_${Date.now()}`,
+        token: `token_${Math.random().toString(36).substr(2)}`,
+        loginTime: new Date().toISOString()
+      };
+
+      localStorage.setItem('explan_user_session', JSON.stringify(userSession));
+      showAlert('Login realizado com sucesso!', 'success');
+
+      setTimeout(() => {
+        showDashboard(userSession);
+      }, 1000);
+    } else {
+      showAlert('E-mail ou senha inválidos.', 'error');
+      showLoadingState(false);
+    }
+  }, 1500);
+}
+
+// â”€â”€ LOGOUT â”€â”€
+function handleLogout() {
+  localStorage.removeItem('explan_user_session');
+  document.getElementById('dashboard').classList.remove('active');
+  document.getElementById('authContainer').style.display = 'flex';
+  document.getElementById('loginForm').reset();
+  showAlert('Você foi desconectado.', 'success');
+}
+
+// â”€â”€ MOSTRAR DASHBOARD â”€â”€
+function showDashboard(userSession) {
+  document.getElementById('authContainer').style.display = 'none';
+  document.getElementById('dashboard').classList.add('active');
+
+  const email = userSession.email || '';
+  const initial = email.charAt(0).toUpperCase();
+  const firstName = (userSession.name || email.split('@')[0] || 'usuário')
+    .replace(/[._-]/g, ' ')
+    .split(' ')[0];
+  const displayName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+
+  document.getElementById('userEmail').textContent = email;
+  document.getElementById('avatarInitial').textContent = initial;
+  document.getElementById('userFirstName').textContent = displayName;
+}
+
+// â”€â”€ REDIRECIONAR PARA ORÃ‡AMENTO â”€â”€
+function redirectToApp() {
+  // Redirecionar para o app principal
+  window.location.href = 'sprint-09.html';
+}
+
+// â”€â”€ MOSTRAR ALERTA â”€â”€
+function showAlert(message, type) {
+  const alertBox = document.getElementById('alertBox');
+  alertBox.textContent = message;
+  alertBox.className = `alert show alert-${type}`;
+
+  setTimeout(() => {
+    alertBox.classList.remove('show');
+  }, 4000);
+}
+
+// â”€â”€ LOADING STATE â”€â”€
+function showLoadingState(isLoading) {
+  const btnText = document.getElementById('btnText');
+  const btnLoading = document.getElementById('btnLoading');
+  const btn = document.querySelector('.btn-primary');
+
+  if (isLoading) {
+    btnText.style.display = 'none';
+    btnLoading.classList.add('show');
+    btn.disabled = true;
+  } else {
+    btnText.style.display = 'inline';
+    btnLoading.classList.remove('show');
+    btn.disabled = false;
+  }
+}
+
+// â”€â”€ PLACEHOLDER: Formulários adicionais â”€â”€
+function showRegisterForm() {
+  showAlert('Formulário de registro em construção. Use demo@email.com / 123456', 'info');
+}
+
+function showRecoverForm(event) {
+  event.preventDefault();
+  showAlert('Recuperação de senha em construção.', 'info');
+}
+</script>
+
+</body>
+</html>

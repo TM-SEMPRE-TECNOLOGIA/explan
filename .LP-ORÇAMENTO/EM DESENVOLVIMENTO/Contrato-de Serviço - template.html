@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contrato Explan — {{NOME_CLIENTE}}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* â”€â”€â”€ RESET & BASE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --oliva:   #41422F;
+      --bege:    #EBE6DD;
+      --texto:   #212121;
+      --borda:   #CCD6DF;
+      --magenta: #CC3366;
+      --cinza:   #666;
+    }
+
+    body {
+      font-family: 'Archivo', sans-serif;
+      background: #C8C3B8;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      color: var(--texto);
+    }
+
+    /* â”€â”€â”€ FOLHA A4 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .page {
+      width: 794px;         /* A4 portrait 96dpi */
+      min-height: 1122px;
+      background: #ffffff;
+      padding: 0;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page + .page { margin-top: 32px; }
+
+    /* â”€â”€â”€ PRINT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    @media print {
+      body { background: none; padding: 0; }
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        box-shadow: none;
+        page-break-after: always;
+      }
+      .page:last-child { page-break-after: avoid; }
+      .screen-only { display: none; }
+    }
+
+    @page { size: A4 portrait; margin: 0; }
+
+    /* â”€â”€â”€ HEADER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .header {
+      background: var(--oliva);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-logo {
+      height: 40px;
+      filter: brightness(0) invert(1);
+    }
+
+    .header-logo-fallback {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.04em;
+    }
+
+    .header-title-block {
+      text-align: right;
+    }
+
+    .header-doc-type {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(235,230,221,0.6);
+      margin-bottom: 4px;
+    }
+
+    .header-doc-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* â”€â”€â”€ BANNER CLIENTE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .cliente-banner {
+      background: var(--bege);
+      padding: 16px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .cliente-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .cliente-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--magenta);
+    }
+
+    .cliente-nome {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--oliva);
+    }
+
+    .cliente-meta {
+      font-size: 11px;
+      color: var(--cinza);
+      font-weight: 300;
+    }
+
+    .contrato-meta {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .contrato-num {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--oliva);
+    }
+
+    .contrato-data {
+      font-size: 10px;
+      color: var(--cinza);
+      font-weight: 300;
+    }
+
+    /* â”€â”€â”€ CONTEÚDO PRINCIPAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .content {
+      flex: 1;
+      padding: 36px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* â”€â”€â”€ PARTES DO CONTRATO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .partes-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .parte-box {
+      border: 1px solid var(--borda);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .parte-header {
+      background: var(--bege);
+      padding: 7px 14px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--oliva);
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .parte-body {
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .parte-row {
+      display: flex;
+      gap: 6px;
+      font-size: 10.5px;
+    }
+
+    .parte-field {
+      font-weight: 600;
+      color: var(--oliva);
+      flex-shrink: 0;
+      min-width: 80px;
+    }
+
+    .parte-value {
+      color: var(--texto);
+      font-weight: 400;
+    }
+
+    .placeholder {
+      background: rgba(204,51,102,0.08);
+      border-bottom: 1px dashed rgba(204,51,102,0.5);
+      padding: 0 2px;
+      color: #a0204a;
+      font-style: italic;
+    }
+
+    /* â”€â”€â”€ CLÃUSULAS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .clausula {
+      margin-bottom: 20px;
+    }
+
+    .clausula-titulo {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--oliva);
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1.5px solid var(--oliva);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .clausula-num {
+      background: var(--oliva);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .clausula-body {
+      font-size: 11px;
+      color: var(--texto);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .clausula-body p + p { margin-top: 6px; }
+
+    .clausula-body strong {
+      font-weight: 600;
+      color: var(--oliva);
+    }
+
+    /* lista de ambientes dentro da cláusula de objeto */
+    .ambientes-list {
+      margin: 10px 0;
+      border: 1px solid var(--borda);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .ambientes-list-header {
+      background: var(--bege);
+      padding: 6px 16px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--oliva);
+      border-bottom: 1px solid var(--borda);
+      display: grid;
+      grid-template-columns: 1fr auto;
+    }
+
+    .ambiente-item {
+      padding: 8px 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      font-size: 11px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .ambiente-item:last-child { border-bottom: none; }
+
+    .ambiente-item:nth-child(even) { background: rgba(235,230,221,0.35); }
+
+    .ambiente-item-nome { font-weight: 400; color: var(--texto); }
+
+    .ambiente-item-val { font-weight: 600; color: var(--oliva); }
+
+    /* â”€â”€â”€ CAIXA DE VALOR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .valor-destaque {
+      background: var(--oliva);
+      border-radius: 3px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 12px 0;
+    }
+
+    .valor-destaque-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(235,230,221,0.65);
+    }
+
+    .valor-destaque-num {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--bege);
+    }
+
+    .valor-extenso {
+      font-size: 10.5px;
+      font-style: italic;
+      color: rgba(235,230,221,0.7);
+      font-weight: 300;
+    }
+
+    /* â”€â”€â”€ CAIXAS DE INFORMAÃ‡ÃƒO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 10px 0;
+    }
+
+    .info-box {
+      background: var(--bege);
+      border-radius: 3px;
+      border: 1px solid var(--borda);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .info-box-label {
+      font-size: 8.5px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--magenta);
+    }
+
+    .info-box-value {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--oliva);
+    }
+
+    .info-box-sub {
+      font-size: 9.5px;
+      color: var(--cinza);
+      font-weight: 300;
+    }
+
+    /* â”€â”€â”€ PAGAMENTO — CONDIÃ‡Ã•ES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .pagamento-bloco {
+      background: rgba(65,66,47,0.04);
+      border-left: 3px solid var(--oliva);
+      border-radius: 0 3px 3px 0;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-size: 11px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .pagamento-bloco strong { font-weight: 600; color: var(--oliva); }
+
+    /* â”€â”€â”€ SEÃ‡ÃƒO DE GARANTIA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .garantia-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 10px 0;
+    }
+
+    .garantia-item {
+      background: var(--bege);
+      border: 1px solid var(--borda);
+      border-radius: 3px;
+      padding: 10px 14px;
+      font-size: 10.5px;
+    }
+
+    .garantia-item-title {
+      font-weight: 700;
+      color: var(--oliva);
+      margin-bottom: 3px;
+    }
+
+    .garantia-item-desc {
+      font-weight: 300;
+      color: var(--cinza);
+      line-height: 1.6;
+    }
+
+    /* â”€â”€â”€ ASSINATURAS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .assinaturas-section {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--borda);
+    }
+
+    .ass-local-data {
+      font-size: 11px;
+      color: var(--cinza);
+      font-weight: 300;
+      margin-bottom: 36px;
+      text-align: center;
+    }
+
+    .ass-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+
+    .ass-col {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ass-linha {
+      border-bottom: 1.5px solid var(--texto);
+      height: 50px;
+      position: relative;
+    }
+
+    .ass-nome {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--oliva);
+      margin-top: 6px;
+    }
+
+    .ass-qualif {
+      font-size: 10px;
+      color: var(--cinza);
+      font-weight: 300;
+    }
+
+    .ass-cpf {
+      font-size: 10px;
+      color: var(--cinza);
+      font-weight: 300;
+      margin-top: 2px;
+    }
+
+    .ass-testemunhas {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--borda);
+    }
+
+    .ass-testemunhas-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--cinza);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .ass-tess-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+
+    /* â”€â”€â”€ RODAPÉ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .footer {
+      background: var(--bege);
+      border-top: 1px solid var(--borda);
+      padding: 10px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-left {
+      font-size: 9px;
+      color: var(--cinza);
+      font-weight: 300;
+    }
+
+    .footer-left a {
+      color: var(--magenta);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-right {
+      font-size: 9px;
+      color: #aaa;
+      font-weight: 300;
+    }
+
+    /* â”€â”€â”€ OBSERVAÃ‡ÃƒO SOBRE PLACEHOLDERS (screen only) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .placeholder-legend {
+      font-family: 'Archivo', sans-serif;
+      font-size: 11px;
+      background: rgba(204,51,102,0.08);
+      border: 1px solid rgba(204,51,102,0.25);
+      border-radius: 4px;
+      padding: 12px 20px;
+      color: #a0204a;
+      width: 794px;
+      margin-bottom: -8px;
+      line-height: 1.7;
+    }
+
+    .placeholder-legend strong { font-weight: 700; }
+
+    @media print { .placeholder-legend, .screen-only { display: none; } }
+
+    /* â”€â”€â”€ NÚMERO DE PÃGINA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .page-num {
+      position: absolute;
+      bottom: 44px;
+      right: 48px;
+      font-size: 9px;
+      color: var(--cinza);
+      font-weight: 300;
+    }
+
+    /* â”€â”€â”€ CONTINUAÃ‡ÃƒO — HEADER SIMPLIFICADO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    .header-cont {
+      background: var(--oliva);
+      padding: 14px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-cont-logo {
+      height: 28px;
+      filter: brightness(0) invert(1);
+    }
+
+    .header-cont-info {
+      font-size: 10px;
+      color: rgba(235,230,221,0.65);
+      font-weight: 300;
+    }
+  </style>
+</head>
+<body>
+
+<!-- â”€â”€â”€ LEGENDA DE PLACEHOLDERS (visible only in browser) â”€â”€â”€ -->
+<div class="placeholder-legend screen-only">
+  <strong>Placeholders disponíveis:</strong>
+  {{NOME_CLIENTE}} · {{CPF_CNPJ}} · {{TELEFONE}} · {{EMAIL}} · {{ENDERECO_OBRA}} ·
+  {{VALOR_TOTAL}} · {{VALOR_POR_EXTENSO}} · {{FORMA_PAGAMENTO}} · {{DESCRICAO_PAGAMENTO}} ·
+  {{PRAZO_EXECUCAO}} · {{DATA_CONTRATO}} · {{CIDADE_CONTRATO}} ·
+  {{LISTA_AMBIENTES}} · {{DESCONTO_APLICADO}} · {{MATERIAIS_ESCOLHIDOS}}
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     PÃGINA 1
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img class="header-logo"
+         src="./imagens-explan/logo-final.png"
+         alt="Explan Móveis Planejados"
+         onerror="this.outerHTML='<span class=\'header-logo-fallback\'>EXPLAN</span>'" />
+    <div class="header-title-block">
+      <p class="header-doc-type">Documento oficial</p>
+      <p class="header-doc-name">Contrato de Prestação de Serviços</p>
+    </div>
+  </div>
+
+  <!-- BANNER CLIENTE -->
+  <div class="cliente-banner">
+    <div class="cliente-info">
+      <p class="cliente-label">Contratante</p>
+      <p class="cliente-nome"><span class="placeholder">{{NOME_CLIENTE}}</span></p>
+      <p class="cliente-meta">CPF/CNPJ: <span class="placeholder">{{CPF_CNPJ}}</span> &nbsp;|&nbsp; <span class="placeholder">{{EMAIL}}</span></p>
+    </div>
+    <div class="contrato-meta">
+      <p class="contrato-num">Contrato nÂº EXP-2026-001</p>
+      <p class="contrato-data"><span class="placeholder">{{CIDADE_CONTRATO}}</span>, <span class="placeholder">{{DATA_CONTRATO}}</span></p>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- PARTES -->
+    <div class="partes-section">
+      <!-- CONTRATANTE -->
+      <div class="parte-box">
+        <div class="parte-header">Contratante</div>
+        <div class="parte-body">
+          <div class="parte-row">
+            <span class="parte-field">Nome:</span>
+            <span class="parte-value"><span class="placeholder">{{NOME_CLIENTE}}</span></span>
+          </div>
+          <div class="parte-row">
+            <span class="parte-field">CPF/CNPJ:</span>
+            <span class="parte-value"><span class="placeholder">{{CPF_CNPJ}}</span></span>
+          </div>
+          <div class="parte-row">
+            <span class="parte-field">Telefone:</span>
+            <span class="parte-value"><span class="placeholder">{{TELEFONE}}</span></span>
+          </div>
+          <div class="parte-row">
+            <span class="parte-field">E-mail:</span>
+            <span class="parte-value"><span class="placeholder">{{EMAIL}}</span></span>
+          </div>
+          <div class="parte-row">
+            <span class="parte-field">End. Obra:</span>
+            <span class="parte-value"><span class="placeholder">{{ENDERECO_OBRA}}</span></span>
+          </div>
+        </div>
+      </div>
+      <!-- CONTRATADA -->
+      <div class="parte-box">
+        <div class="parte-header">Contratada</div>
+        <div class="parte-body">
+          <div class="parte-row">
+            <span class="parte-field">Razão Social:</span>
+            <span class="parte-value">Explan Móveis Planejados Ltda.</span>
+          </div>
+          <div class="parte-row">
+            <span class="parte-field">CNPJ:</span>
+            <span class="parte-value">00.000.000/0001-00</span>
+          </div>
+          <div class="parte-row">
+            <span class="parte-field">Endereço:</span>
+            <span class="parte-value">Rua das Araucárias, 450 — Curitiba/PR</span>
+          </div>
+          <div class="parte-row">
+            <span class="parte-field">Responsável:</span>
+            <span class="parte-value">Diretor Comercial</span>
+          </div>
+          <div class="parte-row">
+            <span class="parte-field">Site:</span>
+            <span class="parte-value">explanmoveisplanejados.com.br</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 1 — OBJETO -->
+    <div class="clausula">
+      <div class="clausula-titulo">
+        <span class="clausula-num">1</span>
+        Cláusula Primeira — Objeto do Contrato
+      </div>
+      <div class="clausula-body">
+        <p>O presente contrato tem por objeto a prestação de serviços de <strong>fabricação, fornecimento e instalação de móveis planejados</strong> pela Contratada no imóvel do Contratante, conforme projeto técnico aprovado pelas partes, especificando os seguintes ambientes e respectivos valores:</p>
+
+        <div class="ambientes-list">
+          <div class="ambientes-list-header">
+            <span>Ambiente</span>
+            <span>Valor</span>
+          </div>
+          <!-- {{LISTA_AMBIENTES}} — substituído dinamicamente pelo gerador -->
+          <div class="ambiente-item">
+            <span class="ambiente-item-nome"><span class="placeholder">{{LISTA_AMBIENTES}}</span></span>
+            <span class="ambiente-item-val"></span>
+          </div>
+        </div>
+
+        <p>Os materiais utilizados serão: <strong><span class="placeholder">{{MATERIAIS_ESCOLHIDOS}}</span></strong>. O projeto detalhado, plantas técnicas e memorial descritivo são documentos anexos e integram este contrato para todos os fins de direito.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 2 — VALOR -->
+    <div class="clausula">
+      <div class="clausula-titulo">
+        <span class="clausula-num">2</span>
+        Cláusula Segunda — Valor e Condições Financeiras
+      </div>
+      <div class="clausula-body">
+        <p>O valor total dos serviços objeto deste contrato é de:</p>
+
+        <div class="valor-destaque">
+          <div>
+            <p class="valor-destaque-label">Investimento Total</p>
+            <p class="valor-extenso"><span class="placeholder">{{VALOR_POR_EXTENSO}}</span></p>
+          </div>
+          <p class="valor-destaque-num"><span class="placeholder">{{VALOR_TOTAL}}</span></p>
+        </div>
+
+        <p>Forma de pagamento contratada: <strong><span class="placeholder">{{FORMA_PAGAMENTO}}</span></strong>.</p>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <span class="page-num">Pág. 1 / 2</span>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <p class="footer-left">Desenvolvido por <a href="https://thiagonascimentobarbosapro.com" target="_blank">TM · Sempre Tecnologia</a></p>
+    <p class="footer-right">Explan Móveis Planejados Â© 2026 — Documento gerado automaticamente</p>
+  </div>
+
+</div><!-- /page 1 -->
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     PÃGINA 2
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div class="page">
+
+  <!-- HEADER CONT -->
+  <div class="header-cont">
+    <img class="header-cont-logo"
+         src="./imagens-explan/logo-final.png"
+         alt="Explan"
+         onerror="this.outerHTML='<span style=\'color:#fff;font-weight:800;font-size:14px;\'>EXPLAN</span>'" />
+    <span class="header-cont-info">Contrato de Prestação de Serviços — <span class="placeholder" style="color:rgba(235,230,221,0.5);">{{NOME_CLIENTE}}</span></span>
+  </div>
+
+  <div class="content">
+
+    <!-- CLÃUSULA 3 — PRAZO -->
+    <div class="clausula">
+      <div class="clausula-titulo">
+        <span class="clausula-num">3</span>
+        Cláusula Terceira — Prazo de Execução e Entrega
+      </div>
+      <div class="clausula-body">
+        <p>O prazo para fabricação e instalação dos móveis é de <strong><span class="placeholder">{{PRAZO_EXECUCAO}}</span></strong>, contados a partir da data de assinatura deste contrato e confirmação do primeiro pagamento previsto na Cláusula Segunda.</p>
+
+        <div class="info-grid">
+          <div class="info-box">
+            <p class="info-box-label">Prazo de Execução</p>
+            <p class="info-box-value"><span class="placeholder">{{PRAZO_EXECUCAO}}</span></p>
+            <p class="info-box-sub">A partir da assinatura</p>
+          </div>
+          <div class="info-box">
+            <p class="info-box-label">Medição Técnica</p>
+            <p class="info-box-value">Em até 5 dias</p>
+            <p class="info-box-sub">Após assinatura do contrato</p>
+          </div>
+          <div class="info-box">
+            <p class="info-box-label">Garantia Pós-Entrega</p>
+            <p class="info-box-value">5 anos</p>
+            <p class="info-box-sub">Estrutura e ferragens</p>
+          </div>
+        </div>
+
+        <p>Eventuais atrasos causados por fatores alheios Ã  vontade da Contratada — incluindo falta de acesso Ã  obra, alterações solicitadas pelo Contratante após início da produção ou força maior — não serão computados no prazo contratual, devendo o novo prazo ser formalizados por aditivo escrito.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 4 — PAGAMENTO -->
+    <div class="clausula">
+      <div class="clausula-titulo">
+        <span class="clausula-num">4</span>
+        Cláusula Quarta — Condições e Cronograma de Pagamento
+      </div>
+      <div class="clausula-body">
+        <p>O pagamento será realizado conforme a forma contratada, detalhada abaixo:</p>
+
+        <div class="pagamento-bloco">
+          <span class="placeholder">{{DESCRICAO_PAGAMENTO}}</span>
+        </div>
+
+        <p>O não cumprimento de qualquer parcela nas datas acordadas implicará multa moratória de <strong>2% (dois por cento)</strong> sobre o valor em atraso, acrescida de juros de <strong>1% (um por cento) ao mês</strong>, calculados pro rata die. O atraso superior a 30 (trinta) dias faculta Ã  Contratada suspender os serviços sem qualquer penalidade, sendo retomados somente após a regularização integral do débito.</p>
+
+        <p>O desconto eventualmente concedido é de <strong><span class="placeholder">{{DESCONTO_APLICADO}}</span></strong> e está condicionado ao cumprimento rigoroso do cronograma de pagamentos acima estabelecido. O descumprimento implica a perda automática do desconto, sendo cobrada a diferença no próximo vencimento.</p>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 5 — GARANTIA -->
+    <div class="clausula">
+      <div class="clausula-titulo">
+        <span class="clausula-num">5</span>
+        Cláusula Quinta — Garantia e Responsabilidades
+      </div>
+      <div class="clausula-body">
+        <p>A Contratada oferece as seguintes coberturas de garantia a partir da data de instalação:</p>
+
+        <div class="garantia-row">
+          <div class="garantia-item">
+            <p class="garantia-item-title">Estrutura e MDF (5 anos)</p>
+            <p class="garantia-item-desc">Cobertura total contra defeitos de fabricação, deformações ou falhas estruturais nos painéis e corpos dos móveis.</p>
+          </div>
+          <div class="garantia-item">
+            <p class="garantia-item-title">Ferragens Blum (5 anos)</p>
+            <p class="garantia-item-desc">Garantia de fabricante nas ferragens Blum — dobradiças, trilhos e sistemas de abertura.</p>
+          </div>
+          <div class="garantia-item">
+            <p class="garantia-item-title">Acabamentos (1 ano)</p>
+            <p class="garantia-item-desc">Bordas PVC, lacas e revestimentos contra defeitos de aplicação em condições normais de uso.</p>
+          </div>
+          <div class="garantia-item">
+            <p class="garantia-item-title">Exclusões</p>
+            <p class="garantia-item-desc">Danos por mau uso, umidade excessiva, reforma do imóvel após instalação ou intervenções de terceiros não autorizados.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLÃUSULA 6 — RESCISÃƒO -->
+    <div class="clausula">
+      <div class="clausula-titulo">
+        <span class="clausula-num">6</span>
+        Cláusula Sexta — Rescisão Contratual
+      </div>
+      <div class="clausula-body">
+        <p>O presente contrato poderá ser rescindido por qualquer das partes mediante comunicação prévia de <strong>15 (quinze) dias corridos</strong>. Em caso de rescisão motivada pelo Contratante após o início da produção, será devida uma indenização de <strong>30% (trinta por cento)</strong> sobre o valor total do contrato, a título de ressarcimento pelos custos de produção já incorridos. Materiais já adquiridos e/ou produzidos poderão ser cobrados integralmente. Em caso de descumprimento contratual por parte da Contratada, o Contratante terá direito ao reembolso integral dos valores pagos, corrigidos pelo IPCA.</p>
+      </div>
+    </div>
+
+    <!-- ASSINATURAS -->
+    <div class="assinaturas-section">
+      <p class="ass-local-data"><span class="placeholder">{{CIDADE_CONTRATO}}</span>, <span class="placeholder">{{DATA_CONTRATO}}</span></p>
+
+      <div class="ass-grid">
+        <div class="ass-col">
+          <div class="ass-linha"></div>
+          <p class="ass-nome"><span class="placeholder">{{NOME_CLIENTE}}</span></p>
+          <p class="ass-qualif">Contratante</p>
+          <p class="ass-cpf">CPF/CNPJ: <span class="placeholder">{{CPF_CNPJ}}</span></p>
+        </div>
+        <div class="ass-col">
+          <div class="ass-linha"></div>
+          <p class="ass-nome">Explan Móveis Planejados Ltda.</p>
+          <p class="ass-qualif">Contratada</p>
+          <p class="ass-cpf">CNPJ: 00.000.000/0001-00</p>
+        </div>
+      </div>
+
+      <div class="ass-testemunhas">
+        <p class="ass-testemunhas-label">Testemunhas</p>
+        <div class="ass-tess-grid">
+          <div class="ass-col">
+            <div class="ass-linha"></div>
+            <p class="ass-nome">Testemunha 1</p>
+            <p class="ass-cpf">CPF: ___.___.___-__</p>
+          </div>
+          <div class="ass-col">
+            <div class="ass-linha"></div>
+            <p class="ass-nome">Testemunha 2</p>
+            <p class="ass-cpf">CPF: ___.___.___-__</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <span class="page-num">Pág. 2 / 2</span>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <p class="footer-left">Desenvolvido por <a href="https://thiagonascimentobarbosapro.com" target="_blank">TM · Sempre Tecnologia</a> | thiagonascimentobarbosapro.com</p>
+    <p class="footer-right">Explan Móveis Planejados Â© 2026</p>
+  </div>
+
+</div><!-- /page 2 -->
+
+<script>
+(function(){
+  const raw = localStorage.getItem('explan_oc');
+  if(!raw) return;
+  const d = JSON.parse(raw);
+  const c = d.cliente || {};
+
+  // Função auxiliar — substitui todos os placeholders no HTML do body
+  function fill(placeholder, value) {
+    document.body.innerHTML = document.body.innerHTML.replaceAll(placeholder, value || '—');
+  }
+
+  // Extenso simples para o valor
+  function valorExtenso(n) {
+    if(!n) return 'zero reais';
+    const inteiro = Math.floor(n);
+    const centavos = Math.round((n - inteiro)*100);
+    const un = ['','um','dois','três','quatro','cinco','seis','sete','oito','nove','dez',
+      'onze','doze','treze','quatorze','quinze','dezesseis','dezessete','dezoito','dezenove'];
+    const dez = ['','','vinte','trinta','quarenta','cinquenta','sessenta','setenta','oitenta','noventa'];
+    function grupo(n){
+      if(n===0) return '';
+      if(n<20) return un[n];
+      if(n<100) return dez[Math.floor(n/10)]+(n%10?' e '+un[n%10]:'');
+      const c=Math.floor(n/100);
+      const r=n%100;
+      const cent=['','cem','duzentos','trezentos','quatrocentos','quinhentos',
+        'seiscentos','setecentos','oitocentos','novecentos'];
+      if(r===0) return cent[c];
+      return (c===1?'cento':cent[c])+' e '+grupo(r);
+    }
+    const mil=Math.floor(inteiro/1000); const res=inteiro%1000;
+    let txt='';
+    if(mil>0) txt+=(mil===1?'um mil':grupo(mil)+' mil')+(res>0?' e ':'');
+    if(res>0) txt+=grupo(res);
+    txt+=(inteiro===1?' real':' reais');
+    if(centavos>0) txt+=' e '+grupo(centavos)+(centavos===1?' centavo':' centavos');
+    return txt;
+  }
+
+  // Lista de ambientes
+  const ambientes = (d.ambientes||[]).map(a=>{
+    const n=a.nome.replace(/^[\p{Emoji}\s]+/u,'').trim();
+    return `${n} — R$ ${(a.total||0).toLocaleString('pt-BR',{minimumFractionDigits:2})}`;
+  }).join(' | ');
+
+  // Materiais
+  const mats=[];
+  if(d.config?.chapa==='15') mats.push('Chapa MDF 15mm');
+  else mats.push('Chapa MDF 18mm');
+  if(d.config?.ferragem==='blum') mats.push('Ferragem Blum');
+  else if(d.config?.ferragem==='hafele') mats.push('Ferragem HÃ¤fele');
+  else if(d.config?.ferragem==='fgv') mats.push('Ferragem FGV');
+  if(d.config?.cor==='branco') mats.push('Interior branco');
+
+  const hoje = new Date();
+  const dataStr = hoje.toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
+
+  fill('{{NOME_CLIENTE}}', c.nome);
+  fill('{{CPF_CNPJ}}', c.cpf);
+  fill('{{EMAIL}}', c.email);
+  fill('{{TELEFONE}}', c.whatsapp);
+  fill('{{ENDERECO_OBRA}}', c.observacoes || '—');
+  fill('{{VALOR_TOTAL}}', 'R$ '+(d.total_geral||0).toLocaleString('pt-BR',{minimumFractionDigits:2}));
+  fill('{{VALOR_POR_EXTENSO}}', valorExtenso(d.total_geral||0));
+  fill('{{PRAZO_EXECUCAO}}', c.prazo || '45 dias úteis');
+  fill('{{FORMA_PAGAMENTO}}', c.pagamento || '—');
+  fill('{{DESCRICAO_PAGAMENTO}}', c.pagamento || '—');
+  fill('{{DESCONTO_APLICADO}}', (d.config?.desconto_total||0)+'%');
+  fill('{{LISTA_AMBIENTES}}', ambientes || '—');
+  fill('{{MATERIAIS_ESCOLHIDOS}}', mats.join(', '));
+  fill('{{DATA_CONTRATO}}', dataStr);
+  fill('{{CIDADE_CONTRATO}}', 'Goiânia');
+
+  // Atualizar título da janela
+  document.title = 'Contrato — ' + (c.nome||'Cliente') + ' — Explan';
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,397 @@
+{
+  "versao": "1.0",
+  "ultima_atualizacao": "2026-06-12",
+  "instrucoes": "Preencha os campos 'preco_*' com os valores em reais (número decimal). Use null para itens sem preço definido. Campos com 'cotar' devem ser preenchidos manualmente no orçamento. Os preços base são para Chapa 18 + Blum. O sistema aplica desconto automaticamente.",
+  "descontos_globais": {
+    "chapa15_vs_chapa18": -0.10,
+    "ferragem_hafele_vs_blum": -0.05,
+    "ferragem_fgv_vs_blum": -0.15,
+    "interior_branco_vs_colorido": -0.05
+  },
+  "categorias": [
+    {
+      "id": "caixotes",
+      "label": "Caixotes (Corpo dos Móveis)",
+      "imagem_padrao": "cozinha-01.jpg",
+      "descricao": "Módulos base para todos os ambientes. Preços por m².",
+      "itens": [
+        {
+          "id": "caixote-sem-porta",
+          "nome": "Caixote sem porta",
+          "unidade": "m²",
+          "preco_base": 2000.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": false,
+          "observacao": "Preço base chapa 18. Sem porta."
+        },
+        {
+          "id": "caixote-porta-vidro",
+          "nome": "Caixote com porta de vidro",
+          "unidade": "m²",
+          "preco_base": 3600.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": true,
+          "observacao": ""
+        },
+        {
+          "id": "caixote-sem-porta-vidro",
+          "nome": "Caixote sem porta de vidro",
+          "unidade": "m²",
+          "preco_base": 3000.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": true,
+          "observacao": ""
+        },
+        {
+          "id": "caixote-porta-usinada",
+          "nome": "Caixote com porta usinada",
+          "unidade": "m²",
+          "preco_base": 3100.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": true,
+          "observacao": ""
+        },
+        {
+          "id": "caixote-porta-palha",
+          "nome": "Caixote com porta em palha",
+          "unidade": "m²",
+          "preco_base": 3700.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": true,
+          "observacao": ""
+        },
+        {
+          "id": "caixote-porta-provensais-laqueada",
+          "nome": "Caixote com portas provensais laqueada",
+          "unidade": "m²",
+          "preco_base": 4700.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": true,
+          "observacao": ""
+        },
+        {
+          "id": "caixote-porta-provensais-madeirada",
+          "nome": "Caixote com portas provensais madeirada ou lisa",
+          "unidade": "m²",
+          "preco_base": 3900.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": true,
+          "observacao": ""
+        },
+        {
+          "id": "caixote-porta-mdf-lisa",
+          "nome": "Caixote c/ porta MDF lisa",
+          "unidade": "m²",
+          "preco_base": 3450.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": true,
+          "observacao": "Preço confirmado pelo cliente"
+        },
+        {
+          "id": "caixaria-closet-porta-mdf-lisa",
+          "nome": "Caixaria Closet c/ porta MDF lisa",
+          "unidade": "m²",
+          "preco_base": 3450.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": true,
+          "observacao": "Variação da caixote padrão"
+        },
+        {
+          "id": "caixaria-porta-mdf-lisa",
+          "nome": "Caixaria c/ porta MDF lisa",
+          "unidade": "m²",
+          "preco_base": 3450.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": true,
+          "observacao": "Variação da caixote padrão"
+        }
+      ]
+    },
+    {
+      "id": "paineis",
+      "label": "Painéis Decorativos",
+      "imagem_padrao": "sala-01.jpg",
+      "descricao": "Painéis para parede, TV, cama e decoração. Preços por m².",
+      "itens": [
+        {
+          "id": "painel-liso",
+          "nome": "Painel liso",
+          "unidade": "m²",
+          "preco_base": 2100.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        },
+        {
+          "id": "painel-ripado",
+          "nome": "Painel ripado",
+          "unidade": "m²",
+          "preco_base": 2800.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        },
+        {
+          "id": "painel-palha",
+          "nome": "Painel com palha",
+          "unidade": "m²",
+          "preco_base": 2950.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        },
+        {
+          "id": "painel-parametrico",
+          "nome": "Painel paramétrico",
+          "unidade": "m²",
+          "preco_base": 6000.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": "Valor premium — não sofre desconto de material"
+        },
+        {
+          "id": "parqueamento-painel",
+          "nome": "Parqueamento do painel",
+          "unidade": "m²",
+          "preco_base": 1100.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        },
+        {
+          "id": "mucharabi",
+          "nome": "Muxarabi",
+          "unidade": "m²",
+          "preco_base": 3500.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        }
+      ]
+    },
+    {
+      "id": "portas",
+      "label": "Portas",
+      "imagem_padrao": "closet-01.jpg",
+      "descricao": "Portas de correr, pivotantes e afins. Preços por m².",
+      "itens": [
+        {
+          "id": "porta-correr",
+          "nome": "Porta de correr",
+          "unidade": "m²",
+          "preco_base": 1800.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": true,
+          "observacao": ""
+        },
+        {
+          "id": "porta-pivotante",
+          "nome": "Porta pivotante",
+          "unidade": "m²",
+          "preco_base": 1600.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": true,
+          "observacao": ""
+        }
+      ]
+    },
+    {
+      "id": "ferragens-avulsas",
+      "label": "Ferragens e Acessórios",
+      "imagem_padrao": null,
+      "descricao": "Ferragens vendidas por unidade ou metro linear.",
+      "itens": [
+        {
+          "id": "dobradica-avulsa",
+          "nome": "Dobradiça (avulsa)",
+          "unidade": "un",
+          "preco_base": 200.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": true,
+          "observacao": "200,00/un para Blum. Ver desconto de ferragem selecionada."
+        },
+        {
+          "id": "dobradica-simples",
+          "nome": "Dobradiça simples",
+          "unidade": "un",
+          "preco_base": 150.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": true,
+          "observacao": ""
+        },
+        {
+          "id": "articulador",
+          "nome": "Articulador",
+          "unidade": "un",
+          "preco_base": 390.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": true,
+          "observacao": ""
+        },
+        {
+          "id": "corredicaoculta",
+          "nome": "Corrediça oculta",
+          "unidade": "un",
+          "preco_base": 320.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": true,
+          "observacao": ""
+        },
+        {
+          "id": "ferragem-metalon",
+          "nome": "Ferragem metalon com pintura eletrostática",
+          "unidade": "ml",
+          "preco_base": 450.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        },
+        {
+          "id": "fechadura-digital",
+          "nome": "Fechadura digital",
+          "unidade": "un",
+          "preco_base": 790.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        },
+        {
+          "id": "puxador",
+          "nome": "Puxador",
+          "unidade": "un",
+          "preco_base": null,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": "COTAR — valor varia conforme modelo. Inserir manualmente."
+        },
+        {
+          "id": "kit-dominus-porta-correr",
+          "nome": "Kit Dominus — Porta de Correr",
+          "unidade": "un",
+          "preco_base": 1800.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": "Preço confirmado"
+        }
+      ]
+    },
+    {
+      "id": "acabamentos",
+      "label": "Acabamentos e Iluminação",
+      "imagem_padrao": null,
+      "descricao": "Rodapés, LED e espelhos. Preços por metro linear ou m².",
+      "itens": [
+        {
+          "id": "rodape-madeira",
+          "nome": "Rodapé de madeira",
+          "unidade": "ml",
+          "preco_base": 70.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        },
+        {
+          "id": "rodape-granito",
+          "nome": "Rodapé de granito",
+          "unidade": "ml",
+          "preco_base": 150.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        },
+        {
+          "id": "rodape-personalizado",
+          "nome": "Rodapé personalizado",
+          "unidade": "ml",
+          "preco_base": null,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": "COTAR — inserir valor manualmente conforme modelo"
+        },
+        {
+          "id": "led",
+          "nome": "LED embutido",
+          "unidade": "ml",
+          "preco_base": 250.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        },
+        {
+          "id": "espelho",
+          "nome": "Espelho",
+          "unidade": "m²",
+          "preco_base": 1300.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        },
+        {
+          "id": "prateleira",
+          "nome": "Prateleira (até 60cm de largura)",
+          "unidade": "ml",
+          "preco_base": 600.00,
+          "aplica_desconto_chapa": true,
+          "aplica_desconto_ferragem": false,
+          "observacao": ""
+        }
+      ]
+    },
+    {
+      "id": "mao-de-obra",
+      "label": "Mão de Obra",
+      "imagem_padrao": null,
+      "descricao": "Serviços avulsos de instalação e técnica.",
+      "itens": [
+        {
+          "id": "mao-de-obra-tecnico",
+          "nome": "Mão de obra por técnico",
+          "unidade": "hora",
+          "preco_base": 450.00,
+          "preco_min": 450.00,
+          "preco_max": 450.00,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": "R$ 450,00/hora. Inserir número de horas."
+        }
+      ]
+    },
+    {
+      "id": "outros",
+      "label": "Outros",
+      "imagem_padrao": null,
+      "descricao": "Itens avulsos que não se enquadram nas categorias principais.",
+      "itens": [
+        {
+          "id": "porta-pivotante-un",
+          "nome": "Porta Pivotante",
+          "unidade": "un",
+          "preco_base": 1600.00,
+          "cotar": true,
+          "aplica_desconto_chapa": false,
+          "aplica_desconto_ferragem": false,
+          "observacao": "COTAR — valor usado no orçamento Karla e Luiz, aguarda confirmação"
+        }
+      ]
+    },
+    {
+      "id": "ambientes",
+      "label": "Referência de Ambientes",
+      "descricao": "Lista de ambientes disponíveis para seleção no orçamento. Cada ambiente usa os itens das categorias acima.",
+      "lista": [
+        { "id": "cozinha",            "label": "Cozinha",                "imagem": "cozinha-01.jpg" },
+        { "id": "dormitorio-master",  "label": "Dormitório Master",      "imagem": "dormitorio-01.jpg" },
+        { "id": "dormitorio-filho",   "label": "Dormitório Filho",       "imagem": "dormitorio-02.jpg" },
+        { "id": "dormitorio-casal",   "label": "Dormitório Casal",       "imagem": "dormitorio-03.jpg" },
+        { "id": "sala-estar",         "label": "Sala de Estar",          "imagem": "sala-01.jpg" },
+        { "id": "home-office",        "label": "Home Office",            "imagem": "home-office-01.jpg" },
+        { "id": "lavanderia",         "label": "Lavanderia",             "imagem": "lavanderia-01.jpg" },
+        { "id": "banheiro",           "label": "Banheiro",               "imagem": "banheiro-01.jpg" },
+        { "id": "closet",             "label": "Closet",                 "imagem": "closet-01.jpg" },
+        { "id": "area-gourmet",       "label": "Área Gourmet",           "imagem": "gourmet-01.jpg" },
+        { "id": "sala-jantar",        "label": "Sala de Jantar",         "imagem": "sala-02.jpg" },
+        { "id": "varanda",            "label": "Varanda",                "imagem": "varanda-01.jpg" }
+      ]
+    }
+  ]
+}

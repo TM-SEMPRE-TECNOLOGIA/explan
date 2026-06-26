@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formatação Automática de Campos</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #2c3e50;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        header h1 { font-size: 32px; margin-bottom: 10px; }
+        header p { font-size: 16px; opacity: 0.9; }
+
+        .content { padding: 40px 30px; }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 22px;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .format-example {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+
+        .format-example strong { color: #2c3e50; font-size: 16px; }
+        .format-example .input-label { color: #7f8c8d; font-size: 12px; margin-top: 8px; }
+        .format-example code { background: #ecf0f1; padding: 4px 8px; border-radius: 3px; font-family: monospace; }
+
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 12px;
+        }
+
+        .before, .after {
+            padding: 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .before {
+            background: #fadbd8;
+            border: 1px solid #e74c3c;
+        }
+
+        .after {
+            background: #d5f4e6;
+            border: 1px solid #27ae60;
+        }
+
+        .before strong { color: #c0392b; }
+        .after strong { color: #27ae60; }
+
+        .test-section {
+            background: #ecf0f1;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .test-section h3 { color: #2c3e50; margin-bottom: 20px; }
+
+        .test-field {
+            margin-bottom: 20px;
+        }
+
+        .test-field label {
+            display: block;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .test-field input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: monospace;
+            transition: border-color 0.3s;
+        }
+
+        .test-field input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .table-format {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .table-format th, .table-format td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .table-format th {
+            background: #34495e;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .table-format tr:hover { background: #f8f9fa; }
+        .table-format tr:last-child td { border-bottom: none; }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-top: 15px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .badge-new { background: #d5f4e6; color: #27ae60; }
+        .badge-both { background: #fdebd0; color: #f39c12; }
+
+        .footer { text-align: center; padding: 30px; color: #7f8c8d; font-size: 12px; }
+
+        @media (max-width: 768px) {
+            .before-after { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>âœ¨ Formatação Automática de Campos</h1>
+            <p>Wizard & Página Única — Validação em Tempo Real</p>
+        </header>
+
+        <div class="content">
+
+            <div class="section">
+                <h2>📋 Campos com Formatação Implementada</h2>
+
+                <div class="format-example">
+                    <strong>📱 WhatsApp</strong>
+                    <span class="badge badge-both">Wizard + Página Única</span>
+                    <div class="input-label">Formato: <code>(XX) XXXXX-XXXX</code></div>
+                    <div class="before-after">
+                        <div class="before"><strong>ANTES:</strong><br>62996046458</div>
+                        <div class="after"><strong>DEPOIS:</strong><br>(62) 99604-6458</div>
+                    </div>
+                    <div class="code-block">
+function formatarWhatsapp(valor) {
+  const numeros = valor.replace(/\D/g, '');
+  if(numeros.length <= 11) {
+    return numeros.replace(/(\d{2})(\d{4,5})(\d{4})/, '($1) $2-$3');
+  }
+  return valor;
+}</div>
+                </div>
+
+                <div class="format-example">
+                    <strong>ðŸ†” CPF</strong>
+                    <span class="badge badge-both">Wizard + Página Única</span>
+                    <div class="input-label">Formato: <code>XXX.XXX.XXX-XX</code></div>
+                    <div class="before-after">
+                        <div class="before"><strong>ANTES:</strong><br>12345678900</div>
+                        <div class="after"><strong>DEPOIS:</strong><br>123.456.789-00</div>
+                    </div>
+                    <div class="code-block">
+function formatarCPF(valor) {
+  const numeros = valor.replace(/\D/g, '');
+  if(numeros.length <= 11) {
+    return numeros.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  }
+  return valor;
+}</div>
+                </div>
+
+                <div class="format-example">
+                    <strong>ðŸ¢ CNPJ</strong>
+                    <span class="badge badge-new">Pronto para Uso</span>
+                    <div class="input-label">Formato: <code>XX.XXX.XXX/XXXX-XX</code></div>
+                    <div class="before-after">
+                        <div class="before"><strong>ANTES:</strong><br>12345678000190</div>
+                        <div class="after"><strong>DEPOIS:</strong><br>12.345.678/0001-90</div>
+                    </div>
+                    <div class="code-block">
+function formatarCNPJ(valor) {
+  const numeros = valor.replace(/\D/g, '');
+  if(numeros.length <= 14) {
+    return numeros.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+  }
+  return valor;
+}</div>
+                </div>
+
+            </div>
+
+            <div class="section">
+                <h2>ðŸ§ª Teste Interativo</h2>
+                <p style="margin-bottom: 20px; color: #34495e;">
+                    Digite números abaixo para ver a formatação automática em ação:
+                </p>
+
+                <div class="test-section">
+                    <h3>WhatsApp</h3>
+                    <div class="test-field">
+                        <label>Digite números (ex: 62996046458):</label>
+                        <input type="tel" id="test-wpp" placeholder="Apenas números...">
+                    </div>
+
+                    <h3 style="margin-top: 30px;">CPF</h3>
+                    <div class="test-field">
+                        <label>Digite números (ex: 12345678900):</label>
+                        <input type="text" id="test-cpf" placeholder="Apenas números...">
+                    </div>
+
+                    <h3 style="margin-top: 30px;">CNPJ</h3>
+                    <div class="test-field">
+                        <label>Digite números (ex: 12345678000190):</label>
+                        <input type="text" id="test-cnpj" placeholder="Apenas números...">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="section">
+                <h2>📊 Tabela de Especificações</h2>
+
+                <table class="table-format">
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Formato</th>
+                            <th>Comprimento</th>
+                            <th>Implementação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>WhatsApp</strong></td>
+                            <td><code>(XX) XXXXX-XXXX</code></td>
+                            <td>até 11 dígitos</td>
+                            <td>Wizard + Página Única</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CPF</strong></td>
+                            <td><code>XXX.XXX.XXX-XX</code></td>
+                            <td>11 dígitos</td>
+                            <td>Wizard + Página Única</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CNPJ</strong></td>
+                            <td><code>XX.XXX.XXX/XXXX-XX</code></td>
+                            <td>14 dígitos</td>
+                            <td>Função pronta (sem input ainda)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>âœ… Status de Implementação</h2>
+
+                <div style="background: #d5f4e6; padding: 20px; border-radius: 8px; border-left: 4px solid #27ae60;">
+                    <strong style="color: #27ae60;">✓ Concluído</strong><br><br>
+                    ✓ WhatsApp formatação no wizard<br>
+                    ✓ WhatsApp formatação na página única<br>
+                    ✓ CPF formatação no wizard<br>
+                    ✓ CPF formatação na página única<br>
+                    ✓ Funções CNPJ prontas (aguardando campo de CNPJ)<br>
+                    ✓ Validação em tempo real (oninput)<br>
+                    ✓ Mantém apenas números enquanto digita<br>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>ðŸŽ¯ Próximos Passos</h2>
+
+                <p style="margin-bottom: 15px;">Se necessário adicionar campos para:</p>
+                <ul style="margin-left: 30px; margin-bottom: 20px;">
+                    <li><strong>CNPJ Contratante</strong> — usar <code>formatarCNPJ()</code></li>
+                    <li><strong>Telefone Comercial</strong> — usar <code>formatarWhatsapp()</code></li>
+                    <li><strong>CPF Representante</strong> — usar <code>formatarCPF()</code></li>
+                </ul>
+
+                <div style="background: #ecf0f1; padding: 15px; border-radius: 6px; border-left: 3px solid #3498db;">
+                    <strong>ðŸ’¡ Nota:</strong> As funções estão implementadas em ambos os arquivos (wizard e página única). Para adicionar formatação a novos campos, basta adicionar um addEventListener com a função apropriada.
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>Documentação gerada em <strong>11 de Junho de 2026</strong></p>
+            <p>Desenvolvido por <strong>TM · Sempre Tecnologia</strong> | <a href="https://thiagonascimentobarbosapro.com" target="_blank">thiagonascimentobarbosapro.com</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Funções de formatação
+        function formatarWhatsapp(valor) {
+            const numeros = valor.replace(/\D/g, '');
+            if(numeros.length <= 11) {
+                return numeros.replace(/(\d{2})(\d{4,5})(\d{4})/, '($1) $2-$3');
+            }
+            return valor;
+        }
+
+        function formatarCPF(valor) {
+            const numeros = valor.replace(/\D/g, '');
+            if(numeros.length <= 11) {
+                return numeros.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            }
+            return valor;
+        }
+
+        function formatarCNPJ(valor) {
+            const numeros = valor.replace(/\D/g, '');
+            if(numeros.length <= 14) {
+                return numeros.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+            }
+            return valor;
+        }
+
+        // Aplicar aos campos de teste
+        document.getElementById('test-wpp').addEventListener('input', function() {
+            this.value = formatarWhatsapp(this.value);
+        });
+
+        document.getElementById('test-cpf').addEventListener('input', function() {
+            this.value = formatarCPF(this.value);
+        });
+
+        document.getElementById('test-cnpj').addEventListener('input', function() {
+            this.value = formatarCNPJ(this.value);
+        });
+    </script>
+</body>
+</html>

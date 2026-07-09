@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orçamento — Residencial Família Oliveira</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2D2D2D; font-family: 'Archivo', Arial, sans-serif; padding-top: 0; }
+  .toolbar {
+    background: #41422F; padding: 14px 28px; display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 50; margin-bottom: 40px;
+  }
+  .toolbar-left { display: flex; align-items: center; gap: 16px; }
+  .toolbar-logo { height: 28px; filter: brightness(0) invert(1); }
+  .toolbar-title { color: #EBE6DD; font-size: 15px; font-weight: 500; letter-spacing: .04em; }
+  .toolbar-right { display: flex; gap: 10px; align-items: center; }
+  .btn-toolbar { display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:50px;font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s; }
+  .btn-toolbar-green { background:#6B8E5E;color:#fff; }
+  .btn-toolbar-green:hover { background:#4d6944; }
+  .btn-toolbar-light { background:rgba(255,255,255,.15);color:#EBE6DD;border:1px solid rgba(255,255,255,.2); }
+  .btn-toolbar-light:hover { background:rgba(255,255,255,.25); }
+
+  .page { width: 794px; min-height: 1123px; background: #fff; margin: 0 auto 10px; position: relative; overflow: hidden; box-shadow: 0 8px 48px rgba(0,0,0,.5); display: flex; flex-direction: column; }
+  .page-cover { background: #41422F; }
+  .cover-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; mix-blend-mode: luminosity; }
+  .cover-overlay { position: absolute; inset: 0; background: linear-gradient(160deg, rgba(65,66,47,.62) 0%, rgba(20,21,14,.78) 100%); }
+  .cover-content { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; padding: 52px 64px 0; }
+  .cover-accent { position: absolute; z-index: 3; top: 0; right: 64px; width: 4px; height: 80px; background: linear-gradient(to bottom, #6B8E5E, transparent); }
+  .cover-logo-wrap { display: flex; align-items: center; gap: 14px; margin-bottom: auto; }
+  .cover-logo-text { font-size: 28px; font-weight: 800; color: #EBE6DD; letter-spacing: .16em; text-transform: uppercase; line-height: 1; }
+  .cover-logo-text span { display: block; font-size: 11px; font-weight: 300; letter-spacing: .28em; opacity: .55; margin-top: 5px; }
+  .cover-center { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: 60px; }
+  .cover-tag { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+  .cover-tag-bar { width: 4px; height: 18px; background: #6B8E5E; border-radius: 2px; }
+  .cover-tag-text { font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #6B8E5E; }
+  .cover-heading { font-family: 'Archivo', sans-serif; font-size: 42px; font-weight: 400; color: #EBE6DD; line-height: 1.15; letter-spacing: .01em; margin-bottom: 8px; }
+  .cover-heading em { font-style: italic; color: rgba(235,230,221,.65); }
+  .cover-divider { width: 64px; height: 2px; background: linear-gradient(to right, #6B8E5E, transparent); margin: 24px 0; }
+  .cover-client-label { font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: rgba(235,230,221,.5); margin-bottom: 6px; }
+  .cover-client-name { font-size: 22px; font-weight: 600; color: #EBE6DD; letter-spacing: .02em; }
+  .cover-data { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+  .cover-data dt { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(235,230,221,.5); margin-bottom: 2px; }
+  .cover-data dd { font-size: 15px; font-weight: 600; color: #EBE6DD; }
+
+  .page-inner { padding: 48px 52px; flex: 1; }
+  .section-label { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #6B8E5E; margin-bottom: 6px; }
+  .pag-title { font-size: 26px; font-weight: 700; color: #41422F; margin-bottom: 28px; letter-spacing: -.01em; }
+  .amb-photo { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; }
+  .amb-photo-overlay { position: relative; }
+  .amb-label { position: absolute; bottom: 28px; left: 20px; background: rgba(65,66,47,.85); color: #EBE6DD; padding: 8px 18px; border-radius: 6px; font-size: 14px; font-weight: 600; }
+  .items-table { width: 100%; border-collapse: collapse; margin: 20px 0 32px; font-size: 13px; }
+  .items-table th { text-align: left; padding: 10px 14px; background: #41422F; color: #EBE6DD; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .items-table td { padding: 10px 14px; border-bottom: 1px solid #E8E4DD; }
+  .items-table tr:last-child td { border-bottom: none; }
+  .items-table .qty { text-align: center; }
+  .items-table .price, .items-table .subtotal { text-align: right; }
+  .total-row td { font-weight: 700; border-top: 2px solid #41422F; padding-top: 12px; font-size: 15px; color: #41422F; }
+
+  .assinatura { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .assinatura-box { border-top: 1px solid #CCD6DF; padding-top: 8px; font-size: 11px; color: #A0A0A0; text-align: center; }
+
+  @media (max-width: 840px) {
+    .page { width: 100%; min-height: auto; }
+    .toolbar { flex-wrap: wrap; gap: 8px; padding: 10px 16px; }
+    .toolbar-right { width: 100%; justify-content: center; }
+    .btn-toolbar { font-size: 12px; padding: 7px 14px; }
+    .cover-content { padding: 24px 20px 0 !important; }
+    .cover-heading { font-size: 24px !important; }
+    .cover-client-name { font-size: 18px !important; }
+    .page-inner { padding: 24px 20px; }
+    .pag-title { font-size: 20px; }
+    .items-table { font-size: 11px; }
+    .items-table td, .items-table th { padding: 6px 8px; }
+    .cover-data { grid-template-columns: 1fr; }
+    .assinatura { grid-template-columns: 1fr; gap: 24px; }
+    .amb-photo { height: 150px; }
+  }
+  @media (max-width: 480px) {
+    .cover-content { padding: 16px 12px 0 !important; }
+    .cover-heading { font-size: 20px !important; }
+    .page-inner { padding: 16px 12px; }
+    .items-table { font-size: 10px; }
+    .items-table td, .items-table th { padding: 4px 6px; }
+    .amb-photo { height: 120px; }
+  }
+  @media print { body { background: none; } .toolbar { display: none; } .page { box-shadow: none; margin: 0; page-break-after: always; width: 210mm; min-height: 297mm; -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <img class="toolbar-logo" src="./imagens-explan/Group.png" alt="Explan" onerror="this.style.display='none'">
+    <span class="toolbar-title">Orçamento — Oliveira Residencial</span>
+  </div>
+  <div class="toolbar-right">
+    <button class="btn-toolbar btn-toolbar-green" onclick="window.print()">Imprimir / PDF</button>
+    <button class="btn-toolbar btn-toolbar-light" onclick="window.close()">Fechar</button>
+  </div>
+</div>
+
+<!-- ═══════ PÁGINA 1 — CAPA ═══════ -->
+<div class="page page-cover">
+  <img class="cover-bg" src="./imagens-ambientes/hero-principal.jpg" alt="" onerror="this.style.display='none'">
+  <div class="cover-overlay"></div>
+  <div class="cover-content">
+    <div class="cover-logo-wrap">
+      <div class="cover-logo-text">Explan<span>MÓVEIS PLANEJADOS</span></div>
+    </div>
+    <div class="cover-center">
+      <div class="cover-tag"><div class="cover-tag-bar"></div><span class="cover-tag-text">Proposta Técnica</span></div>
+      <div class="cover-heading">Projeto<br>Residencial <em>Oliveira</em></div>
+      <div class="cover-divider"></div>
+      <div class="cover-client-label">Cliente</div>
+      <div class="cover-client-name">Alessandro &amp; Camila Oliveira</div>
+      <dl class="cover-data">
+        <div><dt>Data</dt><dd>28/06/2026</dd></div>
+        <div><dt>Ref.</dt><dd>#OLI-2026-001</dd></div>
+        <div><dt>Endereço</dt><dd>Rua das Acácias, 342 — Goiânia/GO</dd></div>
+        <div><dt>Validade</dt><dd>30 dias</dd></div>
+      </dl>
+    </div>
+    <div class="cover-accent"></div>
+  </div>
+</div>
+
+<!-- ═══════ PÁGINA 2 — SALA DE ESTAR ═══════ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="section-label">Ambiente 01</div>
+    <div class="pag-title">Sala de Estar</div>
+    <div class="amb-photo-overlay">
+      <img class="amb-photo" src="./imagens-ambientes/pdf-sala-estar.jpg" alt="Sala de Estar" onerror="this.style.display='none'">
+      <div class="amb-label">Sala de Estar</div>
+    </div>
+    <table class="items-table">
+      <thead><tr><th>Item</th><th class="qty">Qtd</th><th class="price">Preço Unit.</th><th class="subtotal">Subtotal</th></tr></thead>
+      <tbody>
+        <tr><td>Painel para TV 3,20m com nichos</td><td class="qty">1</td><td class="price">R$ 4.890,00</td><td class="subtotal">R$ 4.890,00</td></tr>
+        <tr><td>Estante modular 2,40m</td><td class="qty">1</td><td class="price">R$ 3.450,00</td><td class="subtotal">R$ 3.450,00</td></tr>
+        <tr><td>Racks suspenso 1,80m</td><td class="qty">1</td><td class="price">R$ 2.180,00</td><td class="subtotal">R$ 2.180,00</td></tr>
+        <tr><td>Sapateira 1,20m</td><td class="qty">1</td><td class="price">R$ 1.560,00</td><td class="subtotal">R$ 1.560,00</td></tr>
+        <tr><td>Porta para nicho em vidro</td><td class="qty">4</td><td class="price">R$ 180,00</td><td class="subtotal">R$ 720,00</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label" style="margin-top:32px;">Ambiente 02</div>
+    <div class="pag-title">Cozinha</div>
+    <div class="amb-photo-overlay">
+      <img class="amb-photo" src="./imagens-ambientes/pdf-cozinha.jpg" alt="Cozinha" onerror="this.style.display='none'">
+      <div class="amb-label">Cozinha</div>
+    </div>
+    <table class="items-table">
+      <thead><tr><th>Item</th><th class="qty">Qtd</th><th class="price">Preço Unit.</th><th class="subtotal">Subtotal</th></tr></thead>
+      <tbody>
+        <tr><td>Armário superior 3,00m</td><td class="qty">1</td><td class="price">R$ 3.780,00</td><td class="subtotal">R$ 3.780,00</td></tr>
+        <tr><td>Armário inferior 3,00m</td><td class="qty">1</td><td class="price">R$ 4.560,00</td><td class="subtotal">R$ 4.560,00</td></tr>
+        <tr><td>Despensa 1,20m</td><td class="qty">1</td><td class="price">R$ 1.890,00</td><td class="subtotal">R$ 1.890,00</td></tr>
+        <tr><td>Gaveteiro 0,80m</td><td class="qty">2</td><td class="price">R$ 520,00</td><td class="subtotal">R$ 1.040,00</td></tr>
+        <tr><td>Puxadores perfil alumínio</td><td class="qty">10</td><td class="price">R$ 35,00</td><td class="subtotal">R$ 350,00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════ PÁGINA 3 — QUARTOS ═══════ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="section-label">Ambiente 03</div>
+    <div class="pag-title">Quarto Master</div>
+    <div class="amb-photo-overlay">
+      <img class="amb-photo" src="./imagens-ambientes/pdf-dormitorio-master.jpg" alt="Quarto Master" onerror="this.style.display='none'">
+      <div class="amb-label">Quarto Master</div>
+    </div>
+    <table class="items-table">
+      <thead><tr><th>Item</th><th class="qty">Qtd</th><th class="price">Preço Unit.</th><th class="subtotal">Subtotal</th></tr></thead>
+      <tbody>
+        <tr><td>Guarda-roupa 3,60m com espelho</td><td class="qty">1</td><td class="price">R$ 6.450,00</td><td class="subtotal">R$ 6.450,00</td></tr>
+        <tr><td>Cabeceira painel 1,80m</td><td class="qty">1</td><td class="price">R$ 2.320,00</td><td class="subtotal">R$ 2.320,00</td></tr>
+        <tr><td>Mesa de cabeceira dupla</td><td class="qty">1</td><td class="price">R$ 890,00</td><td class="subtotal">R$ 890,00</td></tr>
+        <tr><td>Penteadeira 1,20m</td><td class="qty">1</td><td class="price">R$ 1.450,00</td><td class="subtotal">R$ 1.450,00</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label" style="margin-top:32px;">Ambiente 04</div>
+    <div class="pag-title">Quarto 2 — Filhos</div>
+    <div class="amb-photo-overlay">
+      <img class="amb-photo" src="./imagens-ambientes/pdf-dormitorio-filho.jpg" alt="Quarto Filhos" onerror="this.style.display='none'">
+      <div class="amb-label">Quarto Filhos</div>
+    </div>
+    <table class="items-table">
+      <thead><tr><th>Item</th><th class="qty">Qtd</th><th class="price">Preço Unit.</th><th class="subtotal">Subtotal</th></tr></thead>
+      <tbody>
+        <tr><td>Guarda-roupa 2,40m</td><td class="qty">1</td><td class="price">R$ 4.120,00</td><td class="subtotal">R$ 4.120,00</td></tr>
+        <tr><td>Estante estudos 1,60m</td><td class="qty">2</td><td class="price">R$ 980,00</td><td class="subtotal">R$ 1.960,00</td></tr>
+        <tr><td>Cama suspensa com escada</td><td class="qty">1</td><td class="price">R$ 2.670,00</td><td class="subtotal">R$ 2.670,00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════ PÁGINA 4 — RESUMO ═══════ -->
+<div class="page">
+  <div class="page-inner">
+    <div class="section-label">Resumo Financeiro</div>
+    <div class="pag-title">Total do Projeto</div>
+
+    <table class="items-table" style="max-width:500px;">
+      <thead><tr><th>Ambiente</th><th class="subtotal">Valor</th></tr></thead>
+      <tbody>
+        <tr><td>Sala de Estar</td><td class="subtotal">R$ 12.800,00</td></tr>
+        <tr><td>Cozinha</td><td class="subtotal">R$ 11.620,00</td></tr>
+        <tr><td>Quarto Master</td><td class="subtotal">R$ 11.110,00</td></tr>
+        <tr><td>Quarto Filhos</td><td class="subtotal">R$ 8.750,00</td></tr>
+        <tr style="border-top:2px solid #41422F;"><td><strong>Subtotal</strong></td><td class="subtotal"><strong>R$ 44.280,00</strong></td></tr>
+        <tr><td>Desconto à vista (5%)</td><td class="subtotal" style="color:#C0392B;">− R$ 2.214,00</td></tr>
+        <tr><td>Frete</td><td class="subtotal">R$ 580,00</td></tr>
+        <tr class="total-row"><td><strong>Total Geral</strong></td><td class="subtotal"><strong>R$ 42.646,00</strong></td></tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:32px;padding:20px;background:#F5F2ED;border-radius:8px;font-size:13px;color:#4A4A4A;">
+      <strong style="color:#41422F;">Condições de Pagamento:</strong><br>
+      • 50% de entrada + 50% na entrega<br>
+      • Ou 6x sem juros no cartão<br>
+      • 5% de desconto para pagamento à vista
+    </div>
+
+    <div class="assinatura">
+      <div class="assinatura-box">_________________________________<br><strong>Explan Móveis Planejados</strong><br>Goiânia — GO</div>
+      <div class="assinatura-box">_________________________________<br><strong>Alessandro &amp; Camila Oliveira</strong><br>Cliente</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

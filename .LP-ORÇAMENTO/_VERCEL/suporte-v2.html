@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatar Bug ou Sugestão — Explan</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --olive:      #41422F;
+  --cream:      #EBE6DD;
+  --green:      #6B8E5E;
+  --text:       #212121;
+  --text-body:  #4A4A4A;
+  --border:     #CCD6DF;
+  --white:      #FFFFFF;
+  --radius:     12px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Archivo', sans-serif;
+  background: var(--cream);
+  color: var(--text-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  background: var(--white);
+  max-width: 500px;
+  width: 100%;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 24px rgba(65,66,47,.15);
+  overflow: hidden;
+}
+
+.header {
+  background: var(--olive);
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--cream);
+}
+
+.header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.header p {
+  font-size: 14px;
+  color: rgba(235,230,221,.8);
+  line-height: 1.5;
+}
+
+.form-body {
+  padding: 32px 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--olive);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.form-control {
+  width: 100%;
+  padding: 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Archivo', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  background: #FAFAFA;
+  transition: all .2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--green);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(107,142,94,.1);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ── RESPONSIVO ── */
+@media (max-width: 600px) {
+  .header { padding: 24px 16px; }
+  .header h1 { font-size: 18px; }
+  .form-body { padding: 24px 16px; }
+  .btn { font-size: 13px; padding: 12px 18px; }
+}
+@media (max-width: 400px) {
+  body { padding: 12px; }
+  .header h1 { font-size: 16px; }
+  .form-control { font-size: 16px; }
+}
+
+.radio-group {
+  display: flex;
+  gap: 16px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  padding: 10px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  flex: 1;
+  justify-content: center;
+  transition: all .2s;
+}
+.radio-label span { display: inline-flex; align-items: center; gap: 7px; }
+.radio-label svg { width: 16px !important; height: 16px !important; flex-shrink: 0; }
+.radio-label i { display: inline-flex; align-items: center; }
+
+.radio-label input { display: none; }
+
+.radio-label input:checked + span {
+  color: var(--olive);
+}
+
+.radio-label:has(input:checked) {
+  border-color: var(--olive);
+  background: rgba(65,66,47,.05);
+}
+.radio-label:has(input[value="Bug/Erro"]:checked) {
+  border-color: #C0392B;
+  background: rgba(192,57,43,.08);
+}
+.radio-label:has(input[value="Bug/Erro"]:checked) span {
+  color: #C0392B;
+}
+.radio-label:has(input[value="Sugestão"]:checked) {
+  border-color: #E6A817;
+  background: rgba(230,168,23,.08);
+}
+.radio-label:has(input[value="Sugestão"]:checked) span {
+  color: #E6A817;
+}
+
+.btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px;
+  background: #25D366; /* Verde WhatsApp */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Archivo', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+  box-shadow: 0 4px 16px rgba(37,211,102,.3);
+  margin-top: 12px;
+}
+
+.btn-submit:hover {
+  background: #1da851;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37,211,102,.4);
+}
+
+.btn-submit svg, .btn-submit i { width: 20px; height: 20px; }
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Archivo', sans-serif;
+  color: var(--olive);
+  text-decoration: none;
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  transition: all .2s;
+}
+.btn-back:hover { border-color: var(--olive); background: var(--cream); color: var(--olive); }
+
+/* Modal sucesso */
+#success-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 320px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.2);
+}
+.modal-icon {
+  width: 64px; height: 64px;
+  background: rgba(37,211,102,.15);
+  color: #25D366;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; margin: 0 auto 16px;
+}
+.modal-content h3 { font-size: 18px; color: var(--text); margin-bottom: 8px; }
+.modal-content p { font-size: 14px; color: var(--text-body); margin-bottom: 24px; line-height: 1.5; }
+.btn-close {
+  padding: 10px 24px;
+  background: var(--olive); color: #fff;
+  border: none; border-radius: 6px;
+  font-family: 'Archivo'; font-weight: 600; font-size: 14px;
+  cursor: pointer;
+}
+</style>
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>Relatar Bug ou Sugestão</h1>
+    <p>Encontrou um erro no orçador ou tem uma ideia de melhoria? Envie direto para o desenvolvedor.</p>
+  </div>
+  
+  <div class="form-body">
+    <div class="form-group">
+      <label>O que você deseja enviar?</label>
+      <div class="radio-group">
+        <label class="radio-label">
+          <input type="radio" name="tipo" value="Bug/Erro" checked>
+          <span><i data-lucide="bug"></i> Erro (Bug)</span>
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="tipo" value="Sugestão">
+          <span><i data-lucide="lightbulb"></i> Sugestão</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="nome">Seu Nome</label>
+      <input type="text" id="nome" class="form-control" placeholder="Ex: João da Silva">
+    </div>
+
+    <div class="form-group">
+      <label for="descricao">Descrição</label>
+      <textarea id="descricao" class="form-control" placeholder="Explique o que aconteceu ou a sua ideia de melhoria detalhadamente..."></textarea>
+    </div>
+
+    <button type="button" class="btn-submit" onclick="enviarWhatsApp()">
+      <i data-lucide="send" style="width:20px;height:20px"></i>
+      Enviar via WhatsApp
+    </button>
+    
+    <a href="painel-v2.html" class="btn-back"><i data-lucide="arrow-left" style="width:16px;height:16px"></i> Voltar ao Orçador</a>
+  </div>
+</div>
+
+<div id="success-modal">
+  <div class="modal-content">
+    <div class="modal-icon">✓</div>
+    <h3>Quase lá!</h3>
+    <p>O WhatsApp será aberto para você enviar a mensagem diretamente para o desenvolvedor.</p>
+    <button class="btn-close" onclick="fecharModal()">Entendi, Voltar</button>
+  </div>
+</div>
+
+<script>
+// Tentar preencher o nome com o perfil do localStorage (se existir)
+window.onload = () => {
+  try {
+    const perfil = JSON.parse(localStorage.getItem('explan_perfil'));
+    if (perfil && perfil.nome) {
+      document.getElementById('nome').value = perfil.nome;
+    }
+  } catch(e) {}
+};
+
+function enviarWhatsApp() {
+  const tipo = document.querySelector('input[name="tipo"]:checked').value;
+  let nome = document.getElementById('nome').value.trim();
+  const desc = document.getElementById('descricao').value.trim();
+
+  if (!desc) {
+    alert("Por favor, preencha a descrição do problema ou sugestão.");
+    document.getElementById('descricao').focus();
+    return;
+  }
+
+  if(!nome) nome = "Usuário do Sistema";
+
+  // Montar mensagem formatada
+  const msg = `*Aviso do Sistema Explan*\n\n*Tipo:* ${tipo}\n*De:* ${nome}\n\n*Descrição:*\n${desc}`;
+  
+  // Número do desenvolvedor solicitado pelo usuário
+  const telefone = "5562996046458"; 
+  
+  const url = `https://wa.me/${telefone}?text=${encodeURIComponent(msg)}`;
+
+  // Mostrar feedback visual
+  document.getElementById('success-modal').style.display = 'flex';
+
+  // Abrir WhatsApp em nova aba
+  window.open(url, '_blank');
+}
+
+function fecharModal() {
+  document.getElementById('success-modal').style.display = 'none';
+  document.getElementById('descricao').value = '';
+}
+</script>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

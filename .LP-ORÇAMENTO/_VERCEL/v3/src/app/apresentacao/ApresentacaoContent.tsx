@@ -124,7 +124,7 @@ export default function ApresentacaoContent() {
 
   // Rebuild when ambientes change (but preserve extras/blanks and image state)
   const prevAmbientesLen = useRef(ambientes.length);
-  const timersRef = useRef<number[]>([]);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   useEffect(() => {
     if (ambientes.length !== prevAmbientesLen.current) {
       prevAmbientesLen.current = ambientes.length;

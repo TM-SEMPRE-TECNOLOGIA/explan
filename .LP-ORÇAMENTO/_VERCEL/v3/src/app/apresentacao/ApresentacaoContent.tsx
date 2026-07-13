@@ -124,6 +124,7 @@ export default function ApresentacaoContent() {
 
   // Rebuild when ambientes change (but preserve extras/blanks and image state)
   const prevAmbientesLen = useRef(ambientes.length);
+  const timersRef = useRef<number[]>([]);
   useEffect(() => {
     if (ambientes.length !== prevAmbientesLen.current) {
       prevAmbientesLen.current = ambientes.length;
@@ -514,6 +515,29 @@ export default function ApresentacaoContent() {
     },
     [ambientes, applyImageToZone, setSlides]
   );
+
+  // ── APPLY IMAGES FROM SLIDE DATA (auto-load padrão) ──
+  useEffect(() => {
+    slides.forEach((slide) => {
+      if (slide.images.length > 0) {
+        const zoneId = slide.type === "env"
+          ? `zone-amb-${slide.ambientIndex}`
+          : `zone-${slide.id}`;
+        // Aguarda o DOM renderizar
+        const timer = setTimeout(() => {
+          const zone = document.getElementById(zoneId);
+          if (zone && !zone.querySelector("img.slide-photo")) {
+            applyImageToZone(zone, slide.images[0].src, slide.images[0].naturalW, slide.images[0].naturalH);
+          }
+        }, 100);
+        timersRef.current.push(timer);
+      }
+    });
+    return () => {
+      timersRef.current.forEach(clearTimeout);
+      timersRef.current = [];
+    };
+  }, [slides, applyImageToZone]);
 
   // ── RENDER ──
   if (!ambientes.length) {

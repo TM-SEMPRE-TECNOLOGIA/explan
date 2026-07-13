@@ -5,26 +5,26 @@ import { useOrcamento, calcularTotal, calcularPagamento, calcularDescontoMateria
 
 // ── FOTOS padrão por tipo de ambiente ──
 const FOTOS: Record<string, string> = {
-  cozinha: "/images-orçamento/v-pdf-cozinha.png",
-  sala: "/images-orçamento/v-pdf-sala-estar.png",
-  quarto: "/images-orçamento/v-pdf-dormitorio-master.png",
-  "dormitório": "/images-orçamento/v-pdf-dormitorio-master.png",
-  closet: "/images-orçamento/v-pdf-closet.png",
-  "escritório": "/images-orçamento/v-pdf-home-office.png",
-  "home office": "/images-orçamento/v-pdf-home-office.png",
-  banheiro: "/images-orçamento/v-pdf-banheiro.png",
-  lavanderia: "/images-orçamento/v-pdf-lavanderia.png",
-  gourmet: "/images-orçamento/v-pdf-area-gourmet.png",
-  jantar: "/images-orçamento/v-pdf-sala-jantar.png",
-  casal: "/images-orçamento/v-pdf-dormitorio-casal.png",
-  filho: "/images-orçamento/v-pdf-dormitorio-filho.png",
-  lavabo: "/images-orçamento/v-pdf-lavabo.png",
-  despensa: "/images-orçamento/v-pdf-despensa.png",
-  corredor: "/images-orçamento/v-pdf-corredor.png",
-  "suite master": "/images-orçamento/v-pdf-suite-master-alt.png",
-  "suíte master": "/images-orçamento/v-pdf-suite-master-alt.png",
-  "suíte": "/images-orçamento/v-pdf-suite-master-alt.png",
-  "suite": "/images-orçamento/v-pdf-suite-master-alt.png",
+  cozinha: "/images-orçamento/opt-cozinha.png",
+  sala: "/images-orçamento/opt-sala-estar.png",
+  quarto: "/images-orçamento/opt-dormitorio-master.png",
+  "dormitório": "/images-orçamento/opt-dormitorio-master.png",
+  closet: "/images-orçamento/opt-closet.png",
+  "escritório": "/images-orçamento/opt-home-office.png",
+  "home office": "/images-orçamento/opt-home-office.png",
+  banheiro: "/images-orçamento/opt-banheiro.png",
+  lavanderia: "/images-orçamento/opt-lavanderia.png",
+  gourmet: "/images-orçamento/opt-gourmet-vignette.png",
+  jantar: "/images-orçamento/opt-sala-jantar.png",
+  casal: "/images-orçamento/opt-dormitorio-casal.png",
+  filho: "/images-orçamento/opt-dormitorio-filho.png",
+  lavabo: "/images-orçamento/opt-lavabo.png",
+  despensa: "/images-orçamento/opt-despensa.png",
+  corredor: "/images-orçamento/opt-corredor.png",
+  "suite master": "/images-orçamento/opt-suite-master-alt.png",
+  "suíte master": "/images-orçamento/opt-suite-master-alt.png",
+  "suíte": "/images-orçamento/opt-suite-master-alt.png",
+  "suite": "/images-orçamento/opt-suite-master-alt.png",
 };
 
 function fotoParaAmbiente(nome: string): string {
@@ -32,7 +32,7 @@ function fotoParaAmbiente(nome: string): string {
   for (const [key, url] of Object.entries(FOTOS)) {
     if (n.includes(key)) return url;
   }
-  return "/images-orçamento/v-pdf-ambiente-variacao.png";
+  return "/images-orçamento/opt-ambiente-variacao.png";
 }
 
 // ── Formata nome do ambiente: remove emoji, sufixos "Planejada/o/os" ──

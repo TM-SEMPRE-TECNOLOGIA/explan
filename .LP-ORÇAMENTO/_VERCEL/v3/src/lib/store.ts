@@ -13,7 +13,7 @@ interface OrcamentoState {
   setCliente: (cliente: Partial<Cliente>) => void;
   addAmbiente: (nome: string, materiais?: Ambiente["materiais"]) => void;
   removeAmbiente: (id: string) => void;
-  addItem: (envId: string, item: { nome: string; unidade: string; preco: number; qtd: number }) => void;
+  addItem: (envId: string, item: { nome: string; unidade: string; preco: number; qtd: number; descricao?: string }) => void;
   removeItem: (envId: string, index: number) => void;
   setMateriais: (envId: string, mat: Partial<Ambiente["materiais"]>) => void;
   setVariaveis: (v: Partial<Variaveis>) => void;

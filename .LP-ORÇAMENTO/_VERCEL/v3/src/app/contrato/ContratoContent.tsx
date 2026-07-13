@@ -650,7 +650,6 @@ export default function ContratoContent() {
           margin-bottom: 4px;
         }
       `}</style>
-    </>
 
       <div className="contrato-wrapper">
         {/* ══════════════ PAGE 1 ══════════════ */}

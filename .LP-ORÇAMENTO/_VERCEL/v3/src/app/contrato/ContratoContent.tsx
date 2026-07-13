@@ -724,14 +724,6 @@ export default function ContratoContent() {
       `}</style>
 
       <div className="contrato-wrapper">
-        {/* ── Toolbar ── */}
-        <div className="contrato-toolbar screen-only">
-          <span className="contrato-toolbar-title">📄 Contrato Oficial — Explan</span>
-          <a href="/painel" className="btn-toolbar">
-            ← Voltar ao Painel
-          </a>
-        </div>
-
         {/* ══════════════ PAGE 1 ══════════════ */}
         <div className="page">
           <div className="header">

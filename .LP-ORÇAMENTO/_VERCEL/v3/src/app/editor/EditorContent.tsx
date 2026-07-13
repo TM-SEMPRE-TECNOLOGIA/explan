@@ -251,7 +251,7 @@ export default function EditorContent() {
   val30.setDate(val30.getDate() + 30);
   const validade = val30.toLocaleDateString("pt-BR").replace(/\//g, " / ");
 
-  const totalPages = 2 + ambientes.length + 1; // capa + quem somos + ambientes + resumo
+  const totalPages = 2 + ambientes.length + (ambientes.length > 10 ? 2 : 1); // capa + quem somos + ambientes + resumo (+ pagto se estourar)
   const lastPgNum = String(totalPages).padStart(2, "0");
 
   // ── Drag/resize lifecycle ──
@@ -473,7 +473,7 @@ export default function EditorContent() {
         );
       })}
 
-      {/* ═══════════════ PÁGINA RESUMO + PAGAMENTO ═══════════════ */}
+      {/* ═══════════════ PÁGINA RESUMO ═══════════════ */}
       <div className="page">
         <div className="resumo-header">
           <div className="resumo-header-grid">
@@ -500,7 +500,7 @@ export default function EditorContent() {
             </thead>
             <tbody>
               {ambientes.map((amb) => {
-                const nomeAmb = amb.nome.replace(/^[\p{Emoji}\s]+/u, "").trim().replace(/\s+(Planejad[ao]s?)$/i, "");
+                const nomeAmb = amb.nome.replace(/^[\p{Emoji}\s]+/u, "").trim().replace(/\s+(Planejado[ao]s?)$/i, "");
                 return (
                   <tr key={amb.id}>
                     <td>{nomeAmb}</td>
@@ -525,55 +525,59 @@ export default function EditorContent() {
             </tbody>
           </table>
 
-          <div className="pag-title">Condições de Pagamento</div>
-          <div className="pag-grid">
-            <div className="pag-card">
-              <div className="parcelas">À Vista</div>
-              <div className="val">{pagamento.avista}</div>
-              <div className="val-original" style={{ fontSize: 12, color: "rgba(235,230,221,.5)", textDecoration: "line-through", marginTop: -4 }}>{pagamento.total}</div>
-              <div className="desc-text">7% de desconto<br />PIX ou transferência</div>
-            </div>
-            <div className="pag-card dest">
-              <div className="parcelas">50/50</div>
-              <div className="val">{pagamento.metade} (cada)</div>
-              <div className="desc-text">50% assinatura<br />50% conclusão</div>
-              <div className="hot">Mais comum</div>
-            </div>
-            <div className="pag-card">
-              <div className="parcelas">10×</div>
-              <div className="val">{pagamento.cartao}/mês</div>
-              <div className="desc-text">Cartão de crédito<br />sem juros</div>
-            </div>
-          </div>
+          {ambientes.length <= 10 && (
+            <>
+              <div className="pag-title">Condições de Pagamento</div>
+              <div className="pag-grid">
+                <div className="pag-card">
+                  <div className="parcelas">À Vista</div>
+                  <div className="val">{pagamento.avista}</div>
+                  <div className="val-original" style={{ fontSize: 12, color: "rgba(235,230,221,.5)", textDecoration: "line-through", marginTop: -4 }}>{pagamento.total}</div>
+                  <div className="desc-text">7% de desconto<br />PIX ou transferência</div>
+                </div>
+                <div className="pag-card dest">
+                  <div className="parcelas">50/50</div>
+                  <div className="val">{pagamento.metade} (cada)</div>
+                  <div className="desc-text">50% assinatura<br />50% conclusão</div>
+                  <div className="hot">Mais comum</div>
+                </div>
+                <div className="pag-card">
+                  <div className="parcelas">10×</div>
+                  <div className="val">{pagamento.cartao}/mês</div>
+                  <div className="desc-text">Cartão de crédito<br />sem juros</div>
+                </div>
+              </div>
 
-          <div className="pag-extras" style={{ marginTop: 14, fontSize: 11, color: "#4A4A4A", lineHeight: 1.8 }}>
-            <div style={{ background: "#F5F2ED", border: "1px solid #CCD6DF", borderRadius: 8, padding: "14px 18px" }}>
-              <strong style={{ color: "#41422F" }}>Opção 1 — 50/50</strong><br />
-              50% na assinatura do contrato ({pagamento.metade}) e 50% na conclusão ({pagamento.metade})
-            </div>
-            <div style={{ background: "#F5F2ED", border: "1px solid #CCD6DF", borderRadius: 8, padding: "14px 18px", marginTop: 8 }}>
-              <strong style={{ color: "#41422F" }}>Opção 2 — 60/40</strong><br />
-              60% de entrada ({pagamento.entrada60}) + saldo de 40% em 4 boletos mensais de {pagamento.boleto}
-            </div>
-            <div style={{ textAlign: "right", marginTop: 8, fontWeight: 700, color: "#41422F", fontSize: 13 }}>
-              💰 Valor total da proposta: {pagamento.total}
-            </div>
-          </div>
+              <div className="pag-extras" style={{ marginTop: 14, fontSize: 11, color: "#4A4A4A", lineHeight: 1.8 }}>
+                <div style={{ background: "#F5F2ED", border: "1px solid #CCD6DF", borderRadius: 8, padding: "14px 18px" }}>
+                  <strong style={{ color: "#41422F" }}>Opção 1 — 50/50</strong><br />
+                  50% na assinatura do contrato ({pagamento.metade}) e 50% na conclusão ({pagamento.metade})
+                </div>
+                <div style={{ background: "#F5F2ED", border: "1px solid #CCD6DF", borderRadius: 8, padding: "14px 18px", marginTop: 8 }}>
+                  <strong style={{ color: "#41422F" }}>Opção 2 — 60/40</strong><br />
+                  60% de entrada ({pagamento.entrada60}) + saldo de 40% em 4 boletos mensais de {pagamento.boleto}
+                </div>
+                <div style={{ textAlign: "right", marginTop: 8, fontWeight: 700, color: "#41422F", fontSize: 13 }}>
+                  💰 Valor total da proposta: {pagamento.total}
+                </div>
+              </div>
 
-          <div className="prazo-timeline">
-            <div className="prazo-item">
-              <div className="pl">Produção</div>
-              <div className="pv">{prazo.replace("úteis", "").trim()}</div>
-            </div>
-            <div className="prazo-item">
-              <div className="pl">Instalação</div>
-              <div className="pv">{instalacao}</div>
-            </div>
-            <div className="prazo-item">
-              <div className="pl">Validade</div>
-              <div className="pv">30 dias</div>
-            </div>
-          </div>
+              <div className="prazo-timeline">
+                <div className="prazo-item">
+                  <div className="pl">Produção</div>
+                  <div className="pv">{prazo.replace("úteis", "").trim()}</div>
+                </div>
+                <div className="prazo-item">
+                  <div className="pl">Instalação</div>
+                  <div className="pv">{instalacao}</div>
+                </div>
+                <div className="prazo-item">
+                  <div className="pl">Validade</div>
+                  <div className="pv">30 dias</div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         <div className="pg-footer">
@@ -582,6 +586,75 @@ export default function EditorContent() {
           <div className="pg-footer-num">{lastPgNum}</div>
         </div>
       </div>
+
+      {/* ═══════════════ PÁGINA PAGAMENTO (só quando resumo estoura) ═══════════════ */}
+      {ambientes.length > 10 && (
+        <div className="page">
+          <div className="pg-header">
+            <img className="pg-header-logo" src="/imagens-explan/Explan.png" alt="Explan" />
+            <div className="pg-header-right">
+              <span className="pg-header-client">{nome}</span>
+              <div className="pg-num">{String(totalPages).padStart(2, "0")}</div>
+            </div>
+          </div>
+          <div className="pg-body" style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <div className="pag-title" style={{ fontSize: 20, marginBottom: 24, textAlign: "center" }}>Condições de Pagamento</div>
+            <div className="pag-grid" style={{ maxWidth: 500, margin: "0 auto" }}>
+              <div className="pag-card">
+                <div className="parcelas">À Vista</div>
+                <div className="val">{pagamento.avista}</div>
+                <div className="val-original" style={{ fontSize: 12, color: "rgba(235,230,221,.5)", textDecoration: "line-through", marginTop: -4 }}>{pagamento.total}</div>
+                <div className="desc-text">7% de desconto<br />PIX ou transferência</div>
+              </div>
+              <div className="pag-card dest">
+                <div className="parcelas">50/50</div>
+                <div className="val">{pagamento.metade} (cada)</div>
+                <div className="desc-text">50% assinatura<br />50% conclusão</div>
+                <div className="hot">Mais comum</div>
+              </div>
+              <div className="pag-card">
+                <div className="parcelas">10×</div>
+                <div className="val">{pagamento.cartao}/mês</div>
+                <div className="desc-text">Cartão de crédito<br />sem juros</div>
+              </div>
+            </div>
+
+            <div className="pag-extras" style={{ marginTop: 24, fontSize: 12, color: "#4A4A4A", lineHeight: 1.8, maxWidth: 500, margin: "24px auto 0" }}>
+              <div style={{ background: "#F5F2ED", border: "1px solid #CCD6DF", borderRadius: 8, padding: "14px 18px" }}>
+                <strong style={{ color: "#41422F" }}>Opção 1 — 50/50</strong><br />
+                50% na assinatura do contrato ({pagamento.metade}) e 50% na conclusão ({pagamento.metade})
+              </div>
+              <div style={{ background: "#F5F2ED", border: "1px solid #CCD6DF", borderRadius: 8, padding: "14px 18px", marginTop: 8 }}>
+                <strong style={{ color: "#41422F" }}>Opção 2 — 60/40</strong><br />
+                60% de entrada ({pagamento.entrada60}) + saldo de 40% em 4 boletos mensais de {pagamento.boleto}
+              </div>
+              <div style={{ textAlign: "right", marginTop: 12, fontWeight: 700, color: "#41422F", fontSize: 14 }}>
+                💰 Valor total da proposta: {pagamento.total}
+              </div>
+            </div>
+
+            <div className="prazo-timeline" style={{ marginTop: 32, justifyContent: "center" }}>
+              <div className="prazo-item">
+                <div className="pl">Produção</div>
+                <div className="pv">{prazo.replace("úteis", "").trim()}</div>
+              </div>
+              <div className="prazo-item">
+                <div className="pl">Instalação</div>
+                <div className="pv">{instalacao}</div>
+              </div>
+              <div className="prazo-item">
+                <div className="pl">Validade</div>
+                <div className="pv">30 dias</div>
+              </div>
+            </div>
+          </div>
+          <div className="pg-footer">
+            <span>Explan · {nome}</span>
+            <span>Explan Móveis Planejados</span>
+            <div className="pg-footer-num">{String(totalPages).padStart(2, "0")}</div>
+          </div>
+        </div>
+      )}
 
       {/* ═══════════════ CSS ═══════════════ */}
       <style jsx>{`

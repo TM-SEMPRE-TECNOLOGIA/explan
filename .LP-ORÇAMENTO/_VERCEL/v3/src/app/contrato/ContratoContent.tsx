@@ -209,6 +209,8 @@ export default function ContratoContent() {
           position: sticky;
           top: 0;
           z-index: 50;
+          width: 100%;
+          max-width: 100%;
         }
         .contrato-toolbar-left { display: flex; align-items: center; gap: 14px; }
         .contrato-toolbar-title { color: #ebe6dd; font-weight: 600; font-size: 15px; }
@@ -647,81 +649,8 @@ export default function ContratoContent() {
         .lista-alfabetica li {
           margin-bottom: 4px;
         }
-
-        /* Toolbar */
-        .contrato-toolbar {
-          background: #41422f;
-          padding: 12px 28px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          position: sticky;
-          top: 0;
-          z-index: 50;
-          margin-bottom: 24px;
-          width: 794px;
-        }
-        .contrato-toolbar-title {
-          color: #ebe6dd;
-          font-size: 14px;
-          font-weight: 600;
-          letter-spacing: 0.04em;
-        }
-        .btn-toolbar {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          padding: 9px 18px;
-          border-radius: 50px;
-          font-family: "Archivo", sans-serif;
-          font-size: 13px;
-          font-weight: 600;
-          cursor: pointer;
-          border: none;
-          transition: all 0.2s;
-          text-decoration: none;
-          background: rgba(255, 255, 255, 0.15);
-          color: #ebe6dd;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .btn-toolbar:hover {
-          background: rgba(255, 255, 255, 0.25);
-        }
-
-        @media print {
-          .contrato-wrapper {
-            background: none;
-            padding: 0;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-          }
-          .page {
-            width: 210mm;
-            min-height: 297mm;
-            box-shadow: none;
-            page-break-after: always;
-          }
-          .page:last-child {
-            page-break-after: avoid;
-          }
-          .screen-only {
-            display: none;
-          }
-          .header,
-          .cliente-banner,
-          .footer,
-          .valor-destaque,
-          .pagamento-bloco,
-          .header-cont {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-          }
-        }
-        @page {
-          size: A4 portrait;
-          margin: 0;
-        }
       `}</style>
+    </>
 
       <div className="contrato-wrapper">
         {/* ══════════════ PAGE 1 ══════════════ */}

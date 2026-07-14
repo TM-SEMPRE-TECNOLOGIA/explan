@@ -251,13 +251,13 @@ export default function AjudaContent() {
             <span>Regras e políticas de orçamento</span>
           </div>
         </div>
-        <Link href="/painel" className="btn-back">
+        <a href="/painel" className="btn-back">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 16, height: 16 }}>
             <path d="m12 19-7-7 7-7" />
             <path d="M19 12H5" />
           </svg>
           <span>Voltar ao Orçador</span>
-        </Link>
+        </a>
       </header>
 
       {/* ── HERO ── */}

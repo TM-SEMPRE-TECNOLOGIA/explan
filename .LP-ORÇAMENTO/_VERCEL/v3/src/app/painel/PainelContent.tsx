@@ -233,9 +233,11 @@ export default function PainelContent() {
         <button className="hamburger-btn" onClick={() => setMenuOpen(true)} aria-label="Abrir menu">
           <i data-lucide="menu" style={{ width: 22, height: 22 }} />
         </button>
-        <img src="/imagens-explan/Explan.png" alt="Explan"
-          style={{ height: 32, objectFit: "contain" }}
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        <div className="header-logo-center">
+          <img src="/imagens-explan/Explan.png" alt="Explan"
+            style={{ height: 32, objectFit: "contain" }}
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        </div>
         <div className="hamburger-spacer" />
       </header>
 
@@ -536,15 +538,21 @@ export default function PainelContent() {
         .app-header {
           background: var(--olive); padding: 10px 16px;
           display: flex; align-items: center; gap: 12px;
+          justify-content: center;
         }
         .hamburger-btn {
           display: none; background: none; border: none; cursor: pointer;
           color: var(--cream); padding: 6px 8px; border-radius: 8px;
           align-items: center; justify-content: center;
           transition: background .2s; flex-shrink: 0;
+          position: absolute; left: 16px;
         }
         .hamburger-btn:hover { background: rgba(255,255,255,.12); }
         .hamburger-spacer { display: none; }
+        .header-logo-center {
+          display: flex; align-items: center; justify-content: center;
+          flex: 0 1 auto;
+        }
         .painel-wrapper { padding-left: var(--nav-w); }
         .nav-panel {
           position: fixed; top: 0; left: var(--nav-w, 60px); bottom: 0;
@@ -698,7 +706,7 @@ export default function PainelContent() {
           .painel-wrapper { padding-left: 0; }
           .hamburger-btn { display: flex; }
           .hamburger-spacer { display: block; width: 36px; flex-shrink: 0; }
-          .app-header { justify-content: space-between; }
+          .app-header { justify-content: center; }
           .nav-sidebar {
             position: fixed; top: 0; left: 0; bottom: 0;
             transform: translateX(-120%);

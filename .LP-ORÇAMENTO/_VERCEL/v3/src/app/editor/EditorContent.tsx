@@ -1060,15 +1060,19 @@ export default function EditorContent() {
         .page-wrapper { position: relative; width: 794px; margin: 0 auto 32px; }
         .page-actions { display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 8px; }
         .page-action-btn {
-          background: rgba(255,255,255,.1);
-          border: 1px solid rgba(255,255,255,.15);
-          color: rgba(255,255,255,.6);
+          background: var(--olive);
+          border: 1px solid rgba(65, 66, 47, 0.2);
+          color: var(--cream);
           font-size: 11px;
           padding: 5px 10px;
           border-radius: 6px;
           cursor: pointer;
           font-family: 'Archivo', sans-serif;
           transition: all .15s;
+          white-space: nowrap;
+        }
+        .page-action-btn:hover {
+          background: #4a4b35;
         }
 
         @media print {

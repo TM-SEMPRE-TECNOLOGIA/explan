@@ -1,0 +1,12 @@
+node_modules
+.next
+.vercel
+scripts/
+*.mjs
+README.md
+package-lock.json
+.git
+.gitignore
+.gitattributes
+.github
+.eslintrc*
